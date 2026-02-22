@@ -98,7 +98,7 @@ const gridPosts = firstIsFeatured ? posts.slice(1) : posts;
     <!-- Posts Grid -->
     {
       gridPosts.length > 0 && (
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
           {gridPosts.map((post, i) => {
             const index = firstIsFeatured ? i + 1 : i;
             return (

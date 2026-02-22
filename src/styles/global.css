@@ -55,6 +55,8 @@ html.light header {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-padding-top: 80px;
+    overflow-x: hidden;
   }
 
   body {
@@ -186,11 +188,6 @@ html.light header {
   border-bottom-color: #a3e635;
 }
 
-/* Selección de texto */
-::selection {
-  background: #a3e63530;
-  color: #f5f5f5;
-}
 
 /* Focus visible accesible */
 *:focus-visible {
@@ -379,10 +376,6 @@ html.light header {
   padding: 2rem;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px; /* compensa el header sticky */
-}
 
 /* Anchor links en headings del prose */
 .prose h2,
@@ -447,4 +440,29 @@ footer::before {
     #1f1f1f 80%,
     transparent
   );
+}
+
+/* Responsive utilities */
+.hide-mobile { display: none; }
+@media (min-width: 1024px) {
+  .hide-mobile { display: block; }
+}
+
+.hide-desktop { display: block; }
+@media (min-width: 1024px) {
+  .hide-desktop { display: none; }
+}
+
+.tags-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.tags-scroll::-webkit-scrollbar {
+  display: none;
 }

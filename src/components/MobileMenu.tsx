@@ -38,7 +38,7 @@ export default function MobileMenu({ currentPath }: Props) {
   );
 
   return (
-    <div className="lg:hidden flex items-center">
+    <div className="flex items-center md:hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="text-[#737373] hover:text-[#f5f5f5] transition-colors p-2 z-50 relative"
