@@ -8,6 +8,7 @@ import StoryGenerator from "../components/StoryGenerator.tsx";
 import Newsletter from "../components/Newsletter.tsx";
 import ReadingMode from "../components/ReadingMode.tsx";
 import TableOfContents from "../components/TableOfContents.tsx";
+import CodeCopy from "../components/CodeCopy.tsx";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
@@ -143,6 +144,8 @@ const schemaData = JSON.stringify({
             <slot />
           </div>
 
+          <CodeCopy client:load />
+
           <!-- Post Footer -->
           <div class="mt-16">
             <!-- Separator -->
@@ -159,7 +162,12 @@ const schemaData = JSON.stringify({
                   </p>
                   <div class="flex flex-wrap items-center gap-4">
                     <StoryGenerator client:load texto={quote} />
-                    <ShareButton client:load url={Astro.url.href} />
+                    <ShareButton
+                      client:load
+                      url={Astro.url.href}
+                      quote={quote}
+                      title={title}
+                    />
                   </div>
                 </div>
               )
