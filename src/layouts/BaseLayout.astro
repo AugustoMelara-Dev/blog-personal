@@ -47,16 +47,12 @@ const ogImageURL = ogImage.startsWith("http")
   <head>
     <script is:inline>
       const theme = localStorage.getItem("vitologic-theme");
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)",
-      ).matches;
-
       if (theme === "light") {
         document.documentElement.classList.remove("dark");
         document.documentElement.classList.add("light");
       } else {
-        // default siempre dark
         document.documentElement.classList.add("dark");
+        document.documentElement.classList.remove("light");
       }
     </script>
     <meta charset="UTF-8" />

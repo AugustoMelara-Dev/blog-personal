@@ -15,26 +15,37 @@ export default function Newsletter() {
 
     setStatus('loading');
     
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
     try {
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
+        signal: controller.signal
       });
       
+      clearTimeout(timeout);
       const data = await res.json();
       
-      if (res.ok && data.success) {
+      if (data.success) {
         setStatus('success');
         setMessage('¡Listo! Te avisaré con cada nuevo post.');
         setEmail('');
       } else {
-        throw new Error(data.error || 'Error al suscribirse');
+        setStatus('error');
+        setMessage(data.error ?? 'Error desconocido');
       }
     } catch (err: any) {
-      console.error(err);
-      setStatus('error');
-      setMessage(err.message || 'Ocurrió un error. Inténtalo de nuevo.');
+      clearTimeout(timeout);
+      if (err.name === 'AbortError') {
+        setStatus('error');
+        setMessage('La solicitud tardó demasiado. Intenta de nuevo.');
+      } else {
+        setStatus('error');
+        setMessage('Error de conexión.');
+      }
     }
   };
 

@@ -56,12 +56,12 @@ const isActive = (href: string) =>
 ---
 
 <header
-  class="h-[56px] bg-[#0a0a0a]/90 backdrop-blur-md border-b-[-1px] border-b-[#1a1a1a] sticky top-0 z-50 flex items-center justify-between"
-  style="padding-left: max(2rem, calc((100vw - 1200px) / 2)); padding-right: max(2rem, calc((100vw - 1200px) / 2)); border-bottom-width: 1px;"
+  class="h-[64px] bg-[#0a0a0a]/90 backdrop-blur-md border-b border-[#1a1a1a] sticky top-0 z-50 flex items-center justify-between"
+  style="padding-left: max(2rem, calc((100vw - 1200px) / 2)); padding-right: max(2rem, calc((100vw - 1200px) / 2));"
 >
   <!-- Logo Izquierda -->
-  <a href="/" class="flex flex-col flex-shrink-0 group relative">
-    <div class="flex items-center tracking-tight leading-none mb-1">
+  <a href="/" class="flex flex-col flex-shrink-0 group relative z-10">
+    <div class="flex items-center tracking-tight leading-none mb-0.5">
       <span class="text-[#f5f5f5] font-[800] text-xl">Vito</span>
       <span class="text-lime-400 font-[800] text-xl">Logic</span>
       {
@@ -94,13 +94,12 @@ const isActive = (href: string) =>
           <a
             href={href}
             class={`relative text-sm transition-colors duration-150 py-2 ${
-              active ? "text-[#f5f5f5]" : "text-[#737373] hover:text-[#f5f5f5]"
+              active
+                ? "text-[#f5f5f5] underline decoration-lime-400 decoration-2 underline-offset-4 font-medium"
+                : "text-[#737373] hover:text-[#f5f5f5]"
             }`}
           >
             {label}
-            {active && (
-              <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-lime-400 rounded-full" />
-            )}
           </a>
         );
       })
@@ -108,7 +107,7 @@ const isActive = (href: string) =>
   </nav>
 
   <!-- Acciones Derecha -->
-  <div class="flex items-center gap-2 md:gap-4 flex-shrink-0">
+  <div class="flex items-center gap-2 md:gap-4 flex-shrink-0 z-10">
     <!-- Lupa (Search.tsx) -->
     <div class="[&>button]:text-[#525252] [&>button:hover]:text-lime-400">
       <Search client:load items={searchData} />
@@ -117,13 +116,14 @@ const isActive = (href: string) =>
     <!-- RSS -->
     <a
       href="/rss.xml"
-      aria-label="RSS Feed"
-      class="text-[#525252] hover:text-lime-400 transition-colors p-2"
+      aria-label="Feed RSS"
+      target="_blank"
+      class="text-[#525252] hover:text-lime-400 transition-colors duration-150 p-2 hidden sm:block"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
+        width="18"
+        height="18"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
