@@ -7,7 +7,7 @@ import vercel from '@astrojs/vercel/serverless';
 import AstroPWA from '@vite-pwa/astro';
 
 export default defineConfig({
-  site: 'https://vitologic.vercel.app',
+  site: 'https://vitocipher.vercel.app',
   output: 'hybrid',
   adapter: vercel({
     nodeVersion: '20.x',
@@ -19,10 +19,10 @@ export default defineConfig({
     sitemap({
       filter: (page) => !page.includes('/api/'),
       customPages: [
-        'https://vitologic.vercel.app/empieza',
+        'https://vitocipher.vercel.app/empieza',
       ],
       serialize(item) {
-        if (item.url === 'https://vitologic.vercel.app/') {
+        if (item.url === 'https://vitocipher.vercel.app/') {
           return { ...item, priority: 1.0, changefreq: 'daily' };
         }
         if (item.url.includes('/blog/')) {
@@ -45,8 +45,8 @@ export default defineConfig({
       includeAssets: ['favicon.svg', 'og-default.png'],
       registerType: 'autoUpdate',
       manifest: {
-        name: 'VitoLogic',
-        short_name: 'VitoLogic',
+        name: 'VitoCipher',
+        short_name: 'VitoCipher',
         description: 'Ideas que no se callan.',
         theme_color: '#0a0a0a',
         background_color: '#0a0a0a',
@@ -100,7 +100,7 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/vitologic\.vercel\.app\/blog\/.*/i,
+            urlPattern: /^https:\/\/vitocipher\.vercel\.app\/blog\/.*/i,
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'posts-cache',

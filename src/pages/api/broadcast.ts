@@ -5,6 +5,9 @@ import { newPostEmailHtml } from '../../utils/emails/newPost';
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
+  // CAMBIO AÑADIDO AQUÍ
+  return new Response(JSON.stringify({ error: "Newsletter temporalmente en mantenimiento." }), { status: 503 });
+
   try {
     const body = await request.json();
     const { secret, postSlug, postTitle, postDescription, postQuote, postTags, postUrl } = body;
@@ -55,9 +58,9 @@ export const POST: APIRoute = async ({ request }) => {
     const batches: { from: string; to: string[]; subject: string; html: string }[][] = [];
     for (let i = 0; i < subscribers.length; i += 50) {
       const batch = subscribers.slice(i, i + 50).map((contact: any) => ({
-        from: 'VitoLogic <onboarding@resend.dev>',
+        from: 'VitoCipher <onboarding@resend.dev>',
         to: [contact.email] as string[],
-        subject: `Nueva en VitoLogic: ${postTitle}`,
+        subject: `Nueva en VitoCipher: ${postTitle}`,
         html: emailHtml,
       }));
       batches.push(batch);

@@ -5,6 +5,9 @@ import { welcomeEmailHtml } from '../../utils/emails/welcome';
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
+  // CAMBIO AÑADIDO AQUÍ
+  return new Response(JSON.stringify({ error: "Newsletter temporalmente en mantenimiento." }), { status: 503 });
+
   try {
     const body = await request.json();
     const email = body?.email;

@@ -5,7 +5,7 @@ export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem('vitologic-theme');
+    const saved = localStorage.getItem('VitoCipher-theme');
     if (saved) {
       setIsDark(saved === 'dark');
       document.documentElement.classList.toggle('light', saved === 'light');
@@ -25,12 +25,12 @@ export default function ThemeToggle() {
     if (isLight) {
       html.classList.remove('light')
       html.classList.add('dark')
-      localStorage.setItem('vitologic-theme', 'dark')
+      localStorage.setItem('VitoCipher-theme', 'dark')
       setIsDark(true)
     } else {
       html.classList.remove('dark')
       html.classList.add('light')
-      localStorage.setItem('vitologic-theme', 'light')
+      localStorage.setItem('VitoCipher-theme', 'light')
       setIsDark(false)
     }
   };

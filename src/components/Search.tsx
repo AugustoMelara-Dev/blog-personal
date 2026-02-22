@@ -70,10 +70,10 @@ export default function Search({ items }: { items: SearchItem[] }) {
   useEffect(() => {
     const handler = () => setIsOpen(true)
     document.addEventListener(
-      'vitologic:open-search', handler as EventListener
+      'VitoCipher:open-search', handler as EventListener
     )
     return () => document.removeEventListener(
-      'vitologic:open-search', handler as EventListener
+      'VitoCipher:open-search', handler as EventListener
     )
   }, [])
 

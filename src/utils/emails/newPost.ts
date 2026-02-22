@@ -31,7 +31,7 @@ export function newPostEmailHtml(post: PostEmailData): string {
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
         <tr><td style="padding-bottom:40px;border-bottom:1px solid #1f1f1f;">
-          <span style="font-size:24px;font-weight:900;color:#f5f5f5;">Vito</span><span style="font-size:24px;font-weight:900;color:#a3e635;">Logic</span>
+          <span style="font-size:24px;font-weight:900;color:#f5f5f5;">Vito</span><span style="font-size:24px;font-weight:900;color:#a3e635;">Cipher</span>
         </td></tr>
         <tr><td style="padding:48px 0 16px;">
           <p style="margin:0 0 8px;font-size:11px;color:#525252;text-transform:uppercase;letter-spacing:0.2em;">Nueva entrada</p>
@@ -47,7 +47,7 @@ export function newPostEmailHtml(post: PostEmailData): string {
           <a href="${post.url}" style="display:inline-block;background:#a3e635;color:#0a0a0a;font-size:14px;font-weight:700;padding:14px 32px;border-radius:6px;text-decoration:none;">Leer ahora →</a>
         </td></tr>
         <tr><td style="padding-top:32px;border-top:1px solid #1f1f1f;">
-          <p style="margin:0;font-size:12px;color:#2a2a2a;line-height:1.8;">Recibiste este email porque te suscribiste en vitologic.vercel.app<br/><a href="#" style="color:#525252;">Cancelar suscripción</a></p>
+          <p style="margin:0;font-size:12px;color:#2a2a2a;line-height:1.8;">Recibiste este email porque te suscribiste en VitoCipher.vercel.app<br/><a href="#" style="color:#525252;">Cancelar suscripción</a></p>
         </td></tr>
       </table>
     </td></tr>

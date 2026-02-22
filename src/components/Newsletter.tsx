@@ -48,6 +48,9 @@ export default function Newsletter() {
     }
   };
 
+  // CAMBIO AÑADIDO AQUÍ: Neutralización visual requerida
+  return null;
+
   return (
     <div className="w-full max-w-md mx-auto sm:mx-0">
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">

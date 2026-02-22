@@ -161,14 +161,14 @@ export default function StoryGenerator({ texto }: Props) {
               textTransform: 'uppercase',
               fontWeight: 500
             }}>
-              VITOLOGIC
+              VitoCipher
             </div>
             <div style={{
               fontSize: '18px',
               color: '#525252',
               letterSpacing: '0.15em'
             }}>
-              vitologic.vercel.app
+              VitoCipher.vercel.app
             </div>
           </div>
         </div>

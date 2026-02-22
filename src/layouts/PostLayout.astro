@@ -72,20 +72,20 @@ const readingMinutes = parseInt(readingTime) || 5;
       author: {
         "@type": "Person",
         name: "Augusto Melara",
-        url: "https://vitologic.vercel.app/about",
+        url: "https://VitoCipher.vercel.app/about",
       },
       publisher: {
         "@type": "Organization",
-        name: "VitoLogic",
-        url: "https://vitologic.vercel.app",
+        name: "VitoCipher",
+        url: "https://VitoCipher.vercel.app",
         logo: {
           "@type": "ImageObject",
-          url: "https://vitologic.vercel.app/icons/icon-512.png",
+          url: "https://VitoCipher.vercel.app/icons/icon-512.png",
         },
       },
       image: {
         "@type": "ImageObject",
-        url: `https://vitologic.vercel.app/og/${slug}.png`,
+        url: `https://VitoCipher.vercel.app/og/${slug}.png`,
         width: 1200,
         height: 630,
       },
@@ -181,7 +181,7 @@ const readingMinutes = parseInt(readingTime) || 5;
 
           <!-- Content -->
           <TextHighlighter client:load>
-            <div class="prose prose-lg max-w-none">
+            <div class="prose prose-lg max-w-none prose-pre:max-w-full prose-pre:overflow-x-auto">
               <slot />
             </div>
           </TextHighlighter>

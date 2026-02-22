@@ -57,7 +57,7 @@ export default function TextHighlighter({ children }: Props) {
 
   const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
   const twitterUrl = tooltip
-    ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(`"${tooltip.text}" — vitologic.vercel.app`)}`
+    ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(`"${tooltip.text}" — VitoCipher.vercel.app`)}`
     : '';
   const whatsappUrl = tooltip
     ? `https://wa.me/?text=${encodeURIComponent(tooltip.text + '\n' + pageUrl)}`

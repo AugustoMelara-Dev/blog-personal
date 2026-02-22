@@ -50,7 +50,7 @@ export default function PWAInstallBanner() {
           <div className="w-full max-w-[480px] bg-[#111111] border-t border-[#1f1f1f] rounded-xl shadow-2xl p-4 flex items-center gap-4">
             <span className="text-2xl flex-shrink-0">📲</span>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold text-[#f5f5f5]">Instala VitoLogic</p>
+              <p className="text-sm font-bold text-[#f5f5f5]">Instala VitoCipher</p>
               <p className="text-xs text-[#737373]">Lee sin conexión, acceso directo.</p>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">

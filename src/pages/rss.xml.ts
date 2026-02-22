@@ -13,15 +13,15 @@ export async function GET(context: APIContext) {
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
   return rss({
-    title: 'VitoLogic — Ideas que no se callan',
+    title: 'VitoCipher — Ideas que no se callan',
     description: SITE.description,
     site: context.site!,
     customData: `
       <language>es-ES</language>
       <?xml-stylesheet href="/rss-styles.xsl" type="text/xsl"?>
-      <copyright>© 2026 VitoLogic. Todos los derechos reservados.</copyright>
-      <managingEditor>augusto@vitologic.vercel.app (Augusto Melara)</managingEditor>
-      <webMaster>augusto@vitologic.vercel.app (Augusto Melara)</webMaster>
+      <copyright>© 2026 VitoCipher. Todos los derechos reservados.</copyright>
+      <managingEditor>augusto@VitoCipher.vercel.app (Augusto Melara)</managingEditor>
+      <webMaster>augusto@VitoCipher.vercel.app (Augusto Melara)</webMaster>
       <ttl>60</ttl>
     `,
     items: posts.map((post) => ({

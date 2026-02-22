@@ -9,19 +9,19 @@ export default function BookmarkButton({ slug }: Props) {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    const bookmarks: string[] = JSON.parse(localStorage.getItem('vitologic-bookmarks') || '[]');
+    const bookmarks: string[] = JSON.parse(localStorage.getItem('VitoCipher-bookmarks') || '[]');
     setSaved(bookmarks.includes(slug));
   }, [slug]);
 
   const toggle = () => {
-    const bookmarks: string[] = JSON.parse(localStorage.getItem('vitologic-bookmarks') || '[]');
+    const bookmarks: string[] = JSON.parse(localStorage.getItem('VitoCipher-bookmarks') || '[]');
     let next: string[];
     if (bookmarks.includes(slug)) {
       next = bookmarks.filter((s) => s !== slug);
     } else {
       next = [...bookmarks, slug];
     }
-    localStorage.setItem('vitologic-bookmarks', JSON.stringify(next));
+    localStorage.setItem('VitoCipher-bookmarks', JSON.stringify(next));
     setSaved(!saved);
   };
 

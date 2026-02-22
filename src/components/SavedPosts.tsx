@@ -13,7 +13,7 @@ export default function SavedPosts({ posts }: { posts: PostItem[] }) {
   const [savedSlugs, setSavedSlugs] = useState<string[]>([]);
 
   useEffect(() => {
-    const bookmarks: string[] = JSON.parse(localStorage.getItem('vitologic-bookmarks') || '[]');
+    const bookmarks: string[] = JSON.parse(localStorage.getItem('VitoCipher-bookmarks') || '[]');
     setSavedSlugs(bookmarks);
   }, []);
 

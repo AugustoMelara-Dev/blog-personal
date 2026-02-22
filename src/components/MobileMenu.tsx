@@ -71,7 +71,7 @@ export default function MobileMenu({ currentPath }: Props) {
               <div className="flex justify-between items-center p-4 pl-6 border-b border-[#1f1f1f]">
                 <div className="flex items-center tracking-tight leading-none pb-[2px]">
                   <span className="text-[#f5f5f5] font-[800] text-xl">Vito</span>
-                  <span className="text-[#a3e635] font-[800] text-xl">Logic</span>
+                  <span className="text-[#a3e635] font-[800] text-xl">Cipher</span>
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}

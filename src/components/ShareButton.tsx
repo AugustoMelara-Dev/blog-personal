@@ -13,7 +13,7 @@ export default function ShareButton({ url, quote, title }: ShareButtonProps) {
   // Construye URLs en el cliente para evitar problemas de SSR
   const fullUrl = typeof window !== 'undefined' ? window.location.href : url
     
-  const twitterText = encodeURIComponent(`"${quote}"\n\n— VitoLogic`)
+  const twitterText = encodeURIComponent(`"${quote}"\n\n— VitoCipher`)
   const twitterUrl = encodeURIComponent(fullUrl)
   const whatsappText = encodeURIComponent(`"${quote}"\n\nLee más: ${fullUrl}`)
   const linkedinUrl = encodeURIComponent(fullUrl)

@@ -53,6 +53,9 @@ html.light .border-\[\#1f1f1f\] {
     @apply bg-bg text-text-primary font-sans;
     text-rendering: optimizeLegibility;
   }
+  
+  /* CAMBIO AÑADIDO AQUÍ: Outline debugging para detectar el width excedente */
+  * { outline: 1px solid red !important; }
 
   ::selection {
     @apply bg-accent/20 text-accent;

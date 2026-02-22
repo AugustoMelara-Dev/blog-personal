@@ -35,7 +35,7 @@ const {
   noindex = false,
 } = Astro.props;
 
-const pageTitle = title ? `${title} | VitoLogic` : SITE.title;
+const pageTitle = title ? `${title} | VitoCipher` : SITE.title;
 const pageDescription = description || SITE.description;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = ogImage.startsWith("http")
@@ -47,7 +47,7 @@ const ogImageURL = ogImage.startsWith("http")
 <html lang="es" class="dark">
   <head>
     <script is:inline>
-      const theme = localStorage.getItem("vitologic-theme");
+      const theme = localStorage.getItem("VitoCipher-theme");
       if (theme === "light") {
         document.documentElement.classList.remove("dark");
         document.documentElement.classList.add("light");
@@ -80,7 +80,7 @@ const ogImageURL = ogImage.startsWith("http")
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={title || SITE.title} />
     <meta property="og:type" content={type} />
-    <meta property="og:site_name" content="VitoLogic" />
+    <meta property="og:site_name" content="VitoCipher" />
     <meta property="og:locale" content="es_ES" />
 
     <!-- Twitter Card -->
@@ -125,7 +125,7 @@ const ogImageURL = ogImage.startsWith("http")
       name="apple-mobile-web-app-status-bar-style"
       content="black-translucent"
     />
-    <meta name="apple-mobile-web-app-title" content="VitoLogic" />
+    <meta name="apple-mobile-web-app-title" content="VitoCipher" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
 
     <!-- Performance -->
@@ -143,7 +143,7 @@ const ogImageURL = ogImage.startsWith("http")
 
     <script>
       document.addEventListener("astro:page-load", () => {
-        window.dispatchEvent(new CustomEvent("vitologic:page-changed"));
+        window.dispatchEvent(new CustomEvent("VitoCipher:page-changed"));
         document.body.style.overflow = "";
       });
     </script>
@@ -156,20 +156,20 @@ const ogImageURL = ogImage.startsWith("http")
       schema={{
         "@context": "https://schema.org",
         "@type": "WebSite",
-        name: "VitoLogic",
-        url: "https://vitologic.vercel.app",
+        name: "VitoCipher",
+        url: "https://VitoCipher.vercel.app",
         description: "Ideas que no se callan.",
         author: {
           "@type": "Person",
           name: "Augusto Melara",
-          url: "https://vitologic.vercel.app/about",
+          url: "https://VitoCipher.vercel.app/about",
         },
         potentialAction: {
           "@type": "SearchAction",
           target: {
             "@type": "EntryPoint",
             urlTemplate:
-              "https://vitologic.vercel.app/blog?q={search_term_string}",
+              "https://VitoCipher.vercel.app/blog?q={search_term_string}",
           },
           "query-input": "required name=search_term_string",
         },
