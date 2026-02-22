@@ -9,6 +9,8 @@ import Newsletter from "../components/Newsletter.tsx";
 import ReadingMode from "../components/ReadingMode.tsx";
 import TableOfContents from "../components/TableOfContents.tsx";
 import CodeCopy from "../components/CodeCopy.tsx";
+import BookmarkButton from "../components/BookmarkButton.tsx";
+import ReadingTimeRing from "../components/ReadingTimeRing.tsx";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
@@ -22,6 +24,7 @@ interface Props {
   versiculo?: string;
   prevPost?: { slug: string; title: string } | null;
   nextPost?: { slug: string; title: string } | null;
+  slug?: string;
   ogImage?: string;
   type?: "website" | "article";
 }
@@ -36,6 +39,7 @@ const {
   versiculo,
   prevPost,
   nextPost,
+  slug,
   ogImage,
   type = "article",
 } = Astro.props;
@@ -89,12 +93,15 @@ const schemaData = JSON.stringify({
               )
             }
 
-            <h1
-              class="text-4xl md:text-5xl font-black text-[#f5f5f5] leading-[1.1] mb-6"
-              style="max-width: 20ch;"
-            >
-              {title}
-            </h1>
+            <div class="flex items-center justify-between gap-4">
+              <h1
+                class="text-4xl md:text-5xl font-black text-[#f5f5f5] leading-[1.1]"
+                style="max-width: 20ch;"
+              >
+                {title}
+              </h1>
+              {slug && <BookmarkButton client:load slug={slug} />}
+            </div>
 
             <!-- Metadata line -->
             <div

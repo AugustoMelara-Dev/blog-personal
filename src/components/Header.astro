@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Search from "./Search.tsx";
 import MobileMenu from "./MobileMenu.tsx";
+import ThemeToggle from "./ThemeToggle.tsx";
 
 const currentPath = Astro.url.pathname;
 
@@ -19,6 +20,8 @@ const mobileNavLinks = [
   { href: "/series", label: "Series" },
   { href: "/tags/reflexiones", label: "Tags" },
   { href: "/mapa", label: "Mapa" },
+  { href: "/empieza", label: "Empieza aquí" },
+  { href: "/guardados", label: "Guardados" },
   { href: "/about", label: "Sobre mí" },
   { href: "/archivo", label: "Archivo" },
 ];
@@ -122,6 +125,9 @@ const isActive = (href: string) =>
         <circle cx="5" cy="19" r="1"></circle>
       </svg>
     </a>
+
+    <!-- Theme Toggle -->
+    <ThemeToggle client:load />
 
     <!-- Hamburger Menu (Mobile) -->
     <MobileMenu client:load currentPath={currentPath} links={mobileNavLinks} />

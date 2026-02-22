@@ -5,6 +5,7 @@ import Footer from "../components/Footer.astro";
 import PWAInstallBanner from "../components/PWAInstallBanner.tsx";
 import OfflineIndicator from "../components/OfflineIndicator.tsx";
 import BackToTop from "../components/BackToTop.tsx";
+import KeyboardShortcuts from "../components/KeyboardShortcuts.tsx";
 import { ViewTransitions } from "astro:transitions";
 import "../styles/global.css";
 
@@ -94,5 +95,6 @@ const pageDescription = description || SITE.description;
     <PWAInstallBanner client:load />
     <OfflineIndicator client:load />
     <BackToTop client:load />
+    <KeyboardShortcuts client:load />
   </body>
 </html>

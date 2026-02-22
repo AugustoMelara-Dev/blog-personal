@@ -1,0 +1,159 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AnimatedPost from "../components/AnimatedPost.tsx";
+import Newsletter from "../components/Newsletter.tsx";
+import { getCollection } from "astro:content";
+import readingTime from "reading-time";
+
+const allPosts = (await getCollection("posts"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const featuredSlugs = [
+  "la-envidia-no-avisa",
+  "salomon-y-el-precio-de-la-sabiduria",
+  "el-silencio-como-estrategia",
+];
+
+const featuredPosts = featuredSlugs
+  .map((slug) => allPosts.find((p) => p.slug === slug))
+  .filter(Boolean);
+---
+
+<BaseLayout title="Empieza aquí" description="Tu punto de entrada a VitoLogic">
+  <div class="max-w-4xl mx-auto px-6 py-16 md:py-24">
+    <!-- Hero -->
+    <AnimatedPost client:load index={0}>
+      <div class="mb-20">
+        <h1 class="text-4xl md:text-5xl font-black text-[#f5f5f5] mb-3">
+          Si es tu primera vez aquí
+        </h1>
+        <p class="text-2xl text-lime-400 font-medium">Empieza por esto.</p>
+      </div>
+    </AnimatedPost>
+
+    <!-- Qué es VitoLogic -->
+    <AnimatedPost client:load index={1}>
+      <section class="mb-20">
+        <p
+          class="text-xs text-[#525252] uppercase tracking-widest mb-6 font-medium"
+        >
+          Qué es VitoLogic
+        </p>
+        <div
+          class="space-y-6 text-[#a3a3a3] text-lg leading-relaxed max-w-prose"
+        >
+          <p>
+            VitoLogic no tiene una fórmula. No voy a decirte cómo ser exitoso ni
+            cómo vivir tu vida.
+          </p>
+          <p>
+            Solo escribo lo que observo. Sobre personas que traicionan, sobre
+            poder que corrompe, sobre fe que sostiene y sobre el silencio que a
+            veces gana más que mil palabras.
+          </p>
+          <p>
+            Si algo de lo que lees te hace pensar — aunque sea un segundo — el
+            blog cumplió su propósito.
+          </p>
+        </div>
+      </section>
+    </AnimatedPost>
+
+    <!-- 3 Posts para empezar -->
+    <AnimatedPost client:load index={2}>
+      <section class="mb-20">
+        <p
+          class="text-xs text-[#525252] uppercase tracking-widest mb-8 font-medium"
+        >
+          Los 3 posts para empezar
+        </p>
+        <div class="flex flex-col gap-6">
+          {
+            featuredPosts.map((post, i) => (
+              <a
+                href={`/blog/${post!.slug}`}
+                class="group relative bg-[#0f0f0f] border border-[#1a1a1a] rounded-xl p-8 transition-all duration-200 hover:bg-[#141414] hover:border-[#2a2a2a] overflow-hidden"
+              >
+                <span class="absolute top-6 right-8 text-6xl font-black text-[#1a1a1a] leading-none select-none pointer-events-none">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 class="text-xl md:text-2xl font-bold text-[#f5f5f5] group-hover:text-lime-400 transition-colors pr-16 mb-3">
+                  {post!.data.title}
+                </h3>
+                <p class="text-base text-[#737373] line-clamp-2 leading-relaxed">
+                  {post!.data.description}
+                </p>
+                <div class="flex items-center gap-3 mt-4 text-xs text-[#525252]">
+                  <span>
+                    {readingTime(post!.body || "").text.replace(
+                      "read",
+                      "lectura",
+                    )}
+                  </span>
+                  {post!.data.tags.map((tag: string) => (
+                    <span>#{tag}</span>
+                  ))}
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+    </AnimatedPost>
+
+    <!-- Categorías -->
+    <AnimatedPost client:load index={3}>
+      <section class="mb-20">
+        <p
+          class="text-xs text-[#525252] uppercase tracking-widest mb-8 font-medium"
+        >
+          Sobre qué escribo
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <a
+            href="/tags/reflexiones"
+            class="block bg-[#111111] border border-[#1f1f1f] rounded-lg p-6 hover:border-[#2a2a2a] transition-colors"
+          >
+            <span class="text-3xl mb-3 block">🧠</span>
+            <h4 class="text-[#f5f5f5] font-semibold mb-2">Reflexiones</h4>
+            <p class="text-sm text-[#737373]">
+              Comportamiento humano. Lo que hacemos vs lo que decimos.
+            </p>
+          </a>
+          <a
+            href="/biblia"
+            class="block bg-[#111111] border border-[#1f1f1f] rounded-lg p-6 hover:border-[#2a2a2a] transition-colors"
+          >
+            <span class="text-3xl mb-3 block">📖</span>
+            <h4 class="text-[#f5f5f5] font-semibold mb-2">Biblia</h4>
+            <p class="text-sm text-[#737373]">
+              Personajes reales con decisiones eternas. Sin sermones.
+            </p>
+          </a>
+          <a
+            href="/tags/poder"
+            class="block bg-[#111111] border border-[#1f1f1f] rounded-lg p-6 hover:border-[#2a2a2a] transition-colors"
+          >
+            <span class="text-3xl mb-3 block">♟️</span>
+            <h4 class="text-[#f5f5f5] font-semibold mb-2">Poder</h4>
+            <p class="text-sm text-[#737373]">
+              Dinámicas sociales. Quién tiene el poder y cómo lo usa.
+            </p>
+          </a>
+        </div>
+      </section>
+    </AnimatedPost>
+
+    <!-- Newsletter -->
+    <AnimatedPost client:load index={4}>
+      <section class="border border-[#1f1f1f] rounded-xl bg-[#0a0a0a] p-8">
+        <h3 class="text-xl font-bold text-[#f5f5f5] mb-2">Suscríbete</h3>
+        <p class="text-[#a3a3a3] mb-6">
+          Cada vez que publico algo nuevo, te aviso. Sin spam.
+        </p>
+        <Newsletter client:load />
+      </section>
+    </AnimatedPost>
+  </div>
+</BaseLayout>
