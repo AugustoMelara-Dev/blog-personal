@@ -10,6 +10,8 @@ const allPosts = (await getCollection("posts"))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+const allFrases = await getCollection("frases");
+
 const featuredPost = allPosts.find((post) => post.data.featured);
 const latestPosts = allPosts
   .filter((post) => post !== featuredPost)
@@ -18,36 +20,52 @@ const latestPosts = allPosts
 
 <BaseLayout>
   <div class="max-w-5xl mx-auto px-6">
+    <!-- Hero -->
+    <section class="pt-24 pb-16 md:pt-32 md:pb-24">
+      <AnimatedPost client:load index={0}>
+        <div class="flex items-center gap-4 mb-8">
+          <div class="w-5 h-[2px] bg-lime-400"></div>
+          <p
+            class="text-xs text-[#525252] uppercase tracking-[0.3em] font-medium"
+          >
+            Reflexiones · Poder · Biblia
+          </p>
+        </div>
+
+        <h1
+          class="text-[clamp(3rem,8vw,6rem)] leading-[1.1] tracking-tight mb-12"
+        >
+          <span class="block text-[#525252] font-light">Ideas que</span>
+          <span class="block text-[#f5f5f5] font-bold">no se callan.</span>
+        </h1>
+
+        <div class="w-full h-px bg-[#1f1f1f] my-12"></div>
+
+        <div class="flex flex-wrap items-center gap-3 text-sm text-[#525252]">
+          <span>{allPosts.length} posts publicados</span>
+          <span class="text-[#1f1f1f]">·</span>
+          <span>{allFrases.length} frases</span>
+          <span class="text-[#1f1f1f]">·</span>
+          <span>Actualizado hoy</span>
+        </div>
+      </AnimatedPost>
+    </section>
+
     <!-- Newsletter / No te pierdas nada -->
     <section
       class="max-w-2xl mx-auto mb-24 px-6 py-12 border border-[#1f1f1f] rounded-lg bg-[#0a0a0a]"
     >
-      <div class="text-center mb-6">
-        <h2 class="text-2xl font-bold text-[#f5f5f5] mb-2">
-          No te pierdas nada
-        </h2>
-        <p class="text-[#a3a3a3]">
-          Únete a los lectores que reciben nuevas ideas en su bandeja de entrada
-          cada vez que publico algo.
-        </p>
-      </div>
-      <Newsletter client:load />
-    </section>
-
-    <!-- Hero -->
-    <section class="py-24 md:py-32">
-      <AnimatedPost client:load index={0}>
-        <h1
-          class="text-4xl md:text-5xl lg:text-6xl font-semibold text-text-primary leading-tight mb-6"
-        >
-          VitoLogic
-        </h1>
-        <p
-          class="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed"
-        >
-          Reflexiones sobre poder, personas y estrategia. Ideas que no se dicen
-          en voz alta.
-        </p>
+      <AnimatedPost client:load index={1}>
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-[#f5f5f5] mb-2">
+            No te pierdas nada
+          </h2>
+          <p class="text-[#a3a3a3]">
+            Únete a los lectores que reciben nuevas ideas en su bandeja de
+            entrada cada vez que publico algo.
+          </p>
+        </div>
+        <Newsletter client:load />
       </AnimatedPost>
     </section>
 
@@ -55,7 +73,7 @@ const latestPosts = allPosts
     {
       featuredPost && (
         <section class="pb-16">
-          <AnimatedPost client:load index={1}>
+          <AnimatedPost client:load index={2}>
             <span class="inline-block text-xs font-medium uppercase tracking-widest text-accent mb-4">
               Destacado
             </span>
@@ -86,7 +104,7 @@ const latestPosts = allPosts
       <div class="flex flex-col gap-4">
         {
           latestPosts.map((post, i) => (
-            <AnimatedPost client:load index={i + 2}>
+            <AnimatedPost client:load index={i + 3}>
               <PostCard
                 title={post.data.title}
                 description={post.data.description}

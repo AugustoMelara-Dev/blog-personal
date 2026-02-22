@@ -1,67 +1,97 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import AnimatedPost from "../components/AnimatedPost.tsx";
+import { getCollection } from "astro:content";
+
+const allPosts = (await getCollection("posts")).filter(
+  (post) => !post.data.draft,
+);
+const allFrases = await getCollection("frases");
 ---
 
 <BaseLayout title="Sobre mí">
-  <article class="px-6 py-16 md:py-24">
-    <div class="mx-auto max-w-content">
-      <!-- SECCIÓN HERO -->
-      <h1 class="text-[3rem] font-bold text-[#f5f5f5] leading-tight">
-        Sobre mí
-      </h1>
-      <div class="border-b border-[#1f1f1f] my-8"></div>
-
-      <!-- SECCIÓN BIO -->
-      <div class="mb-12 space-y-4">
-        <p class="text-lg text-[#a3a3a3] leading-relaxed">
-          Escribo sobre lo que observo. Sobre personas, poder, fe y las cosas
-          que todos piensan pero pocos dicen en voz alta.
-        </p>
-        <p class="text-lg text-[#a3a3a3] leading-relaxed">
-          No tengo una fórmula. Solo honestidad.
-        </p>
-      </div>
-
-      <!-- SECCIÓN QUOTE DESTACADA -->
-      <div
-        class="mb-12 border-l-2 border-lime-400 bg-[#111111] p-8 rounded-r-lg"
-      >
-        <p class="text-xl italic text-[#f5f5f5] leading-relaxed">
-          "La verdadera naturaleza del ser humano se ve cuando el mismo cree que
-          nadie lo observa."
-        </p>
-      </div>
-
-      <!-- SECCIÓN CATEGORÍAS -->
+  <article class="px-6 py-16 md:py-24 max-w-5xl mx-auto">
+    <!-- HERO -->
+    <AnimatedPost client:load index={0}>
       <div class="mb-16">
-        <h2 class="text-sm uppercase tracking-widest text-[#525252] mb-4">
+        <p
+          class="text-xs text-[#525252] uppercase tracking-[0.3em] font-medium mb-8"
+        >
+          Sobre VitoLogic
+        </p>
+        <h1 class="text-[clamp(3rem,8vw,6rem)] leading-[1.1] tracking-tight">
+          <span class="block text-[#525252] font-light">Escribo lo que</span>
+          <span class="block text-[#f5f5f5] font-bold">otros piensan.</span>
+        </h1>
+      </div>
+    </AnimatedPost>
+
+    <!-- NÚMEROS -->
+    <AnimatedPost client:load index={1}>
+      <div
+        class="flex flex-wrap items-center gap-3 text-sm text-[#525252] mb-16"
+      >
+        <span>{allPosts.length} posts publicados</span>
+        <span class="text-[#1f1f1f]">·</span>
+        <span>{allFrases.length} frases</span>
+        <span class="text-[#1f1f1f]">·</span>
+        <span>Actualizado hoy</span>
+      </div>
+    </AnimatedPost>
+
+    <!-- MANIFIESTO -->
+    <AnimatedPost client:load index={2}>
+      <div class="mb-24">
+        <h2 class="text-sm uppercase tracking-widest text-[#525252] mb-8">
+          Por qué existe esto
+        </h2>
+        <div class="prose prose-lg prose-invert max-w-none text-[#a3a3a3]">
+          <p>
+            Porque hay cosas que ves, sientes y entiendes que nadie dice en voz
+            alta. Y eso me incomoda.
+          </p>
+          <p>
+            VitoLogic no es un blog de consejos. No voy a decirte cómo vivir.
+            Solo voy a escribir lo que observo sobre personas, poder y fe — y tú
+            decides qué hacer con eso.
+          </p>
+          <p>
+            Si algo de lo que lees te hace pensar, el blog cumplió su propósito.
+          </p>
+        </div>
+      </div>
+    </AnimatedPost>
+
+    <!-- SOBRE QUÉ ESCRIBO -->
+    <AnimatedPost client:load index={3}>
+      <div>
+        <h2 class="text-sm uppercase tracking-widest text-[#525252] mb-8">
           Sobre qué escribo
         </h2>
-        <ul class="space-y-3">
-          <li class="text-[#a3a3a3] text-lg">
-            — Reflexiones sobre el comportamiento humano
-          </li>
-          <li class="text-[#a3a3a3] text-lg">
-            — Análisis de personajes bíblicos
-          </li>
-          <li class="text-[#a3a3a3] text-lg">
-            — Dinámicas de poder y sociedad
-          </li>
-        </ul>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-[#111111] border border-[#1f1f1f] rounded-lg p-6">
+            <div class="text-4xl mb-4">🧠</div>
+            <h3 class="text-xl font-bold text-[#f5f5f5] mb-2">Reflexiones</h3>
+            <p class="text-[#a3a3a3]">
+              Comportamiento humano. Lo que hacemos vs lo que decimos.
+            </p>
+          </div>
+          <div class="bg-[#111111] border border-[#1f1f1f] rounded-lg p-6">
+            <div class="text-4xl mb-4">📖</div>
+            <h3 class="text-xl font-bold text-[#f5f5f5] mb-2">Biblia</h3>
+            <p class="text-[#a3a3a3]">
+              Personajes reales con decisiones eternas. Sin sermones.
+            </p>
+          </div>
+          <div class="bg-[#111111] border border-[#1f1f1f] rounded-lg p-6">
+            <div class="text-4xl mb-4">♟️</div>
+            <h3 class="text-xl font-bold text-[#f5f5f5] mb-2">Poder</h3>
+            <p class="text-[#a3a3a3]">
+              Dinámicas sociales. Quién tiene el poder y cómo lo usa.
+            </p>
+          </div>
+        </div>
       </div>
-
-      <!-- SECCIÓN CONTACTO -->
-      <div class="mt-16 text-[#737373] text-lg">
-        Si algo de lo que escribo resuena contigo, <a
-          href="mailto:hola@ejemplo.com"
-          class="hover:text-[#f5f5f5] underline decoration-[#1f1f1f] underline-offset-4 transition-colors"
-          >escríbeme un email</a
-        > o encuéntrame en <a
-          href="#"
-          class="hover:text-[#f5f5f5] underline decoration-[#1f1f1f] underline-offset-4 transition-colors"
-          >Twitter</a
-        >.
-      </div>
-    </div>
+    </AnimatedPost>
   </article>
 </BaseLayout>

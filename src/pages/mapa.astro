@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MapaGrafo from "../components/MapaGrafo.tsx";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("posts", ({ data }) => !data.draft);
+const frases = await getCollection("frases");
+
+const nodes: any[] = [];
+const links: any[] = [];
+
+// Usar Sets para tags duplicados
+const allTags = new Set<string>();
+posts.forEach((p) => p.data.tags?.forEach((t: string) => allTags.add(t)));
+
+// Nodos Tag
+allTags.forEach((tag) => {
+  nodes.push({ id: `tag-${tag}`, title: `#${tag}`, type: "tag", slug: tag });
+});
+
+// Nodos y enlaces de Posts
+posts.forEach((post) => {
+  nodes.push({
+    id: `post-${post.slug}`,
+    title: post.data.title,
+    type: "post",
+    slug: post.slug,
+  });
+  post.data.tags?.forEach((tag: string) => {
+    links.push({ source: `post-${post.slug}`, target: `tag-${tag}` });
+  });
+});
+
+// Nodos y enlaces de Frases
+frases.forEach((frase) => {
+  nodes.push({
+    id: `frase-${frase.id}`,
+    title: frase.data.texto,
+    type: "frase",
+  });
+  if (frase.data.categoria) {
+    // Si la categoría no existía como tag antes, crearlo
+    if (!allTags.has(frase.data.categoria)) {
+      allTags.add(frase.data.categoria);
+      nodes.push({
+        id: `tag-${frase.data.categoria}`,
+        title: `#${frase.data.categoria}`,
+        type: "tag",
+        slug: frase.data.categoria,
+      });
+    }
+    links.push({
+      source: `frase-${frase.id}`,
+      target: `tag-${frase.data.categoria}`,
+    });
+  }
+});
+
+const graphData = { nodes, links };
+---
+
+<BaseLayout title="Mapa de Ideas">
+  <article>
+    <!-- Hero de la página -->
+    <header class="max-w-5xl mx-auto px-6 py-16 md:py-24 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-[#f5f5f5] mb-4">
+        Mapa de Ideas
+      </h1>
+      <p class="text-xl text-[#a3a3a3]">Así se conecta todo lo que escribo.</p>
+    </header>
+
+    <!-- Contenedor del Grafo -->
+    <div class="w-full border-y border-[#1f1f1f]">
+      <MapaGrafo client:load data={graphData} />
+    </div>
+  </article>
+</BaseLayout>
