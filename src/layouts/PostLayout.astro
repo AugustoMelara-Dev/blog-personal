@@ -13,6 +13,7 @@ import BookmarkButton from "../components/BookmarkButton.tsx";
 import ReadingTimeRing from "../components/ReadingTimeRing.tsx";
 import SchemaOrg from "../components/SchemaOrg.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import TextHighlighter from "../components/TextHighlighter.tsx";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
@@ -180,9 +181,11 @@ const readingMinutes = parseInt(readingTime) || 5;
           </div>
 
           <!-- Content -->
-          <div class="prose prose-lg max-w-none">
-            <slot />
-          </div>
+          <TextHighlighter client:load>
+            <div class="prose prose-lg max-w-none">
+              <slot />
+            </div>
+          </TextHighlighter>
 
           <CodeCopy client:load />
 
