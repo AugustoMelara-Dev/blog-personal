@@ -5,6 +5,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import CopyButton from "../components/CopyButton.tsx";
 import StoryGenerator from "../components/StoryGenerator.tsx";
+import FrasesCounter from "../components/FrasesCounter.tsx";
 
 const cat = Astro.url.searchParams.get("cat");
 const todasFrases = await getCollection("frases");
@@ -34,10 +35,12 @@ const getFilterClass = (isActive: boolean) =>
 
 <BaseLayout title="Frases" description="Pensamientos cortos. Sin filtro.">
   <div class="px-6 py-16 md:py-24 max-w-7xl mx-auto">
-    <header class="mb-16 text-center max-w-2xl mx-auto">
+    <header class="mb-8 text-center max-w-2xl mx-auto">
       <h1 class="text-4xl md:text-5xl font-bold text-[#f5f5f5] mb-4">Frases</h1>
       <p class="text-xl text-[#a3a3a3]">Pensamientos cortos. Sin filtro.</p>
     </header>
+
+    <FrasesCounter client:load total={todasFrases.length} />
 
     <!-- Filtros -->
     <div class="flex flex-wrap justify-center gap-3 mb-16">

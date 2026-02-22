@@ -2,6 +2,8 @@
 import { SITE } from "../config";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import PWAInstallBanner from "../components/PWAInstallBanner.tsx";
+import OfflineIndicator from "../components/OfflineIndicator.tsx";
 import { ViewTransitions } from "astro:transitions";
 import "../styles/global.css";
 
@@ -55,6 +57,21 @@ const pageDescription = description || SITE.description;
       href={new URL("rss.xml", Astro.site)}
     />
 
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="VitoLogic" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+    <!-- Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+
     <title>{pageTitle}</title>
     <ViewTransitions />
   </head>
@@ -64,5 +81,7 @@ const pageDescription = description || SITE.description;
       <slot />
     </main>
     <Footer />
+    <PWAInstallBanner client:load />
+    <OfflineIndicator client:load />
   </body>
 </html>
