@@ -47,11 +47,7 @@ const readTime = stats.text.replace("read", "lectura");
   nextPost={nextPost}
   ogImage={`/og/${post.slug}.png`}
 >
-  {
-    post.data.serie && (
-      <SeriesBanner serie={post.data.serie} serieOrden={post.data.serieOrden} />
-    )
-  }
+  {post.data.serie && <SeriesBanner post={post} />}
   <Content />
   <RelatedPosts currentPost={post} />
   <Reactions client:load />

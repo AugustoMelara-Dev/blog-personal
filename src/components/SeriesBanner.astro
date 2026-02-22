@@ -1,63 +1,118 @@
 ---
 import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  serie: string;
-  serieOrden?: number;
+  post: CollectionEntry<"posts">;
 }
-const { serie, serieOrden } = Astro.props;
-const serieSlug = serie.toLowerCase().replace(/\s+/g, "-");
 
-const allPosts = await getCollection("posts", ({ data }) => !data.draft);
-const totalEnSerie = allPosts.filter((p) => p.data.serie === serie).length;
+const { post } = Astro.props;
+
+// Solo mostrar si el post tiene serie
+const hasSerie = !!post.data.serie;
+
+let totalEnSerie = 0;
+let parteActual = 0;
+let prevPost: CollectionEntry<"posts"> | undefined;
+let nextPost: CollectionEntry<"posts"> | undefined;
+
+if (hasSerie) {
+  const allPosts = await getCollection(
+    "posts",
+    ({ data }) => data.draft !== true && data.serie === post.data.serie,
+  );
+
+  const sorted = allPosts.sort(
+    (a, b) => (a.data.serieOrden ?? 0) - (b.data.serieOrden ?? 0),
+  );
+
+  totalEnSerie = sorted.length;
+  parteActual = post.data.serieOrden ?? 1;
+
+  prevPost = sorted.find((p) => (p.data.serieOrden ?? 0) === parteActual - 1);
+  nextPost = sorted.find((p) => (p.data.serieOrden ?? 0) === parteActual + 1);
+}
 ---
 
-<div
-  class="not-prose mb-12 bg-[#111111]/50 border border-lime-400/20 rounded-lg p-5 md:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5"
->
-  <div>
-    <span
-      class="text-xs uppercase tracking-widest text-lime-400 mb-1.5 block font-semibold flex items-center gap-2"
+{
+  hasSerie && (
+    <div
+      style="
+    background: #111111;
+    border: 1px solid #1f1f1f;
+    border-left: 3px solid #a3e635;
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+  "
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="14"
-        height="14"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        ><path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4"
-        ></path><path d="M14 2v6h6"></path><path d="m3 12.5 3 3 3-3"
-        ></path><path d="M6 15.5v-8"></path></svg
+      <p
+        style="
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #525252;
+      margin: 0 0 0.5rem;
+    "
       >
-      {
-        serieOrden
-          ? `Parte ${serieOrden} de ${totalEnSerie}`
-          : "Parte de la Serie"
-      }
-    </span>
-    <p class="text-[#f5f5f5] font-medium text-lg leading-tight">{serie}</p>
-  </div>
-  <a
-    href={`/series/${serieSlug}`}
-    class="shrink-0 inline-flex items-center gap-2 text-sm px-4 py-2.5 rounded bg-lime-400/10 text-lime-400 hover:bg-lime-400/20 transition-colors font-medium w-full md:w-auto justify-center"
-  >
-    Ver toda la serie
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      ><line x1="5" y1="12" x2="19" y2="12"></line><polyline
-        points="12 5 19 12 12 19"></polyline></svg
-    >
-  </a>
-</div>
+        Serie · {post.data.serie}
+      </p>
+
+      <div
+        style="
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    "
+      >
+        {prevPost ? (
+          <a
+            href={`/blog/${prevPost.slug}`}
+            style="
+          font-size: 0.8rem;
+          color: #737373;
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+        "
+          >
+            ← {prevPost.data.title}
+          </a>
+        ) : (
+          <span style="font-size:0.8rem;color:#2a2a2a;">← Primera parte</span>
+        )}
+
+        <span
+          style="
+        font-size: 0.8rem;
+        color: #a3e635;
+        font-weight: 600;
+        margin: 0 auto;
+      "
+        >
+          Parte {parteActual} de {totalEnSerie}
+        </span>
+
+        {nextPost ? (
+          <a
+            href={`/blog/${nextPost.slug}`}
+            style="
+          font-size: 0.8rem;
+          color: #737373;
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+        "
+          >
+            {nextPost.data.title} →
+          </a>
+        ) : (
+          <span style="font-size:0.8rem;color:#2a2a2a;">Última parte →</span>
+        )}
+      </div>
+    </div>
+  )
+}

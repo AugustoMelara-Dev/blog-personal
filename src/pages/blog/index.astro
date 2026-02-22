@@ -5,11 +5,18 @@ import AnimatedPost from "../../components/AnimatedPost.tsx";
 import { getCollection } from "astro:content";
 import readingTime from "reading-time";
 
-const allPosts = await getCollection("posts", ({ data }) => !data.draft);
-
-const posts = allPosts.sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+const allPosts = await getCollection(
+  "posts",
+  ({ data }) => data.draft !== true,
 );
+
+// Sort seguro que maneja Date y string
+const posts = allPosts.sort((a, b) => {
+  const dateA = new Date(a.data.pubDate).getTime();
+  const dateB = new Date(b.data.pubDate).getTime();
+  if (isNaN(dateA) || isNaN(dateB)) return 0;
+  return dateB - dateA;
+});
 
 const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
 
@@ -114,6 +121,8 @@ const gridPosts = firstIsFeatured ? posts.slice(1) : posts;
                   )}
                   slug={post.slug}
                   index={index + 1}
+                  globalIndex={index + 1}
+                  totalPosts={posts.length}
                 />
               </AnimatedPost>
             );
