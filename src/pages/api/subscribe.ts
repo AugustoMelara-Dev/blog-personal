@@ -24,13 +24,6 @@ export const POST: APIRoute = async ({ request }) => {
       audienceId: import.meta.env.RESEND_AUDIENCE_ID,
     });
 
-    // Send welcome email
-    await resend.emails.send({
-      from: 'VitoLogic <onboarding@resend.dev>',
-      to: [email],
-      subject: 'Bienvenido a VitoLogic',
-      html: welcomeEmailHtml,
-    });
 
     return new Response(
       JSON.stringify({ success: true }),

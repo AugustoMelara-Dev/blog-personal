@@ -13,19 +13,6 @@ const desktopNavLinks = [
   { href: "/mapa", label: "Mapa" },
 ];
 
-const mobileNavLinks = [
-  { href: "/blog", label: "Blog" },
-  { href: "/frases", label: "Frases" },
-  { href: "/biblia", label: "Biblia" },
-  { href: "/series", label: "Series" },
-  { href: "/tags/reflexiones", label: "Tags" },
-  { href: "/mapa", label: "Mapa" },
-  { href: "/empieza", label: "Empieza aquí" },
-  { href: "/guardados", label: "Guardados" },
-  { href: "/about", label: "Sobre mí" },
-  { href: "/archivo", label: "Archivo" },
-];
-
 const posts = await getCollection("posts", ({ data }) => !data.draft);
 const frases = await getCollection("frases");
 
@@ -95,11 +82,14 @@ const isActive = (href: string) =>
             href={href}
             class={`relative text-sm transition-colors duration-150 py-2 ${
               active
-                ? "text-[#f5f5f5] underline decoration-lime-400 decoration-2 underline-offset-4 font-medium"
+                ? "text-[#f5f5f5] font-medium"
                 : "text-[#737373] hover:text-[#f5f5f5]"
             }`}
           >
             {label}
+            {active && (
+              <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-[3px] h-[3px] bg-lime-400 rounded-full" />
+            )}
           </a>
         );
       })
@@ -107,9 +97,14 @@ const isActive = (href: string) =>
   </nav>
 
   <!-- Acciones Derecha -->
-  <div class="flex items-center gap-2 md:gap-4 flex-shrink-0 z-10">
+  <div
+    class="flex items-center flex-shrink-0 z-10 w-full lg:w-auto justify-end gap-2 md:gap-4 relative"
+  >
+    <div class="hidden lg:block w-px h-[18px] bg-[#1a1a1a] mr-2"></div>
     <!-- Lupa (Search.tsx) -->
-    <div class="[&>button]:text-[#525252] [&>button:hover]:text-lime-400">
+    <div
+      class="[&>button]:text-[#525252] [&>button:hover]:text-lime-400 mt-[2px] md:mt-0"
+    >
       <Search client:load items={searchData} />
     </div>
 
@@ -141,6 +136,6 @@ const isActive = (href: string) =>
     <ThemeToggle client:load />
 
     <!-- Hamburger Menu (Mobile) -->
-    <MobileMenu client:load currentPath={currentPath} links={mobileNavLinks} />
+    <MobileMenu client:load currentPath={currentPath} />
   </div>
 </header>

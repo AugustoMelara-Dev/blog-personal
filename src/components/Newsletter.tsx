@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { CheckCircle } from 'lucide-react';
-
 export default function Newsletter() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -75,25 +72,22 @@ export default function Newsletter() {
       </form>
       
       {status === 'success' && (
-        <motion.div
-           initial={{ opacity: 0, y: 10 }}
-           animate={{ opacity: 1, y: 0 }}
-           className="mt-4 bg-[#0a1a0a] border border-[#1a3a1a] rounded-lg p-6 text-center shadow-lg"
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: 'spring', stiffness: 200 }}
-            className="flex justify-center mb-3"
-          >
-            <CheckCircle size={32} color="#a3e635" />
-          </motion.div>
-          <p className="font-semibold text-[#f5f5f5] mb-1">¡Listo!</p>
-          <p className="text-sm text-[#737373]">Te avisaré con cada nuevo post.</p>
-        </motion.div>
+        <p style={{
+          fontSize: '0.875rem',
+          color: '#a3e635',
+          marginTop: '0.75rem',
+        }}>
+          ¡Listo! Tu email fue registrado.
+        </p>
       )}
       {status === 'error' && (
-        <p className="mt-3 text-sm text-red-500">{message}</p>
+        <p style={{
+          fontSize: '0.875rem', 
+          color: '#ef4444',
+          marginTop: '0.75rem',
+        }}>
+          {message || 'Algo salió mal. Intenta de nuevo.'}
+        </p>
       )}
     </div>
   );

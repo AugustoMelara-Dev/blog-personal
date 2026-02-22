@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface NavLink {
-  href: string;
-  label: string;
-}
-
 interface Props {
   currentPath: string;
-  links: NavLink[];
 }
 
-export default function MobileMenu({ currentPath, links }: Props) {
+export default function MobileMenu({ currentPath }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   // Evitar scroll cuando el menú está abierto
@@ -29,9 +23,22 @@ export default function MobileMenu({ currentPath, links }: Props) {
   const isActive = (href: string) =>
     currentPath === href || (currentPath.startsWith(`${href}/`) && href !== "/");
 
+  const LinkItem = ({ href, label }: { href: string; label: string }) => (
+    <a
+      href={href}
+      onClick={() => setIsOpen(false)}
+      className={`px-[1.5rem] py-[0.875rem] text-[0.9375rem] transition-colors duration-200 ${
+        isActive(href)
+          ? "text-[#f5f5f5]"
+          : "text-[#a3a3a3] hover:text-[#f5f5f5] hover:bg-[#1a1a1a]"
+      }`}
+    >
+      {label}
+    </a>
+  );
+
   return (
     <div className="lg:hidden flex items-center">
-      {/* Botón Hamburger */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="text-[#737373] hover:text-[#f5f5f5] transition-colors p-2 z-50 relative"
@@ -44,7 +51,6 @@ export default function MobileMenu({ currentPath, links }: Props) {
         </svg>
       </button>
 
-      {/* Menú Dropdown -> Panel Deslizante */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -53,7 +59,7 @@ export default function MobileMenu({ currentPath, links }: Props) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+              className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
             />
             <motion.div
               initial={{ x: '100%' }}
@@ -62,7 +68,11 @@ export default function MobileMenu({ currentPath, links }: Props) {
               transition={{ type: 'tween', duration: 0.25 }}
               className="fixed top-0 right-0 h-screen w-[280px] bg-[#111111] border-l border-[#1f1f1f] z-50 shadow-2xl overflow-y-auto"
             >
-              <div className="flex justify-end p-4">
+              <div className="flex justify-between items-center p-4 pl-6 border-b border-[#1f1f1f]">
+                <div className="flex items-center tracking-tight leading-none pb-[2px]">
+                  <span className="text-[#f5f5f5] font-[800] text-xl">Vito</span>
+                  <span className="text-[#a3e635] font-[800] text-xl">Logic</span>
+                </div>
                 <button
                   onClick={() => setIsOpen(false)}
                   className="text-[#737373] hover:text-[#f5f5f5] transition-colors p-2"
@@ -73,21 +83,24 @@ export default function MobileMenu({ currentPath, links }: Props) {
                   </svg>
                 </button>
               </div>
+              
               <nav className="flex flex-col py-2">
-                {links.map(({ href, label }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    onClick={() => setIsOpen(false)}
-                    className={`px-8 py-4 border-b border-[#1a1a1a] last:border-0 transition-colors duration-200 ${
-                      isActive(href)
-                        ? "text-[#f5f5f5] font-medium bg-[#1a1a1a]"
-                        : "text-[#a3a3a3] hover:text-[#f5f5f5] hover:bg-[#1a1a1a]"
-                    }`}
-                  >
-                    {label}
-                  </a>
-                ))}
+                <LinkItem href="/blog" label="Blog" />
+                <LinkItem href="/frases" label="Frases" />
+                <LinkItem href="/biblia" label="Biblia" />
+                <LinkItem href="/series" label="Series" />
+                <LinkItem href="/mapa" label="Mapa" />
+                
+                <div className="h-px bg-[#1a1a1a] w-full my-2" />
+                
+                <LinkItem href="/tags" label="Tags" />
+                <LinkItem href="/archivo" label="Archivo" />
+                <LinkItem href="/guardados" label="Guardados" />
+                
+                <div className="h-px bg-[#1a1a1a] w-full my-2" />
+                
+                <LinkItem href="/about" label="Sobre mí" />
+                <LinkItem href="/empieza" label="Empieza aquí" />
               </nav>
             </motion.div>
           </>
