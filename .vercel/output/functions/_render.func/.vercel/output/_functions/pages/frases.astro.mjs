@@ -1,8 +1,8 @@
 /* empty css                                 */
 import { c as createAstro, d as createComponent, f as renderComponent, r as renderTemplate, m as maybeRenderHead, e as addAttribute } from '../chunks/astro/server_CDhZ2Goq.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_BpmnOZHt.mjs';
-import { g as getCollection } from '../chunks/_astro_content_DO1Y-mbq.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_DMXVGmUU.mjs';
+import { g as getCollection } from '../chunks/_astro_content_Cw8LyiNS.mjs';
 import { jsx, jsxs, Fragment } from 'react/jsx-runtime';
 import { useState } from 'react';
 import { S as StoryGenerator } from '../chunks/StoryGenerator_CiIRWp9l.mjs';

@@ -314,7 +314,7 @@ createCollectionToGlobResultMap({
 });
 
 let lookupMap = {};
-lookupMap = {"posts":{"type":"content","entries":{"la-envidia-no-avisa":"/src/content/posts/la-envidia-no-avisa.mdx"}},"frases":{"type":"content","entries":{"frase-1":"/src/content/frases/frase-1.md","frase-4":"/src/content/frases/frase-4.md","frase-2":"/src/content/frases/frase-2.md","frase-5":"/src/content/frases/frase-5.md","frase-3":"/src/content/frases/frase-3.md"}}};
+lookupMap = {"frases":{"type":"content","entries":{"frase-1":"/src/content/frases/frase-1.md","frase-3":"/src/content/frases/frase-3.md","frase-5":"/src/content/frases/frase-5.md","frase-2":"/src/content/frases/frase-2.md","frase-4":"/src/content/frases/frase-4.md"}},"posts":{"type":"content","entries":{"la-envidia-no-avisa":"/src/content/posts/la-envidia-no-avisa.mdx"}}};
 
 new Set(Object.keys(lookupMap));
 

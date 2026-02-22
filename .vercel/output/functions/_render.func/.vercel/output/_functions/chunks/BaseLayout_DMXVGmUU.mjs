@@ -1,6 +1,6 @@
 import { c as createAstro, d as createComponent, m as maybeRenderHead, e as addAttribute, r as renderTemplate, f as renderComponent, h as renderHead, i as renderSlot } from './astro/server_CDhZ2Goq.mjs';
 import 'kleur/colors';
-import { g as getCollection, S as SITE } from './_astro_content_DO1Y-mbq.mjs';
+import { g as getCollection, S as SITE } from './_astro_content_Cw8LyiNS.mjs';
 import { jsxs, Fragment, jsx } from 'react/jsx-runtime';
 import { useState, useRef, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
