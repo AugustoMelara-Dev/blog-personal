@@ -45,6 +45,20 @@ const ogImageURL = ogImage.startsWith("http")
 <!doctype html>
 <html lang="es" class="dark">
   <head>
+    <script is:inline>
+      const theme = localStorage.getItem("vitologic-theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+
+      if (theme === "light") {
+        document.documentElement.classList.remove("dark");
+        document.documentElement.classList.add("light");
+      } else {
+        // default siempre dark
+        document.documentElement.classList.add("dark");
+      }
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={pageDescription} />

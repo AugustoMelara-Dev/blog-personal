@@ -19,11 +19,20 @@ export default function ThemeToggle() {
   }, []);
 
   const toggle = () => {
-    const next = !isDark;
-    setIsDark(next);
-    localStorage.setItem('vitologic-theme', next ? 'dark' : 'light');
-    document.documentElement.classList.toggle('light', !next);
-    document.documentElement.classList.toggle('dark', next);
+    const html = document.documentElement
+    const isLight = html.classList.contains('light')
+    
+    if (isLight) {
+      html.classList.remove('light')
+      html.classList.add('dark')
+      localStorage.setItem('vitologic-theme', 'dark')
+      setIsDark(true)
+    } else {
+      html.classList.remove('dark')
+      html.classList.add('light')
+      localStorage.setItem('vitologic-theme', 'light')
+      setIsDark(false)
+    }
   };
 
   return (

@@ -18,6 +18,7 @@ export async function GET(context: APIContext) {
     site: context.site!,
     customData: `
       <language>es-ES</language>
+      <?xml-stylesheet href="/rss-styles.xsl" type="text/xsl"?>
       <copyright>© 2026 VitoLogic. Todos los derechos reservados.</copyright>
       <managingEditor>augusto@vitologic.vercel.app (Augusto Melara)</managingEditor>
       <webMaster>augusto@vitologic.vercel.app (Augusto Melara)</webMaster>
