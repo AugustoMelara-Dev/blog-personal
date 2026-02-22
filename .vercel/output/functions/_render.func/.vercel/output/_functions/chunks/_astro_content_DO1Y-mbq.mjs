@@ -1,9 +1,14 @@
 import { Traverse } from 'neotraverse/modern';
 import pLimit from 'p-limit';
-import { r as removeBase, i as isCoreRemotePath, V as VALID_INPUT_FORMATS, p as prependForwardSlash } from './astro/assets-service_BmrH3bxV.mjs';
-import { A as AstroError, k as UnknownContentCollectionError, d as createComponent, l as renderUniqueStylesheet, n as renderScriptElement, o as createHeadAndContent, g as renderComponent, r as renderTemplate, u as unescapeHTML } from './astro/server_CTCqgbJU.mjs';
+import { r as removeBase, i as isCoreRemotePath, V as VALID_INPUT_FORMATS, p as prependForwardSlash } from './astro/assets-service_C3LYyevk.mjs';
+import { A as AstroError, o as UnknownContentCollectionError, d as createComponent, p as renderUniqueStylesheet, q as renderScriptElement, s as createHeadAndContent, f as renderComponent, r as renderTemplate, u as unescapeHTML } from './astro/server_CDhZ2Goq.mjs';
 import 'kleur/colors';
 import * as devalue from 'devalue';
+
+const SITE = {
+  title: "Blog Personal",
+  description: "Reflexiones sobre poder, personas y estrategia.",
+  author: "Tu Nombre"};
 
 const CONTENT_IMAGE_FLAG = "astroContentImageFlag";
 const IMAGE_IMPORT_PREFIX = "__ASTRO_IMAGE_";
@@ -292,7 +297,7 @@ function isPropagatedAssetsModule(module) {
 
 const contentDir = '/src/content/';
 
-const contentEntryGlob = /* #__PURE__ */ Object.assign({"/src/content/frases/frase-1.md": () => import('./frase-1_Dj8Qjr0Z.mjs'),"/src/content/frases/frase-2.md": () => import('./frase-2_CD0GtpvJ.mjs'),"/src/content/frases/frase-3.md": () => import('./frase-3_DtmAjbRn.mjs'),"/src/content/frases/frase-4.md": () => import('./frase-4_IKsPB475.mjs'),"/src/content/frases/frase-5.md": () => import('./frase-5_B7jx7S6V.mjs'),"/src/content/posts/la-envidia-no-avisa.mdx": () => import('./la-envidia-no-avisa_DfOWj4zS.mjs')});
+const contentEntryGlob = /* #__PURE__ */ Object.assign({"/src/content/frases/frase-1.md": () => import('./frase-1_Dj8Qjr0Z.mjs'),"/src/content/frases/frase-2.md": () => import('./frase-2_CD0GtpvJ.mjs'),"/src/content/frases/frase-3.md": () => import('./frase-3_DtmAjbRn.mjs'),"/src/content/frases/frase-4.md": () => import('./frase-4_IKsPB475.mjs'),"/src/content/frases/frase-5.md": () => import('./frase-5_B7jx7S6V.mjs'),"/src/content/posts/la-envidia-no-avisa.mdx": () => import('./la-envidia-no-avisa_C4lEiyTa.mjs')});
 const contentCollectionToEntryMap = createCollectionToGlobResultMap({
 	globResult: contentEntryGlob,
 	contentDir,
@@ -309,7 +314,7 @@ createCollectionToGlobResultMap({
 });
 
 let lookupMap = {};
-lookupMap = {"posts":{"type":"content","entries":{"la-envidia-no-avisa":"/src/content/posts/la-envidia-no-avisa.mdx"}},"frases":{"type":"content","entries":{"frase-1":"/src/content/frases/frase-1.md","frase-3":"/src/content/frases/frase-3.md","frase-2":"/src/content/frases/frase-2.md","frase-5":"/src/content/frases/frase-5.md","frase-4":"/src/content/frases/frase-4.md"}}};
+lookupMap = {"posts":{"type":"content","entries":{"la-envidia-no-avisa":"/src/content/posts/la-envidia-no-avisa.mdx"}},"frases":{"type":"content","entries":{"frase-1":"/src/content/frases/frase-1.md","frase-4":"/src/content/frases/frase-4.md","frase-2":"/src/content/frases/frase-2.md","frase-5":"/src/content/frases/frase-5.md","frase-3":"/src/content/frases/frase-3.md"}}};
 
 new Set(Object.keys(lookupMap));
 
@@ -322,7 +327,7 @@ function createGlobLookup(glob) {
 	};
 }
 
-const renderEntryGlob = /* #__PURE__ */ Object.assign({"/src/content/frases/frase-1.md": () => import('./frase-1_B2L_mjLb.mjs'),"/src/content/frases/frase-2.md": () => import('./frase-2_DuhRTYDm.mjs'),"/src/content/frases/frase-3.md": () => import('./frase-3_CH8xJ_-i.mjs'),"/src/content/frases/frase-4.md": () => import('./frase-4_CMAc9lEm.mjs'),"/src/content/frases/frase-5.md": () => import('./frase-5_DMY3ELmX.mjs'),"/src/content/posts/la-envidia-no-avisa.mdx": () => import('./la-envidia-no-avisa_8IS3-ghD.mjs')});
+const renderEntryGlob = /* #__PURE__ */ Object.assign({"/src/content/frases/frase-1.md": () => import('./frase-1_zKQKR88D.mjs'),"/src/content/frases/frase-2.md": () => import('./frase-2_Bix695xS.mjs'),"/src/content/frases/frase-3.md": () => import('./frase-3_dkBHpDMe.mjs'),"/src/content/frases/frase-4.md": () => import('./frase-4_DB_Hvb8d.mjs'),"/src/content/frases/frase-5.md": () => import('./frase-5_Dta59940.mjs'),"/src/content/posts/la-envidia-no-avisa.mdx": () => import('./la-envidia-no-avisa_Bw6I75TW.mjs')});
 const collectionToRenderEntryMap = createCollectionToGlobResultMap({
 	globResult: renderEntryGlob,
 	contentDir,
@@ -336,4 +341,4 @@ const getCollection = createGetCollection({
 	cacheEntriesByCollection,
 });
 
-export { getCollection as g };
+export { SITE as S, getCollection as g };

@@ -1,10 +1,11 @@
-import { f as createVNode, F as Fragment, _ as __astro_tag_component__ } from './astro/server_CTCqgbJU.mjs';
-import { $ as $$Image } from './_astro_assets_CLuCP4FM.mjs';
+import { g as createVNode, F as Fragment, _ as __astro_tag_component__ } from './astro/server_CDhZ2Goq.mjs';
+import { $ as $$Image } from './_astro_assets_BgA2YJQp.mjs';
 import 'clsx';
 
 const frontmatter = {
   "title": "La envidia no avisa",
   "description": "Los amigos creen que te conocen, y eso los hace sentirse con derecho sobre ti.",
+  "versiculo": "Proverbios 27:6 — Fieles son las heridas del que ama.",
   "pubDate": "2026-02-22T00:00:00.000Z",
   "tags": ["reflexiones", "poder", "personas"],
   "featured": true,

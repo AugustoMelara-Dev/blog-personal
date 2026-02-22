@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./la-envidia-no-avisa_DaF44SKN.mjs');
+						return import('./la-envidia-no-avisa_N6qyAg_5.mjs');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

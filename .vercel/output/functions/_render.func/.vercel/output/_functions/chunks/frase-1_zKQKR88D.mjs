@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./frase-3_DGCmB26Q.mjs');
+						return import('./frase-1_BV30LEMT.mjs');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

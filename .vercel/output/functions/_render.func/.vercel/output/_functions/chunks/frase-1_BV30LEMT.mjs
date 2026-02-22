@@ -1,11 +1,11 @@
-import { d as createComponent, m as maybeRenderHead, u as unescapeHTML, r as renderTemplate } from './astro/server_CTCqgbJU.mjs';
+import { d as createComponent, m as maybeRenderHead, u as unescapeHTML, r as renderTemplate } from './astro/server_CDhZ2Goq.mjs';
 import 'kleur/colors';
 import 'clsx';
 
 const html = "";
 
-				const frontmatter = {"texto":"En el juego del poder, la confianza sin límites no es virtud. Es descuido.","categoria":"poder","fecha":"2026-02-22T00:00:00.000Z"};
-				const file = "C:/Users/melar/OneDrive/Desktop/Proyectos Importantes/blog-personal/src/content/frases/frase-5.md";
+				const frontmatter = {"texto":"Un enemigo sabe que debe probar su lealtad. Un amigo cree que ya la tiene asegurada.","categoria":"poder","fecha":"2026-02-22T00:00:00.000Z"};
+				const file = "C:/Users/melar/OneDrive/Desktop/Proyectos Importantes/blog-personal/src/content/frases/frase-1.md";
 				const url = undefined;
 				function rawContent() {
 					return "";
