@@ -90,17 +90,7 @@ export default function MobileMenu({ currentPath }: Props) {
                 <LinkItem href="/biblia" label="Biblia" />
                 <LinkItem href="/series" label="Series" />
                 <LinkItem href="/mapa" label="Mapa" />
-                
-                <div className="h-px bg-[#1a1a1a] w-full my-2" />
-                
-                <LinkItem href="/tags" label="Tags" />
-                <LinkItem href="/archivo" label="Archivo" />
-                <LinkItem href="/guardados" label="Guardados" />
-                
-                <div className="h-px bg-[#1a1a1a] w-full my-2" />
-                
                 <LinkItem href="/about" label="Sobre mí" />
-                <LinkItem href="/empieza" label="Empieza aquí" />
               </nav>
             </motion.div>
           </>
