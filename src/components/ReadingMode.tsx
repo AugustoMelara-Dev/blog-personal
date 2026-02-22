@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import { BookOpen, Minimize2 } from 'lucide-react';
+
 export default function ReadingMode() {
   const [isActive, setIsActive] = useState(false);
 
@@ -57,29 +59,27 @@ export default function ReadingMode() {
         >
           <AnimatePresence mode="wait">
             {isActive ? (
-              <motion.svg
+              <motion.div
                 key="close"
                 initial={{ opacity: 0, rotate: -90 }}
                 animate={{ opacity: 1, rotate: 0 }}
                 exit={{ opacity: 0, rotate: 90 }}
                 transition={{ duration: 0.2 }}
-                xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                className="flex items-center justify-center"
               >
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </motion.svg>
+                <Minimize2 size={18} />
+              </motion.div>
             ) : (
-              <motion.svg
+              <motion.div
                 key="book"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.5 }}
                 transition={{ duration: 0.2 }}
-                xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                className="flex items-center justify-center"
               >
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-              </motion.svg>
+                <BookOpen size={18} />
+              </motion.div>
             )}
           </AnimatePresence>
         </button>

@@ -1,7 +1,7 @@
----
 import TagBadge from "./TagBadge.astro";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import Icon from "./icons/Icon.tsx";
 
 interface Props {
   title: string;
@@ -105,14 +105,22 @@ const orderNum = String(index + 1).padStart(2, "0");
       </p>
 
       <div class="flex flex-wrap items-center gap-3 mt-4 text-xs text-[#525252]">
-        <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+        <time datetime={pubDate.toISOString()} class="flex items-center gap-1">
+          <Icon name="Calendar" size={12} color="#525252" client:load />{" "}
+          {formattedDate}
+        </time>
         <span class="text-[#1a1a1a]">·</span>
-        <span>{readingTime}</span>
+        <span class="flex items-center gap-1">
+          <Icon name="Clock" size={12} color="#525252" client:load />{" "}
+          {readingTime}
+        </span>
         {tags.length > 0 && (
           <>
             <span class="text-[#1a1a1a]">·</span>
             {tags.map((tag) => (
-              <span class="text-[#525252]">#{tag}</span>
+              <span class="text-[#525252] flex items-center gap-1">
+                <Icon name="Tag" size={12} color="#525252" client:load /> {tag}
+              </span>
             ))}
           </>
         )}

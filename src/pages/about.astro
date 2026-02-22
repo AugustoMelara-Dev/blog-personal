@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AnimatedPost from "../components/AnimatedPost.tsx";
+import Icon from "../components/icons/Icon.tsx";
 import { getCollection } from "astro:content";
 
 const allPosts = (await getCollection("posts")).filter(
@@ -70,21 +71,27 @@ const allFrases = await getCollection("frases");
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="bg-[#111111] border border-[#1f1f1f] rounded-lg p-6">
-            <div class="text-4xl mb-4">🧠</div>
+            <div class="mb-4">
+              <Icon name="Brain" size={32} color="#a3e635" client:load />
+            </div>
             <h3 class="text-xl font-bold text-[#f5f5f5] mb-2">Reflexiones</h3>
             <p class="text-[#a3a3a3]">
               Comportamiento humano. Lo que hacemos vs lo que decimos.
             </p>
           </div>
           <div class="bg-[#111111] border border-[#1f1f1f] rounded-lg p-6">
-            <div class="text-4xl mb-4">📖</div>
+            <div class="mb-4">
+              <Icon name="BookOpen" size={32} color="#a3e635" client:load />
+            </div>
             <h3 class="text-xl font-bold text-[#f5f5f5] mb-2">Biblia</h3>
             <p class="text-[#a3a3a3]">
               Personajes reales con decisiones eternas. Sin sermones.
             </p>
           </div>
           <div class="bg-[#111111] border border-[#1f1f1f] rounded-lg p-6">
-            <div class="text-4xl mb-4">♟️</div>
+            <div class="mb-4">
+              <Icon name="Crown" size={32} color="#a3e635" client:load />
+            </div>
             <h3 class="text-xl font-bold text-[#f5f5f5] mb-2">Poder</h3>
             <p class="text-[#a3a3a3]">
               Dinámicas sociales. Quién tiene el poder y cómo lo usa.

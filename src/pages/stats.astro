@@ -1,0 +1,247 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/icons/Icon.tsx";
+import { getCollection } from "astro:content";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+
+const posts = await getCollection("posts", ({ data }) => !data.draft);
+const frases = await getCollection("frases");
+
+const totalPosts = posts.length;
+const totalFrases = frases.length;
+const totalWords = posts.reduce((acc, post) => {
+  return acc + post.body.split(/\s+/).length;
+}, 0);
+const totalReadingMinutes = Math.round(totalWords / 200);
+
+// Agrupar posts por mes limitando a últimos 6 meses para la gráfica si es muy grande,
+// o todos si lo prefieres, pero un objeto por meses.
+const postsByMonthObj = posts.reduce(
+  (acc, post) => {
+    const monthLabel = format(post.data.pubDate, "MMM yy", { locale: es });
+    acc[monthLabel] = (acc[monthLabel] || 0) + 1;
+    return acc;
+  },
+  {} as Record<string, number>,
+);
+
+const postsByMonth = Object.entries(postsByMonthObj).map(([month, count]) => ({
+  month,
+  count,
+}));
+
+const maxPostsInMonth = Math.max(...postsByMonth.map((p) => p.count), 1);
+
+const tagsCount = posts.reduce(
+  (acc, post) => {
+    const tags = post.data.tags || [];
+    tags.forEach((t) => {
+      acc[t] = (acc[t] || 0) + 1;
+    });
+    return acc;
+  },
+  {} as Record<string, number>,
+);
+
+const postsByTag = Object.entries(tagsCount).sort((a, b) => b[1] - a[1]);
+
+const maxTagCount = Math.max(...postsByTag.map((t) => t[1]), 1);
+
+const tagsUsed = postsByTag.map((t) => t[0]);
+
+const avgPostsPerMonth = (
+  totalPosts / Math.max(postsByMonth.length, 1)
+).toFixed(1);
+
+const recentPosts = posts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title="Stats | VitoLogic" description="Estadísticas de VitoLogic">
+  <main class="max-w-4xl mx-auto px-6 py-16 md:py-24">
+    <!-- HERO -->
+    <div class="mb-16">
+      <div class="flex items-center gap-3 mb-4">
+        <Icon name="BarChart2" size={32} color="#f5f5f5" client:load />
+        <h1
+          class="text-4xl md:text-5xl font-bold text-[#f5f5f5] tracking-tight"
+        >
+          Stats
+        </h1>
+      </div>
+      <p class="text-xl text-[#a3a3a3]">
+        Todo lo que pasa en VitoLogic, en números.
+      </p>
+    </div>
+
+    <!-- GRID DE STATS PRINCIPALES -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-16">
+      <div
+        class="bg-[#111111] border border-[#1f1f1f] rounded-xl p-6 flex flex-col justify-between hover:border-[#333] transition-colors"
+      >
+        <div class="flex items-start justify-between mb-8">
+          <span class="text-4xl font-bold text-[#f5f5f5]">{totalPosts}</span>
+          <div class="bg-lime-400/10 p-2 rounded-lg">
+            <Icon name="FileText" size={24} color="#a3e635" client:load />
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-medium text-[#f5f5f5] mb-1">
+            Posts publicados
+          </h3>
+          <p class="text-sm text-[#737373]">
+            {avgPostsPerMonth} por mes en promedio
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="bg-[#111111] border border-[#1f1f1f] rounded-xl p-6 flex flex-col justify-between hover:border-[#333] transition-colors"
+      >
+        <div class="flex items-start justify-between mb-8">
+          <span class="text-4xl font-bold text-[#f5f5f5]">{totalFrases}</span>
+          <div class="bg-lime-400/10 p-2 rounded-lg">
+            <Icon name="MessageSquare" size={24} color="#a3e635" client:load />
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-medium text-[#f5f5f5] mb-1">
+            Frases escritas
+          </h3>
+          <p class="text-sm text-[#737373]">En /frases</p>
+        </div>
+      </div>
+
+      <div
+        class="bg-[#111111] border border-[#1f1f1f] rounded-xl p-6 flex flex-col justify-between hover:border-[#333] transition-colors"
+      >
+        <div class="flex items-start justify-between mb-8">
+          <span class="text-4xl font-bold text-[#f5f5f5]"
+            >{totalWords.toLocaleString()}</span
+          >
+          <div class="bg-lime-400/10 p-2 rounded-lg">
+            <Icon name="PenLine" size={24} color="#a3e635" client:load />
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-medium text-[#f5f5f5] mb-1">
+            Palabras escritas
+          </h3>
+          <p class="text-sm text-[#737373]">
+            {totalReadingMinutes} min de lectura total
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="bg-[#111111] border border-[#1f1f1f] rounded-xl p-6 flex flex-col justify-between hover:border-[#333] transition-colors"
+      >
+        <div class="flex items-start justify-between mb-8">
+          <span class="text-4xl font-bold text-[#f5f5f5]"
+            >{tagsUsed.length}</span
+          >
+          <div class="bg-lime-400/10 p-2 rounded-lg">
+            <Icon name="Tag" size={24} color="#a3e635" client:load />
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-medium text-[#f5f5f5] mb-1">
+            Temas explorados
+          </h3>
+          <p class="text-sm text-[#737373] truncate">
+            {tagsUsed.slice(0, 3).join(", ")}...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <!-- GRÁFICA DE POSTS -->
+      <div>
+        <h3
+          class="text-sm uppercase tracking-widest text-[#525252] font-semibold mb-6 flex items-center gap-2"
+        >
+          <Icon name="BarChart" size={16} client:load /> Ritmo de publicación
+        </h3>
+        <div class="bg-[#111111] border border-[#1f1f1f] rounded-xl p-6">
+          <div class="flex items-end justify-between gap-2 h-48 mb-4">
+            {
+              postsByMonth.slice(-12).map(({ month, count }) => (
+                <div class="flex flex-col items-center justify-end flex-1 h-full group">
+                  <div
+                    class="w-full bg-lime-400/30 group-hover:bg-lime-400/60 transition-colors rounded-t-sm relative"
+                    style={`height: ${(count / maxPostsInMonth) * 100}%`}
+                  >
+                    <span class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-[#a3a3a3] opacity-0 group-hover:opacity-100 transition-opacity">
+                      {count}
+                    </span>
+                  </div>
+                  <span class="text-[10px] text-[#525252] mt-2 font-medium capitalize truncate w-full text-center">
+                    {month}
+                  </span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- TOP TAGS -->
+      <div>
+        <h3
+          class="text-sm uppercase tracking-widest text-[#525252] font-semibold mb-6 flex items-center gap-2"
+        >
+          <Icon name="Tag" size={16} client:load /> Temas principales
+        </h3>
+        <div
+          class="bg-[#111111] border border-[#1f1f1f] rounded-xl p-6 flex flex-col gap-4"
+        >
+          {
+            postsByTag.slice(0, 5).map(([tag, count]) => (
+              <div>
+                <div class="flex items-center justify-between text-sm mb-1.5">
+                  <span class="text-[#f5f5f5] capitalize">{tag}</span>
+                  <span class="text-[#737373]">{count} posts</span>
+                </div>
+                <div class="w-full h-1.5 bg-[#1a1a1a] rounded-full overflow-hidden">
+                  <div
+                    class="h-full bg-lime-400/40 rounded-full"
+                    style={`width: ${(count / maxTagCount) * 100}%`}
+                  />
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- POSTS RECIENTES -->
+    <div class="mt-16">
+      <h3
+        class="text-sm uppercase tracking-widest text-[#525252] font-semibold mb-6 flex items-center gap-2"
+      >
+        <Icon name="Clock" size={16} client:load /> Últimos Posts
+      </h3>
+      <div class="flex flex-col gap-4">
+        {
+          recentPosts.map((post) => (
+            <a
+              href={`/blog/${post.slug}`}
+              class="flex items-center justify-between p-4 bg-[#111111] border border-[#1f1f1f] rounded-lg hover:border-[#333] hover:bg-[#141414] transition-colors group"
+            >
+              <span class="text-[#f5f5f5] font-medium group-hover:text-lime-400 transition-colors line-clamp-1">
+                {post.data.title}
+              </span>
+              <span class="text-xs text-[#525252] whitespace-nowrap ml-4">
+                {format(post.data.pubDate, "d MMM yyyy", { locale: es })}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</BaseLayout>
