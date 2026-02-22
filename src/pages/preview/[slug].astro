@@ -1,0 +1,71 @@
+---
+import { getCollection } from "astro:content";
+import PostLayout from "../../layouts/PostLayout.astro";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+
+export async function getStaticPaths() {
+  // Get all posts, including drafts
+  const posts = await getCollection("posts");
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+// Verify context and access (only dev or secret param locally - though on vercel edge function query params work based on SSR)
+// But since this is statically generated ('hybrid' effectively), we rely on obscurity + warning
+const showWarning = true;
+---
+
+<PostLayout
+  title={post.data.title}
+  description={post.data.description}
+  pubDate={post.data.pubDate}
+  tags={post.data.tags || []}
+  quote={post.data.quote}
+  versiculo={post.data.versiculo}
+  type="article"
+  serie={post.data.serie}
+>
+  {
+    showWarning && post.data.draft && (
+      <div class="mb-12 bg-[#7f1d1d] border border-[#991b1b] rounded-xl p-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-[#991b1b]/0 via-[#991b1b]/30 to-[#991b1b]/0 animate-pulse" />
+        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <svg
+              class="text-[#fca5a5]"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <>
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </>
+            </svg>
+            <p class="text-[#fecaca] font-medium">
+              ⚠️ DRAFT — Este post no está publicado
+            </p>
+          </div>
+          <div class="text-[#fca5a5] text-sm bg-[#991b1b]/40 border border-[#991b1b] px-4 py-2 rounded-lg">
+            Publicar → cambia draft: false en el frontmatter
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  <Content />
+</PostLayout>

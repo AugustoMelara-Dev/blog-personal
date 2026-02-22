@@ -1,0 +1,56 @@
+---
+import { getCollection } from "astro:content";
+import StoryGenerator from "./StoryGenerator.tsx";
+import CopyButton from "./CopyButton.tsx";
+
+interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props;
+
+// Filter phrases that match any of the post tags, if any tag matches the category.
+const allFrases = await getCollection("frases");
+let relatedFrases = allFrases.filter((frase) =>
+  tags.includes(frase.data.categoria),
+);
+
+// If no match or not enough matches, pad with random phrases
+if (relatedFrases.length < 3) {
+  const others = allFrases.filter((frase) => !relatedFrases.includes(frase));
+  // Shuffle others
+  const shuffled = others.sort(() => 0.5 - Math.random());
+  relatedFrases = [...relatedFrases, ...shuffled].slice(0, 3);
+} else {
+  // Shuffle related
+  relatedFrases = relatedFrases.sort(() => 0.5 - Math.random()).slice(0, 3);
+}
+---
+
+<section class="mb-12">
+  <div class="flex items-center justify-between mb-6">
+    <h3 class="text-sm uppercase tracking-widest text-[#525252] font-semibold">
+      Frases relacionadas
+    </h3>
+    <a
+      href="/frases"
+      class="text-sm text-lime-400 hover:text-lime-300 transition-colors"
+      >Ver todas las frases →</a
+    >
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+    {
+      relatedFrases.map((frase) => (
+        <div class="flex flex-col justify-between p-5 bg-[#111111] border border-[#1f1f1f] rounded-lg hover:border-[#333] transition-colors">
+          <p class="text-base text-[#f5f5f5] italic leading-relaxed mb-6">
+            "{frase.data.texto}"
+          </p>
+          <div class="flex justify-end gap-2 mt-auto">
+            <StoryGenerator client:load texto={frase.data.texto} />
+            <CopyButton client:load text={frase.data.texto} />
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

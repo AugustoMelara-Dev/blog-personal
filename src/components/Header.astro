@@ -60,10 +60,21 @@ const isActive = (href: string) =>
   style="padding-left: max(2rem, calc((100vw - 1200px) / 2)); padding-right: max(2rem, calc((100vw - 1200px) / 2)); border-bottom-width: 1px;"
 >
   <!-- Logo Izquierda -->
-  <a href="/" class="flex flex-col flex-shrink-0 group">
+  <a href="/" class="flex flex-col flex-shrink-0 group relative">
     <div class="flex items-center tracking-tight leading-none mb-1">
       <span class="text-[#f5f5f5] font-[800] text-xl">Vito</span>
       <span class="text-lime-400 font-[800] text-xl">Logic</span>
+      {
+        import.meta.env.DEV && (
+          <div
+            class="ml-2 relative flex items-center justify-center group"
+            title="Modo desarrollo"
+          >
+            <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-red-400 opacity-75" />
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+          </div>
+        )
+      }
     </div>
     <span
       class="text-[#525252] text-[10px] uppercase tracking-[0.25em] font-medium leading-none"

@@ -1,0 +1,59 @@
+name: Broadcast nuevo post
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/content/posts/**.mdx"
+
+jobs:
+  broadcast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detectar post nuevo
+        id: detect
+        run: |
+          NEW_POST=$(git diff --name-only HEAD~1 HEAD \
+            -- 'src/content/posts/*.mdx' | head -1)
+          echo "post=$NEW_POST" >> $GITHUB_OUTPUT
+          if [ -n "$NEW_POST" ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Extraer frontmatter del post
+        if: steps.detect.outputs.found == 'true'
+        id: frontmatter
+        run: |
+          POST_FILE="${{ steps.detect.outputs.post }}"
+          TITLE=$(grep '^title:' "$POST_FILE" | \
+            sed 's/title: *//' | tr -d '"')
+          DESC=$(grep '^description:' "$POST_FILE" | \
+            sed 's/description: *//' | tr -d '"')
+          SLUG=$(basename "$POST_FILE" .mdx)
+          QUOTE=$(grep '^quote:' "$POST_FILE" | \
+            sed 's/quote: *//' | tr -d '"')
+          echo "title=$TITLE" >> $GITHUB_OUTPUT
+          echo "description=$DESC" >> $GITHUB_OUTPUT
+          echo "slug=$SLUG" >> $GITHUB_OUTPUT
+          echo "quote=$QUOTE" >> $GITHUB_OUTPUT
+
+      - name: Enviar broadcast
+        if: steps.detect.outputs.found == 'true'
+        run: |
+          curl -X POST \
+            "${{ secrets.VERCEL_URL }}/api/broadcast" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "secret": "${{ secrets.BROADCAST_SECRET }}",
+              "postSlug": "${{ steps.frontmatter.outputs.slug }}",
+              "postTitle": "${{ steps.frontmatter.outputs.title }}",
+              "postDescription": "${{ steps.frontmatter.outputs.description }}",
+              "postQuote": "${{ steps.frontmatter.outputs.quote }}",
+              "postUrl": "https://vitologic.vercel.app/blog/${{ steps.frontmatter.outputs.slug }}"
+            }'

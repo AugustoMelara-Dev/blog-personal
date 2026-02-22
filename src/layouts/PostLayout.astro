@@ -14,6 +14,7 @@ import ReadingTimeRing from "../components/ReadingTimeRing.tsx";
 import SchemaOrg from "../components/SchemaOrg.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import TextHighlighter from "../components/TextHighlighter.tsx";
+import RelatedFrases from "../components/RelatedFrases.astro";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
@@ -195,6 +196,9 @@ const readingMinutes = parseInt(readingTime) || 5;
             <div class="w-full h-px bg-[#1a1a1a] mb-12"></div>
 
             <!-- Additional Series/Related injected via slot from [slug].astro -->
+
+            <!-- Frases Relacionadas -->
+            <RelatedFrases tags={tags} />
 
             <!-- Share section -->
             {

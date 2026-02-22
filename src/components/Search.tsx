@@ -103,37 +103,46 @@ export default function Search({ items }: { items: SearchItem[] }) {
                 </button>
               </div>
 
-              {results.length > 0 && (
-                <div className="overflow-y-auto p-2">
-                  {results.map(item => (
+                <>
+                  <div className="overflow-y-auto p-2">
+                    {results.slice(0, 5).map(item => (
+                      <a
+                        key={item.id}
+                        href={item.url}
+                        className="block p-4 rounded-lg hover:bg-[#111111] transition-colors group"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-[#f5f5f5] font-medium group-hover:text-lime-400 transition-colors line-clamp-1">
+                            {item.title}
+                          </span>
+                          <span className="text-[#525252] text-xs uppercase tracking-widest bg-[#111111] px-2 py-0.5 rounded border border-[#1f1f1f] flex-shrink-0 ml-3">
+                            {item.type}
+                          </span>
+                        </div>
+                        <p className="text-[#737373] text-sm line-clamp-1 mb-2">
+                          {item.description}
+                        </p>
+                        {item.tags && item.tags.length > 0 && (
+                          <div className="flex gap-2">
+                            {item.tags.map(tag => (
+                              <span key={tag} className="text-[#525252] text-xs">#{tag}</span>
+                            ))}
+                          </div>
+                        )}
+                      </a>
+                    ))}
+                  </div>
+                  <div className="border-t border-[#1f1f1f] p-4 text-center bg-[#050505]">
                     <a
-                      key={item.id}
-                      href={item.url}
-                      className="block p-4 rounded-lg hover:bg-[#111111] transition-colors group"
+                      href={`/buscar?q=${encodeURIComponent(query)}`}
+                      className="text-[#a3a3a3] hover:text-[#a3e635] text-sm transition-colors"
                       onClick={() => setIsOpen(false)}
                     >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-[#f5f5f5] font-medium group-hover:text-lime-400 transition-colors line-clamp-1">
-                          {item.title}
-                        </span>
-                        <span className="text-[#525252] text-xs uppercase tracking-widest bg-[#111111] px-2 py-0.5 rounded border border-[#1f1f1f] flex-shrink-0 ml-3">
-                          {item.type}
-                        </span>
-                      </div>
-                      <p className="text-[#737373] text-sm line-clamp-1 mb-2">
-                        {item.description}
-                      </p>
-                      {item.tags && item.tags.length > 0 && (
-                        <div className="flex gap-2">
-                          {item.tags.map(tag => (
-                            <span key={tag} className="text-[#525252] text-xs">#{tag}</span>
-                          ))}
-                        </div>
-                      )}
+                      Ver todos los resultados →
                     </a>
-                  ))}
-                </div>
-              )}
+                  </div>
+                </>
               
               {query.trim() !== '' && results.length === 0 && (
                 <div className="p-8 text-center text-[#737373]">

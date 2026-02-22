@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BuscarPage from "../components/BuscarPage.tsx";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("posts", ({ data }) => !data.draft);
+const frases = await getCollection("frases");
+
+const searchData = [
+  ...posts.map((post) => ({
+    id: `post-${post.slug}`,
+    title: post.data.title,
+    description: post.data.description,
+    tags: post.data.tags || [],
+    date: post.data.pubDate.toISOString(),
+    type: "post" as const,
+    url: `/blog/${post.slug}`,
+    slug: post.slug,
+  })),
+  ...frases.map((frase) => ({
+    id: `frase-${frase.id}`,
+    title: `Frase sobre ${frase.data.categoria}`,
+    description: frase.data.texto,
+    tags: [frase.data.categoria],
+    date: frase.data.fecha.toISOString(),
+    type: "frase" as const,
+    url: `/frases?cat=${frase.data.categoria}`,
+  })),
+];
+---
+
+<BaseLayout
+  title="Buscar | VitoLogic"
+  description="Busca posts y frases en VitoLogic"
+>
+  <main class="max-w-4xl mx-auto px-6 py-16 md:py-24 min-h-[70vh]">
+    <BuscarPage client:load items={searchData} />
+  </main>
+</BaseLayout>
