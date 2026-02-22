@@ -1,0 +1,53 @@
+---
+import SchemaOrg from "./SchemaOrg.astro";
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+const schemaItems = items.map((item, i) => ({
+  "@type": "ListItem",
+  position: i + 1,
+  name: item.label,
+  ...(item.href ? { item: `https://vitologic.vercel.app${item.href}` } : {}),
+}));
+---
+
+<nav aria-label="Breadcrumb" class="mb-6">
+  <ol class="flex flex-wrap items-center gap-1 text-xs">
+    {
+      items.map((item, i) => (
+        <>
+          {i > 0 && <span class="text-[#1f1f1f] mx-1">›</span>}
+          {item.href ? (
+            <li>
+              <a
+                href={item.href}
+                class="text-[#525252] hover:text-[#a3a3a3] transition-colors"
+              >
+                {item.label}
+              </a>
+            </li>
+          ) : (
+            <li class="text-[#a3a3a3]">{item.label}</li>
+          )}
+        </>
+      ))
+    }
+  </ol>
+</nav>
+
+<SchemaOrg
+  schema={{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: schemaItems,
+  }}
+/>

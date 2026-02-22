@@ -16,7 +16,28 @@ export default defineConfig({
     mdx(),
     react(),
     tailwind(),
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.includes('/api/'),
+      customPages: [
+        'https://vitologic.vercel.app/empieza',
+      ],
+      serialize(item) {
+        if (item.url === 'https://vitologic.vercel.app/') {
+          return { ...item, priority: 1.0, changefreq: 'daily' };
+        }
+        if (item.url.includes('/blog/')) {
+          return { ...item, priority: 0.9, changefreq: 'monthly' };
+        }
+        if (
+          ['/blog', '/frases', '/biblia', '/series', '/empieza'].some((p) =>
+            item.url.endsWith(p)
+          )
+        ) {
+          return { ...item, priority: 0.8, changefreq: 'weekly' };
+        }
+        return { ...item, priority: 0.5, changefreq: 'monthly' };
+      },
+    }),
     AstroPWA({
       mode: 'production',
       base: '/',

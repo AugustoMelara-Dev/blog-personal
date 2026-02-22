@@ -11,6 +11,8 @@ import TableOfContents from "../components/TableOfContents.tsx";
 import CodeCopy from "../components/CodeCopy.tsx";
 import BookmarkButton from "../components/BookmarkButton.tsx";
 import ReadingTimeRing from "../components/ReadingTimeRing.tsx";
+import SchemaOrg from "../components/SchemaOrg.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
@@ -46,21 +48,7 @@ const {
 
 const formattedDate = format(pubDate, "d 'de' MMMM, yyyy", { locale: es });
 
-const schemaData = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  headline: title,
-  description: description,
-  datePublished: pubDate.toISOString(),
-  author: {
-    "@type": "Person",
-    name: SITE.author,
-  },
-  publisher: {
-    "@type": "Organization",
-    name: SITE.title,
-  },
-});
+const readingMinutes = parseInt(readingTime) || 5;
 ---
 
 <BaseLayout
@@ -68,8 +56,47 @@ const schemaData = JSON.stringify({
   description={description}
   ogImage={ogImage}
   type={type}
+  publishedDate={pubDate}
+  tags={tags}
 >
-  <script type="application/ld+json" set:html={schemaData} />
+  <SchemaOrg
+    schema={{
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: title,
+      description: description,
+      url: Astro.url.href,
+      datePublished: pubDate.toISOString(),
+      dateModified: pubDate.toISOString(),
+      author: {
+        "@type": "Person",
+        name: "Augusto Melara",
+        url: "https://vitologic.vercel.app/about",
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "VitoLogic",
+        url: "https://vitologic.vercel.app",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://vitologic.vercel.app/icons/icon-512.png",
+        },
+      },
+      image: {
+        "@type": "ImageObject",
+        url: `https://vitologic.vercel.app/og/${slug}.png`,
+        width: 1200,
+        height: 630,
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": Astro.url.href,
+      },
+      keywords: tags?.join(", "),
+      inLanguage: "es-ES",
+      wordCount: readingMinutes * 200,
+    }}
+  />
 
   <ReadingProgress client:load />
   <ReadingMode client:load />
@@ -80,8 +107,14 @@ const schemaData = JSON.stringify({
         class="lg:grid lg:grid-cols-[minmax(0,65ch)_220px] lg:gap-12 xl:gap-16 justify-center items-start"
       >
         <div class="min-w-0">
-          <!-- Header -->
-          <header class="mb-8">
+          <header class="mb-8 not-prose">
+            <Breadcrumbs
+              items={[
+                { label: "Inicio", href: "/" },
+                { label: "Blog", href: "/blog" },
+                { label: title },
+              ]}
+            />
             <!-- Tags above title -->
             {
               tags.length > 0 && (

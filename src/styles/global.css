@@ -147,3 +147,15 @@ html.light {
 .prose pre {
   position: relative;
 }
+
+/* Internal links */
+.internal-link {
+  color: #a3a3a3;
+  border-bottom: 1px dashed #2a2a2a;
+  transition: all 150ms;
+}
+
+.internal-link:hover {
+  color: #a3e635;
+  border-bottom-color: #a3e635;
+}
