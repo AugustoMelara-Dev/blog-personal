@@ -31,7 +31,7 @@ const {
 } = Astro.props;
 
 const formattedDate = format(pubDate, "d 'de' MMMM, yyyy", { locale: es });
-const orderNum = String(index + 1).padStart(2, "0");
+const orderNum = String(index).padStart(2, "0");
 ---
 
 {

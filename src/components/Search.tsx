@@ -39,25 +39,28 @@ export default function Search({ items }: { items: SearchItem[] }) {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsOpen(false);
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+        document.body.style.overflow = '';
+      }
+      if ((e.key === '/' || (e.key === 'k' && (e.metaKey || e.ctrlKey))) && !isOpen) {
         e.preventDefault();
         setIsOpen(true);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [isOpen]);
 
   // Prevenir scroll cuando el modal está abierto
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
@@ -78,7 +81,10 @@ export default function Search({ items }: { items: SearchItem[] }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+                document.body.style.overflow = '';
+              }}
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             />
             
@@ -86,6 +92,7 @@ export default function Search({ items }: { items: SearchItem[] }) {
               initial={{ opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
+              onClick={e => e.stopPropagation()}
               className="relative w-full max-w-2xl bg-[#0a0a0a] border border-[#1f1f1f] rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
             >
               <div className="flex items-center px-4 md:px-6 border-b border-[#1f1f1f]">
@@ -98,7 +105,10 @@ export default function Search({ items }: { items: SearchItem[] }) {
                   placeholder="Buscar posts y frases..."
                   className="flex-1 bg-transparent border-none text-[#f5f5f5] text-lg px-4 py-5 focus:outline-none placeholder:text-[#525252]"
                 />
-                <button onClick={() => setIsOpen(false)} className="text-[#525252] hover:text-[#f5f5f5] text-xs uppercase tracking-widest font-semibold px-2 hidden sm:block">
+                <button onClick={() => {
+                  setIsOpen(false);
+                  document.body.style.overflow = '';
+                }} className="text-[#525252] border border-[#1f1f1f] rounded px-2 hover:text-[#f5f5f5] text-[0.7rem] uppercase tracking-widest font-semibold hidden sm:block delay-75 transition-colors">
                   ESC
                 </button>
               </div>

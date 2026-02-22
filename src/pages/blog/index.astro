@@ -5,14 +5,17 @@ import AnimatedPost from "../../components/AnimatedPost.tsx";
 import { getCollection } from "astro:content";
 import readingTime from "reading-time";
 
-const allPosts = (await getCollection("posts"))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const allPosts = await getCollection("posts", ({ data }) => !data.draft);
 
-const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
+const posts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 
-const featuredPost = allPosts.find((post) => post.data.featured);
-const restPosts = allPosts.filter((post) => post !== featuredPost);
+const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
+
+// Identificar el caso destacado (index 0 con featured=true)
+const firstIsFeatured = posts.length > 0 && posts[0].data.featured;
+const gridPosts = firstIsFeatured ? posts.slice(1) : posts;
 ---
 
 <BaseLayout title="Blog" description="Todas las entradas del blog">
@@ -23,7 +26,7 @@ const restPosts = allPosts.filter((post) => post !== featuredPost);
         <div class="w-10 h-[3px] bg-lime-400 mb-6"></div>
         <h1 class="text-5xl font-black text-[#f5f5f5] mb-3">Blog</h1>
         <p class="text-[#525252]">
-          {allPosts.length} ideas publicadas
+          {posts.length} ideas publicadas
         </p>
       </div>
     </AnimatedPost>
@@ -54,21 +57,22 @@ const restPosts = allPosts.filter((post) => post !== featuredPost);
 
     <!-- Featured Post -->
     {
-      featuredPost && (
+      firstIsFeatured && (
         <div class="mb-12">
           <AnimatedPost client:load index={1}>
             <PostCard
-              title={featuredPost.data.title}
-              description={featuredPost.data.description}
-              pubDate={featuredPost.data.pubDate}
-              tags={featuredPost.data.tags}
-              readingTime={readingTime(featuredPost.body || "").text.replace(
+              title={posts[0].data.title}
+              description={posts[0].data.description}
+              pubDate={posts[0].data.pubDate}
+              tags={posts[0].data.tags}
+              readingTime={readingTime(posts[0].body || "").text.replace(
                 "read",
                 "lectura",
               )}
-              slug={featuredPost.slug}
+              slug={posts[0].slug}
               featured={true}
-              quote={featuredPost.data.quote}
+              quote={posts[0].data.quote}
+              index={1}
             />
           </AnimatedPost>
         </div>
@@ -76,40 +80,47 @@ const restPosts = allPosts.filter((post) => post !== featuredPost);
     }
 
     <!-- Separator -->
-    <div class="relative mb-12">
-      <div class="absolute inset-0 flex items-center">
-        <div class="w-full border-t border-[#1a1a1a]"></div>
-      </div>
-      <div class="relative flex justify-center">
-        <span
-          class="bg-[#0a0a0a] px-6 text-xs text-[#525252] uppercase tracking-widest"
-        >
-          Más entradas
-        </span>
-      </div>
-    </div>
+    {
+      firstIsFeatured && gridPosts.length > 0 && (
+        <div class="relative mb-12">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-[#1a1a1a]" />
+          </div>
+          <div class="relative flex justify-center">
+            <span class="bg-[#0a0a0a] px-6 text-xs text-[#525252] uppercase tracking-widest">
+              Más entradas
+            </span>
+          </div>
+        </div>
+      )
+    }
 
     <!-- Posts Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-      {
-        restPosts.map((post, i) => (
-          <AnimatedPost client:load index={i + 2}>
-            <PostCard
-              title={post.data.title}
-              description={post.data.description}
-              pubDate={post.data.pubDate}
-              tags={post.data.tags}
-              readingTime={readingTime(post.body || "").text.replace(
-                "read",
-                "lectura",
-              )}
-              slug={post.slug}
-              index={i}
-            />
-          </AnimatedPost>
-        ))
-      }
-    </div>
+    {
+      gridPosts.length > 0 && (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {gridPosts.map((post, i) => {
+            const index = firstIsFeatured ? i + 1 : i;
+            return (
+              <AnimatedPost client:load index={index + 2}>
+                <PostCard
+                  title={post.data.title}
+                  description={post.data.description}
+                  pubDate={post.data.pubDate}
+                  tags={post.data.tags}
+                  readingTime={readingTime(post.body || "").text.replace(
+                    "read",
+                    "lectura",
+                  )}
+                  slug={post.slug}
+                  index={index + 1}
+                />
+              </AnimatedPost>
+            );
+          })}
+        </div>
+      )
+    }
   </div>
 </BaseLayout>
 
