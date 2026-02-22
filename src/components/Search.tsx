@@ -67,16 +67,18 @@ export default function Search({ items }: { items: SearchItem[] }) {
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    const handler = () => setIsOpen(true)
+    document.addEventListener(
+      'vitologic:open-search', handler as EventListener
+    )
+    return () => document.removeEventListener(
+      'vitologic:open-search', handler as EventListener
+    )
+  }, [])
+
   return (
     <>
-      <button 
-        onClick={() => setIsOpen(true)}
-        className="text-[#737373] hover:text-[#f5f5f5] transition-colors p-2 md:mr-0 mr-1"
-        aria-label="Buscar"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      </button>
-
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-50 flex flex-col items-center pt-[10vh] px-4 md:px-0">

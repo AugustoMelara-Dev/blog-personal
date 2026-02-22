@@ -95,6 +95,12 @@ export default function Cursor() {
     }
   }, [])
 
+  // No renderizar en mobile
+  if (typeof window !== 'undefined' && 
+      window.matchMedia('(pointer: coarse)').matches) {
+    return null
+  }
+
   return (
     <>
       <div ref={dot} className="cursor-dot" />

@@ -1,29 +1,72 @@
 ---
-import { SITE } from "../config";
+// Sin imports de Lucide — solo SVG inline
 ---
 
-<footer class="border-t border-[#1a1a1a] bg-[#0a0a0a]">
-  <div class="max-w-5xl mx-auto px-6 py-16">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+<footer class="border-t border-[#1a1a1a] mt-24 relative">
+  <!-- Línea decorativa top -->
+  <div
+    style="
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      #1f1f1f 20%,
+      #a3e635 50%,
+      #1f1f1f 80%,
+      transparent
+    );
+  "
+  >
+  </div>
+
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
       <!-- Columna 1: Marca -->
       <div>
-        <a href="/" class="inline-block mb-2">
-          <span class="text-[#f5f5f5] font-[800] text-xl">Vito</span><span
-            class="text-[#a3e635] font-[800] text-xl">Logic</span
+        <a href="/" class="inline-block mb-4">
+          <span
+            style="
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #f5f5f5;
+          "
+            >Vito</span
+          >
+          <span
+            style="
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #a3e635;
+          "
+            >Logic</span
           >
         </a>
-        <p class="text-[0.875rem] text-[#525252] mt-2 mb-6">
+        <p
+          style="
+          font-size: 0.875rem;
+          color: #525252;
+          margin-bottom: 1.5rem;
+          line-height: 1.6;
+        "
+        >
           Ideas que no se callan.
         </p>
 
-        <div class="flex items-center gap-4">
-          <!-- Twitter -->
+        <!-- Iconos sociales — SVG inline, sin emojis -->
+        <div style="display: flex; gap: 1rem;">
+          <!-- Twitter/X -->
           <a
             href="https://twitter.com/AugustoMelara"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Twitter"
-            class="text-[#525252] hover:text-[#a3e635] transition-colors duration-150"
+            style="color: #525252; transition: color 150ms;"
+            onmouseenter="this.style.color='#a3e635'"
+            onmouseleave="this.style.color='#525252'"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path
@@ -31,13 +74,16 @@ import { SITE } from "../config";
               ></path>
             </svg>
           </a>
+
           <!-- Instagram -->
           <a
             href="https://instagram.com/augustomelara.dev"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
-            class="text-[#525252] hover:text-[#a3e635] transition-colors duration-150"
+            style="color: #525252; transition: color 150ms;"
+            onmouseenter="this.style.color='#a3e635'"
+            onmouseleave="this.style.color='#525252'"
           >
             <svg
               width="18"
@@ -51,16 +97,24 @@ import { SITE } from "../config";
             >
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
               <circle cx="12" cy="12" r="4"></circle>
-              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"></circle>
+              <circle
+                cx="17.5"
+                cy="6.5"
+                r="1.5"
+                fill="currentColor"
+                stroke="none"></circle>
             </svg>
           </a>
+
           <!-- GitHub -->
           <a
             href="https://github.com/AugustoMelara-Dev"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            class="text-[#525252] hover:text-[#a3e635] transition-colors duration-150"
+            style="color: #525252; transition: color 150ms;"
+            onmouseenter="this.style.color='#a3e635'"
+            onmouseleave="this.style.color='#525252'"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path
@@ -73,94 +127,124 @@ import { SITE } from "../config";
 
       <!-- Columna 2: Explorar -->
       <div>
-        <h4 class="text-xs uppercase text-[#525252] tracking-widest mb-4">
-          EXPLORAR
-        </h4>
-        <nav class="flex flex-col gap-3">
-          <a
-            href="/blog"
-            class="text-[0.875rem] text-[#737373] hover:text-[#f5f5f5] transition-colors"
-            >Blog</a
-          >
-          <a
-            href="/frases"
-            class="text-[0.875rem] text-[#737373] hover:text-[#f5f5f5] transition-colors"
-            >Frases</a
-          >
-          <a
-            href="/biblia"
-            class="text-[0.875rem] text-[#737373] hover:text-[#f5f5f5] transition-colors"
-            >Biblia</a
-          >
-          <a
-            href="/series"
-            class="text-[0.875rem] text-[#737373] hover:text-[#f5f5f5] transition-colors"
-            >Series</a
-          >
-          <a
-            href="/mapa"
-            class="text-[0.875rem] text-[#737373] hover:text-[#f5f5f5] transition-colors"
-            >Mapa</a
-          >
-          <a
-            href="/archivo"
-            class="text-[0.875rem] text-[#737373] hover:text-[#f5f5f5] transition-colors"
-            >Archivo</a
-          >
-          <a
-            href="/empieza"
-            class="text-[0.875rem] text-[#737373] hover:text-[#f5f5f5] transition-colors"
-            >Empieza aquí</a
-          >
+        <p
+          style="
+          font-size: 0.7rem;
+          text-transform: uppercase;
+          letter-spacing: 0.2em;
+          color: #525252;
+          margin-bottom: 1.25rem;
+          font-weight: 500;
+        "
+        >
+          Explorar
+        </p>
+        <nav
+          style="
+          display: flex;
+          flex-direction: column;
+          gap: 0.625rem;
+        "
+        >
+          {
+            [
+              ["Blog", "/blog"],
+              ["Frases", "/frases"],
+              ["Biblia", "/biblia"],
+              ["Series", "/series"],
+              ["Mapa", "/mapa"],
+              ["Archivo", "/archivo"],
+              ["Empieza aquí", "/empieza"],
+            ].map(([label, href]) => (
+              <a
+                href={href}
+                style="
+              font-size: 0.875rem;
+              color: #737373;
+              text-decoration: none;
+              transition: color 150ms;
+            "
+                onmouseenter="this.style.color='#f5f5f5'"
+                onmouseleave="this.style.color='#737373'"
+              >
+                {label}
+              </a>
+            ))
+          }
         </nav>
       </div>
 
       <!-- Columna 3: VitoLogic -->
       <div>
-        <h4 class="text-xs uppercase text-[#525252] tracking-widest mb-4">
-          VITOLOGIC
-        </h4>
-        <div class="flex flex-col gap-3">
-          <p class="text-[0.875rem] text-[#737373]">
+        <p
+          style="
+          font-size: 0.7rem;
+          text-transform: uppercase;
+          letter-spacing: 0.2em;
+          color: #525252;
+          margin-bottom: 1.25rem;
+          font-weight: 500;
+        "
+        >
+          VitoLogic
+        </p>
+        <div
+          style="
+          display: flex;
+          flex-direction: column;
+          gap: 0.625rem;
+        "
+        >
+          <p
+            style="
+            font-size: 0.875rem;
+            color: #737373;
+          "
+          >
             Escrito por Augusto Melara
           </p>
           <a
-            href="/rss.xml"
-            class="text-[#737373] hover:text-[#f5f5f5] transition-colors flex items-center gap-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M4 11a9 9 0 0 1 9 9"></path>
-              <path d="M4 4a16 16 0 0 1 16 16"></path>
-              <circle cx="5" cy="19" r="1"></circle>
-            </svg>
-            RSS Feed
-          </a>
-          <a
             href="/stats"
-            class="text-[#737373] hover:text-[#f5f5f5] transition-colors"
-            >Stats del blog</a
+            style="
+            font-size: 0.875rem;
+            color: #737373;
+            text-decoration: none;
+            transition: color 150ms;
+          "
+            onmouseenter="this.style.color='#f5f5f5'"
+            onmouseleave="this.style.color='#737373'"
           >
-          <p class="text-[0.75rem] text-[#2a2a2a]">Hecho con Astro</p>
+            Stats del blog
+          </a>
         </div>
       </div>
     </div>
 
-    <!-- LÍNEA INFERIOR -->
+    <!-- Bottom bar -->
     <div
-      class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-6 border-t border-[#1a1a1a]"
+      style="
+      border-top: 1px solid #1a1a1a;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    "
     >
-      <span class="text-xs text-[#2a2a2a]">© 2026 VitoLogic</span>
-      <span class="text-xs text-[#2a2a2a]">Todos los derechos reservados</span>
+      <p style="
+        font-size: 0.75rem;
+        color: #2a2a2a;
+      ">
+        © 2026 VitoLogic
+      </p>
+      <p style="
+        font-size: 0.75rem;
+        color: #2a2a2a;
+      ">
+        Todos los derechos reservados
+      </p>
     </div>
   </div>
 </footer>

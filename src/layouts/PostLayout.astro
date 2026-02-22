@@ -6,7 +6,6 @@ import ShareButton from "../components/ShareButton.tsx";
 import ReadingProgress from "../components/ReadingProgress.tsx";
 import StoryGenerator from "../components/StoryGenerator.tsx";
 import Newsletter from "../components/Newsletter.tsx";
-import ReadingMode from "../components/ReadingMode.tsx";
 import TableOfContents from "../components/TableOfContents.tsx";
 import CodeCopy from "../components/CodeCopy.tsx";
 import BookmarkButton from "../components/BookmarkButton.tsx";
@@ -101,7 +100,6 @@ const readingMinutes = parseInt(readingTime) || 5;
   />
 
   <ReadingProgress client:load />
-  <ReadingMode client:load />
 
   <article class="px-6 py-16 md:py-24">
     <div class="mx-auto max-w-6xl">
