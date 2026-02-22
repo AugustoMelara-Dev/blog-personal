@@ -2,6 +2,7 @@
 import { SITE } from "../config";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { ViewTransitions } from "astro:transitions";
 import "../styles/global.css";
 
 interface Props {
@@ -55,9 +56,10 @@ const pageDescription = description || SITE.description;
     />
 
     <title>{pageTitle}</title>
+    <ViewTransitions />
   </head>
   <body class="min-h-screen flex flex-col bg-bg">
-    <Header />
+    <Header transition:persist />
     <main class="flex-1">
       <slot />
     </main>

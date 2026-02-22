@@ -18,6 +18,7 @@ interface Props {
   tags: string[];
   readingTime: string;
   quote?: string;
+  versiculo?: string;
   prevPost?: { slug: string; title: string } | null;
   nextPost?: { slug: string; title: string } | null;
   ogImage?: string;
@@ -31,6 +32,7 @@ const {
   tags,
   readingTime,
   quote,
+  versiculo,
   prevPost,
   nextPost,
   ogImage,
@@ -62,7 +64,6 @@ const schemaData = JSON.stringify({
   ogImage={ogImage}
   type={type}
 >
-  <!-- Schema Markup JSON-LD -->
   <script type="application/ld+json" set:html={schemaData} />
 
   <ReadingProgress client:load />
@@ -75,26 +76,11 @@ const schemaData = JSON.stringify({
       >
         <div class="min-w-0">
           <!-- Header -->
-          <header class="mb-12">
-            <h1
-              class="text-3xl md:text-4xl lg:text-5xl font-semibold text-text-primary leading-tight mb-6"
-            >
-              {title}
-            </h1>
-
-            <div
-              class="flex flex-wrap items-center gap-4 text-sm text-text-muted mb-6"
-            >
-              <time datetime={pubDate.toISOString()}>
-                {formattedDate}
-              </time>
-              <span class="text-bg-border">·</span>
-              <span>{readingTime}</span>
-            </div>
-
+          <header class="mb-8">
+            <!-- Tags above title -->
             {
               tags.length > 0 && (
-                <div class="flex flex-wrap gap-2 mb-8">
+                <div class="flex flex-wrap gap-2 mb-6">
                   {tags.map((tag) => (
                     <TagBadge tag={tag} />
                   ))}
@@ -102,21 +88,52 @@ const schemaData = JSON.stringify({
               )
             }
 
-            <hr class="border-bg-border" />
+            <h1
+              class="text-4xl md:text-5xl font-black text-[#f5f5f5] leading-[1.1] mb-6"
+              style="max-width: 20ch;"
+            >
+              {title}
+            </h1>
+
+            <!-- Metadata line -->
+            <div
+              class="flex flex-wrap items-center gap-3 text-sm text-[#525252] mb-8"
+            >
+              <time datetime={pubDate.toISOString()}>
+                {formattedDate}
+              </time>
+              <span class="text-[#1a1a1a]">·</span>
+              <span>{readingTime}</span>
+            </div>
+
+            <!-- Versículo block -->
+            {
+              versiculo && (
+                <div class="flex items-start gap-3 bg-[#0f0f0f] border border-[#1a1a1a] rounded-lg p-4 mb-8">
+                  <span class="text-lg flex-shrink-0">📖</span>
+                  <p class="text-sm italic text-[#737373] leading-relaxed">
+                    {versiculo}
+                  </p>
+                </div>
+              )
+            }
+
+            <!-- Quote block -->
+            {
+              quote && (
+                <div class="border-l-[3px] border-lime-400 bg-[#111111] pl-6 pr-4 py-5 rounded-r-lg mb-8">
+                  <p class="text-xl font-medium text-[#f5f5f5] italic leading-relaxed">
+                    "{quote}"
+                  </p>
+                </div>
+              )
+            }
+
+            <!-- Separator -->
+            <div class="w-full h-px bg-[#1a1a1a] my-12"></div>
           </header>
 
-          <!-- Quote -->
-          {
-            quote && (
-              <div class="mb-12 border-l-2 border-accent bg-bg-surface rounded-r-lg p-6">
-                <p class="text-lg md:text-xl text-text-primary italic leading-relaxed">
-                  "{quote}"
-                </p>
-              </div>
-            )
-          }
-
-          <!-- Header Mobile ToC -->
+          <!-- Mobile ToC -->
           <div class="block lg:hidden mb-12 not-prose">
             <TableOfContents client:load isMobile={true} />
           </div>
@@ -126,32 +143,31 @@ const schemaData = JSON.stringify({
             <slot />
           </div>
 
-          <!-- Generate Story if quote exists -->
-          {
-            quote && (
-              <div class="mt-12 p-6 border border-bg-border rounded-lg bg-bg-surface flex flex-col md:flex-row items-center justify-between gap-6">
-                <div>
-                  <p class="text-text-primary font-medium mb-1">
-                    Compartir esta idea
+          <!-- Post Footer -->
+          <div class="mt-16">
+            <!-- Separator -->
+            <div class="w-full h-px bg-[#1a1a1a] mb-12"></div>
+
+            <!-- Additional Series/Related injected via slot from [slug].astro -->
+
+            <!-- Share section -->
+            {
+              quote && (
+                <div class="mb-12 p-6 bg-[#0f0f0f] border border-[#1a1a1a] rounded-xl">
+                  <p class="text-sm text-[#525252] uppercase tracking-widest mb-4">
+                    ¿Te resonó algo?
                   </p>
-                  <p class="text-text-muted text-sm">
-                    Genera una imagen con el texto principal para subirla a tus
-                    estados.
-                  </p>
+                  <div class="flex flex-wrap items-center gap-4">
+                    <StoryGenerator client:load texto={quote} />
+                    <ShareButton client:load url={Astro.url.href} />
+                  </div>
                 </div>
-                <StoryGenerator client:load texto={quote} />
-              </div>
-            )
-          }
+              )
+            }
 
-          <!-- Footer -->
-          <footer class="mt-16 pt-8 border-t border-bg-border">
-            <div class="flex items-center justify-between mb-12">
-              <ShareButton client:load url={Astro.url.href} />
-            </div>
-
+            <!-- Newsletter -->
             <div
-              class="mb-16 border border-[#1f1f1f] rounded-lg bg-[#0a0a0a] p-8"
+              class="mb-12 border border-[#1f1f1f] rounded-lg bg-[#0a0a0a] p-8"
             >
               <div class="mb-6">
                 <h3 class="text-xl font-bold text-[#f5f5f5] mb-2">
@@ -171,12 +187,12 @@ const schemaData = JSON.stringify({
                 prevPost && (
                   <a
                     href={`/blog/${prevPost.slug}`}
-                    class="group p-4 rounded-lg border border-bg-border hover:border-bg-border-hover transition-colors duration-200"
+                    class="group p-5 rounded-lg border border-[#1a1a1a] hover:border-[#2a2a2a] bg-[#0f0f0f] transition-colors duration-200"
                   >
-                    <span class="text-xs text-text-muted uppercase tracking-wider">
+                    <span class="text-xs text-[#525252] uppercase tracking-wider">
                       ← Anterior
                     </span>
-                    <p class="text-text-primary font-medium mt-1 group-hover:text-accent transition-colors duration-200">
+                    <p class="text-[#f5f5f5] font-medium mt-1 group-hover:text-lime-400 transition-colors duration-200 line-clamp-2">
                       {prevPost.title}
                     </p>
                   </a>
@@ -186,19 +202,19 @@ const schemaData = JSON.stringify({
                 nextPost && (
                   <a
                     href={`/blog/${nextPost.slug}`}
-                    class="group p-4 rounded-lg border border-bg-border hover:border-bg-border-hover transition-colors duration-200 sm:text-right sm:col-start-2"
+                    class="group p-5 rounded-lg border border-[#1a1a1a] hover:border-[#2a2a2a] bg-[#0f0f0f] transition-colors duration-200 sm:text-right sm:col-start-2"
                   >
-                    <span class="text-xs text-text-muted uppercase tracking-wider">
+                    <span class="text-xs text-[#525252] uppercase tracking-wider">
                       Siguiente →
                     </span>
-                    <p class="text-text-primary font-medium mt-1 group-hover:text-accent transition-colors duration-200">
+                    <p class="text-[#f5f5f5] font-medium mt-1 group-hover:text-lime-400 transition-colors duration-200 line-clamp-2">
                       {nextPost.title}
                     </p>
                   </a>
                 )
               }
             </nav>
-          </footer>
+          </div>
         </div>
 
         <aside class="hidden lg:block sticky top-24 pt-4">

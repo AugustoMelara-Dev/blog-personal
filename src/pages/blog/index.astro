@@ -9,47 +9,91 @@ const allPosts = (await getCollection("posts"))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-// Get all unique tags
 const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
+
+const featuredPost = allPosts.find((post) => post.data.featured);
+const restPosts = allPosts.filter((post) => post !== featuredPost);
 ---
 
 <BaseLayout title="Blog" description="Todas las entradas del blog">
   <div class="max-w-5xl mx-auto px-6 py-16 md:py-24">
+    <!-- Hero -->
     <AnimatedPost client:load index={0}>
-      <h1 class="text-3xl md:text-4xl font-semibold text-text-primary mb-4">
-        Blog
-      </h1>
-      <p class="text-text-secondary mb-12">
-        {allPosts.length}
-        {allPosts.length === 1 ? "entrada" : "entradas"}
-      </p>
+      <div class="mb-12">
+        <div class="w-10 h-[3px] bg-lime-400 mb-6"></div>
+        <h1 class="text-5xl font-black text-[#f5f5f5] mb-3">Blog</h1>
+        <p class="text-[#525252]">
+          {allPosts.length} ideas publicadas
+        </p>
+      </div>
     </AnimatedPost>
 
-    <!-- Tag Filter -->
-    <div class="flex flex-wrap gap-2 mb-12">
-      <a
-        href="/blog"
-        class="text-xs px-3 py-1.5 rounded-md bg-accent/10 text-accent transition-colors duration-200"
-      >
-        Todos
-      </a>
-      {
-        allTags.map((tag) => (
-          <a
-            href={`/tags/${tag}`}
-            class="text-xs px-3 py-1.5 rounded-md bg-bg-subtle text-text-subtle hover:bg-accent/10 hover:text-accent transition-colors duration-200"
-          >
-            {tag}
-          </a>
-        ))
-      }
+    <!-- Tag Filter (sticky) -->
+    <div
+      class="sticky top-[56px] z-30 bg-[#0a0a0a]/95 backdrop-blur border-b border-[#1a1a1a] -mx-6 px-6 py-4 mb-12"
+    >
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
+        <a
+          href="/blog"
+          class="flex-shrink-0 text-xs px-4 py-2 rounded-full border transition-colors duration-200 bg-lime-400/15 text-lime-400 border-lime-400/30"
+        >
+          Todos
+        </a>
+        {
+          allTags.map((tag) => (
+            <a
+              href={`/tags/${tag}`}
+              class="flex-shrink-0 text-xs px-4 py-2 rounded-full border border-[#1f1f1f] text-[#525252] hover:border-[#2a2a2a] hover:text-[#a3a3a3] transition-colors duration-200"
+            >
+              {tag}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Featured Post -->
+    {
+      featuredPost && (
+        <div class="mb-12">
+          <AnimatedPost client:load index={1}>
+            <PostCard
+              title={featuredPost.data.title}
+              description={featuredPost.data.description}
+              pubDate={featuredPost.data.pubDate}
+              tags={featuredPost.data.tags}
+              readingTime={readingTime(featuredPost.body || "").text.replace(
+                "read",
+                "lectura",
+              )}
+              slug={featuredPost.slug}
+              featured={true}
+              quote={featuredPost.data.quote}
+            />
+          </AnimatedPost>
+        </div>
+      )
+    }
+
+    <!-- Separator -->
+    <div class="relative mb-12">
+      <div class="absolute inset-0 flex items-center">
+        <div class="w-full border-t border-[#1a1a1a]"></div>
+      </div>
+      <div class="relative flex justify-center">
+        <span
+          class="bg-[#0a0a0a] px-6 text-xs text-[#525252] uppercase tracking-widest"
+        >
+          Más entradas
+        </span>
+      </div>
     </div>
 
     <!-- Posts Grid -->
-    <div class="flex flex-col gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
       {
-        allPosts.map((post, i) => (
-          <AnimatedPost client:load index={i + 1}>
+        restPosts.map((post, i) => (
+          <AnimatedPost client:load index={i + 2}>
             <PostCard
               title={post.data.title}
               description={post.data.description}
@@ -60,6 +104,7 @@ const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
                 "lectura",
               )}
               slug={post.slug}
+              index={i}
             />
           </AnimatedPost>
         ))
@@ -67,3 +112,13 @@ const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
