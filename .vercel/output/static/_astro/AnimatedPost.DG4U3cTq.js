@@ -1,1 +1,0 @@
-import{j as o}from"./jsx-runtime.TBa3i5EZ.js";import{m as a}from"./proxy.BVgIP360.js";import"./index.CVf8TyFT.js";function e({children:t,index:i=0}){return o.jsx(a.div,{initial:{opacity:0,y:20},animate:{opacity:1,y:0},transition:{duration:.5,ease:[.25,.46,.45,.94],delay:i*.1},children:t})}export{e as default};
