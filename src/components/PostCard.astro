@@ -1,0 +1,73 @@
+---
+import TagBadge from "./TagBadge.astro";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  tags: string[];
+  readingTime: string;
+  slug: string;
+  featured?: boolean;
+  versiculo?: string;
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  tags,
+  readingTime,
+  slug,
+  featured,
+  versiculo,
+} = Astro.props;
+const formattedDate = format(pubDate, "d 'de' MMMM, yyyy", { locale: es });
+---
+
+<a
+  href={`/blog/${slug}`}
+  class:list={[
+    "group block rounded-lg border border-bg-border bg-bg-surface p-6 transition-all duration-200 hover:border-bg-border-hover",
+    featured && "md:p-8",
+  ]}
+>
+  <div class="flex flex-col gap-3">
+    {versiculo && <p class="text-sm italic text-[#525252] mb-1">{versiculo}</p>}
+    <h3
+      class:list={[
+        "font-semibold text-text-primary group-hover:text-accent transition-colors duration-200",
+        featured ? "text-xl md:text-2xl" : "text-lg",
+      ]}
+    >
+      {title}
+    </h3>
+
+    <p
+      class:list={[
+        "text-text-secondary leading-relaxed",
+        featured ? "text-base" : "text-sm",
+      ]}
+    >
+      {description}
+    </p>
+
+    <div class="flex flex-wrap items-center gap-3 mt-1">
+      <span class="text-xs text-text-muted">{formattedDate}</span>
+      <span class="text-bg-border">·</span>
+      <span class="text-xs text-text-muted">{readingTime}</span>
+    </div>
+
+    {
+      tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-2">
+          {tags.map((tag) => (
+            <TagBadge tag={tag} linked={false} />
+          ))}
+        </div>
+      )
+    }
+  </div>
+</a>

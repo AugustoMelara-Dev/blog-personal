@@ -1,0 +1,96 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+
+const todosPosts = await getCollection("posts", ({ data }) => {
+  return data.draft !== true;
+});
+
+// Ordenar todos los posts por fecha descendente
+todosPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Agrupar posts por Año y luego por Mes
+const agrupados = todosPosts.reduce(
+  (acc, post) => {
+    const date = post.data.pubDate;
+    const year = format(date, "yyyy");
+    const month = format(date, "MMMM", { locale: es });
+
+    if (!acc[year]) {
+      acc[year] = {};
+    }
+    if (!acc[year][month]) {
+      acc[year][month] = [];
+    }
+    acc[year][month].push(post);
+    return acc;
+  },
+  {} as Record<string, Record<string, typeof todosPosts>>,
+);
+
+// Para renderizar, iteraremos las llaves en orden descendente
+const years = Object.keys(agrupados).sort((a, b) => Number(b) - Number(a));
+---
+
+<BaseLayout
+  title="Archivo"
+  description="Índice completo de todos los escritos."
+>
+  <div class="px-6 py-16 md:py-24 max-w-content mx-auto">
+    <header class="mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold text-[#f5f5f5] mb-4">
+        Archivo
+      </h1>
+      <p class="text-xl text-[#a3a3a3]">Índice de todo lo publicado.</p>
+    </header>
+
+    <div class="space-y-16">
+      {
+        years.map((year) => (
+          <section>
+            <h2 class="text-2xl font-bold text-[#f5f5f5] mt-12 mb-6">{year}</h2>
+
+            <div class="space-y-12">
+              {Object.keys(agrupados[year]).map((month) => (
+                <div>
+                  <h3 class="text-sm uppercase tracking-widest text-[#525252] mt-6 mb-2">
+                    {month}
+                  </h3>
+                  <ul class="flex flex-col">
+                    {agrupados[year][month].map((post) => (
+                      <li class="flex items-center justify-between border-b border-[#1f1f1f] last:border-0 py-4 group">
+                        <div class="flex items-center gap-4 flex-1">
+                          <span class="w-8 flex-shrink-0 text-sm font-mono text-[#525252]">
+                            {format(post.data.pubDate, "dd")}
+                          </span>
+                          <a
+                            href={`/blog/${post.slug}`}
+                            class="text-lg text-[#a3a3a3] group-hover:text-[#f5f5f5] transition-colors duration-150 line-clamp-1"
+                          >
+                            {post.data.title}
+                          </a>
+                        </div>
+
+                        {post.data.tags && post.data.tags.length > 0 && (
+                          <div class="hidden sm:flex items-center gap-2 ml-4">
+                            {post.data.tags.map((tag) => (
+                              <span class="text-xs text-[#525252] px-2 py-1 rounded bg-[#111111]">
+                                #{tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

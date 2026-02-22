@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "../components/PostCard.astro";
+import AnimatedPost from "../components/AnimatedPost.tsx";
+import Newsletter from "../components/Newsletter.tsx";
+import { getCollection } from "astro:content";
+import readingTime from "reading-time";
+
+const allPosts = (await getCollection("posts"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const featuredPost = allPosts.find((post) => post.data.featured);
+const latestPosts = allPosts
+  .filter((post) => post !== featuredPost)
+  .slice(0, 5);
+---
+
+<BaseLayout>
+  <div class="max-w-5xl mx-auto px-6">
+    <!-- Newsletter / No te pierdas nada -->
+    <section
+      class="max-w-2xl mx-auto mb-24 px-6 py-12 border border-[#1f1f1f] rounded-lg bg-[#0a0a0a]"
+    >
+      <div class="text-center mb-6">
+        <h2 class="text-2xl font-bold text-[#f5f5f5] mb-2">
+          No te pierdas nada
+        </h2>
+        <p class="text-[#a3a3a3]">
+          Únete a los lectores que reciben nuevas ideas en su bandeja de entrada
+          cada vez que publico algo.
+        </p>
+      </div>
+      <Newsletter client:load />
+    </section>
+
+    <!-- Hero -->
+    <section class="py-24 md:py-32">
+      <AnimatedPost client:load index={0}>
+        <h1
+          class="text-4xl md:text-5xl lg:text-6xl font-semibold text-text-primary leading-tight mb-6"
+        >
+          Blog Personal
+        </h1>
+        <p
+          class="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed"
+        >
+          Reflexiones sobre poder, personas y estrategia. Ideas que no se dicen
+          en voz alta.
+        </p>
+      </AnimatedPost>
+    </section>
+
+    <!-- Featured -->
+    {
+      featuredPost && (
+        <section class="pb-16">
+          <AnimatedPost client:load index={1}>
+            <span class="inline-block text-xs font-medium uppercase tracking-widest text-accent mb-4">
+              Destacado
+            </span>
+            <PostCard
+              title={featuredPost.data.title}
+              description={featuredPost.data.description}
+              pubDate={featuredPost.data.pubDate}
+              tags={featuredPost.data.tags}
+              readingTime={readingTime(featuredPost.body || "").text.replace(
+                "read",
+                "lectura",
+              )}
+              slug={featuredPost.slug}
+              featured={true}
+            />
+          </AnimatedPost>
+        </section>
+      )
+    }
+
+    <!-- Latest -->
+    <section class="pb-24">
+      <h2
+        class="text-sm font-medium uppercase tracking-widest text-text-muted mb-8"
+      >
+        Últimas entradas
+      </h2>
+      <div class="flex flex-col gap-4">
+        {
+          latestPosts.map((post, i) => (
+            <AnimatedPost client:load index={i + 2}>
+              <PostCard
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                tags={post.data.tags}
+                readingTime={readingTime(post.body || "").text.replace(
+                  "read",
+                  "lectura",
+                )}
+                slug={post.slug}
+              />
+            </AnimatedPost>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>

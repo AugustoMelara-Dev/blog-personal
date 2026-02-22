@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection(
+  "posts",
+  ({ data }) => !data.draft && !!data.serie,
+);
+
+const seriesMap = new Map();
+posts.forEach((post) => {
+  const serie = post.data.serie!;
+  if (!seriesMap.has(serie)) {
+    seriesMap.set(serie, { name: serie, count: 0, firstPost: post });
+  }
+  const s = seriesMap.get(serie);
+  s.count++;
+  if ((post.data.serieOrden ?? 999) < (s.firstPost.data.serieOrden ?? 999)) {
+    s.firstPost = post;
+  }
+});
+
+const series = Array.from(seriesMap.values());
+---
+
+<BaseLayout
+  title="Series"
+  description="Todos los artículos organizados en secuencias de lectura."
+>
+  <div class="px-6 py-16 md:py-24 max-w-5xl mx-auto">
+    <header class="mb-20 text-center max-w-2xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold text-[#f5f5f5] mb-4">Series</h1>
+      <p class="text-xl text-[#a3a3a3]">
+        Explora conceptos profundos desarrollados a lo largo de múltiples
+        artículos secuenciales.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {
+        series.map((s) => {
+          const serieSlug = s.name.toLowerCase().replace(/\s+/g, "-");
+          return (
+            <a
+              href={`/series/${serieSlug}`}
+              class="group block bg-[#111111] border border-[#1f1f1f] rounded-lg p-6 hover:border-lime-400/50 transition-colors duration-300 flex flex-col h-full"
+            >
+              <span class="text-xs font-mono text-lime-400 mb-4 block uppercase tracking-widest">
+                {s.count} partes
+              </span>
+              <h2 class="text-xl font-bold text-[#f5f5f5] mb-3 group-hover:text-lime-400 transition-colors">
+                {s.name}
+              </h2>
+              <p class="text-[#737373] text-sm leading-relaxed line-clamp-3 mb-6 flex-1">
+                {s.firstPost.data.description}
+              </p>
+              <div class="text-[#a3a3a3] text-sm font-medium flex items-center gap-2 group-hover:text-lime-400 transition-colors">
+                Leer serie
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <>
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </>
+                </svg>
+              </div>
+            </a>
+          );
+        })
+      }
+    </div>
+
+    {
+      series.length === 0 && (
+        <div class="text-center text-[#737373] mt-12">
+          <p>Aún no hay series publicadas.</p>
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>

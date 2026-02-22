@@ -1,0 +1,43 @@
+{
+  "name": "blog-personal",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^3.1.0",
+    "@astrojs/react": "^3.6.0",
+    "@astrojs/rss": "^4.0.0",
+    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/vercel": "^7.8.2",
+    "@fontsource-variable/geist": "^5.0.0",
+    "@fontsource-variable/geist-mono": "^5.0.0",
+    "@getbrevo/brevo": "^4.0.1",
+    "@giscus/react": "^3.1.0",
+    "@tailwindcss/typography": "^0.5.15",
+    "@types/html2canvas": "^0.5.35",
+    "astro": "^4.16.0",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^11.11.0",
+    "fuse.js": "^7.1.0",
+    "html2canvas": "^1.4.1",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "reading-time": "^1.5.0",
+    "sharp": "^0.33.0",
+    "tailwindcss": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.24",
+    "typescript": "^5.9.3"
+  }
+}

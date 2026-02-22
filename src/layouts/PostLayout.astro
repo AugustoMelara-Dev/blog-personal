@@ -1,0 +1,209 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import TagBadge from "../components/TagBadge.astro";
+import ShareButton from "../components/ShareButton.tsx";
+import ReadingProgress from "../components/ReadingProgress.tsx";
+import StoryGenerator from "../components/StoryGenerator.tsx";
+import Newsletter from "../components/Newsletter.tsx";
+import ReadingMode from "../components/ReadingMode.tsx";
+import TableOfContents from "../components/TableOfContents.tsx";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  tags: string[];
+  readingTime: string;
+  quote?: string;
+  prevPost?: { slug: string; title: string } | null;
+  nextPost?: { slug: string; title: string } | null;
+  ogImage?: string;
+  type?: "website" | "article";
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  tags,
+  readingTime,
+  quote,
+  prevPost,
+  nextPost,
+  ogImage,
+  type = "article",
+} = Astro.props;
+
+const formattedDate = format(pubDate, "d 'de' MMMM, yyyy", { locale: es });
+
+const schemaData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description: description,
+  datePublished: pubDate.toISOString(),
+  author: {
+    "@type": "Person",
+    name: "Tu Nombre", // Should probably match SITE.author if available, but doing as prompt says
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Nombre del Blog",
+  },
+});
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={ogImage}
+  type={type}
+>
+  <!-- Schema Markup JSON-LD -->
+  <script type="application/ld+json" set:html={schemaData} />
+
+  <ReadingProgress client:load />
+  <ReadingMode client:load />
+
+  <article class="px-6 py-16 md:py-24">
+    <div class="mx-auto max-w-6xl">
+      <div
+        class="lg:grid lg:grid-cols-[minmax(0,65ch)_220px] lg:gap-12 xl:gap-16 justify-center items-start"
+      >
+        <div class="min-w-0">
+          <!-- Header -->
+          <header class="mb-12">
+            <h1
+              class="text-3xl md:text-4xl lg:text-5xl font-semibold text-text-primary leading-tight mb-6"
+            >
+              {title}
+            </h1>
+
+            <div
+              class="flex flex-wrap items-center gap-4 text-sm text-text-muted mb-6"
+            >
+              <time datetime={pubDate.toISOString()}>
+                {formattedDate}
+              </time>
+              <span class="text-bg-border">·</span>
+              <span>{readingTime}</span>
+            </div>
+
+            {
+              tags.length > 0 && (
+                <div class="flex flex-wrap gap-2 mb-8">
+                  {tags.map((tag) => (
+                    <TagBadge tag={tag} />
+                  ))}
+                </div>
+              )
+            }
+
+            <hr class="border-bg-border" />
+          </header>
+
+          <!-- Quote -->
+          {
+            quote && (
+              <div class="mb-12 border-l-2 border-accent bg-bg-surface rounded-r-lg p-6">
+                <p class="text-lg md:text-xl text-text-primary italic leading-relaxed">
+                  "{quote}"
+                </p>
+              </div>
+            )
+          }
+
+          <!-- Header Mobile ToC -->
+          <div class="block lg:hidden mb-12 not-prose">
+            <TableOfContents client:load isMobile={true} />
+          </div>
+
+          <!-- Content -->
+          <div class="prose prose-lg max-w-none">
+            <slot />
+          </div>
+
+          <!-- Generate Story if quote exists -->
+          {
+            quote && (
+              <div class="mt-12 p-6 border border-bg-border rounded-lg bg-bg-surface flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                  <p class="text-text-primary font-medium mb-1">
+                    Compartir esta idea
+                  </p>
+                  <p class="text-text-muted text-sm">
+                    Genera una imagen con el texto principal para subirla a tus
+                    estados.
+                  </p>
+                </div>
+                <StoryGenerator client:load texto={quote} />
+              </div>
+            )
+          }
+
+          <!-- Footer -->
+          <footer class="mt-16 pt-8 border-t border-bg-border">
+            <div class="flex items-center justify-between mb-12">
+              <ShareButton client:load url={Astro.url.href} />
+            </div>
+
+            <div
+              class="mb-16 border border-[#1f1f1f] rounded-lg bg-[#0a0a0a] p-8"
+            >
+              <div class="mb-6">
+                <h3 class="text-xl font-bold text-[#f5f5f5] mb-2">
+                  ¿Te ha gustado?
+                </h3>
+                <p class="text-[#a3a3a3]">
+                  Suscríbete y recibe mis próximos escritos directamente en tu
+                  email.
+                </p>
+              </div>
+              <Newsletter client:load />
+            </div>
+
+            <!-- Prev / Next -->
+            <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {
+                prevPost && (
+                  <a
+                    href={`/blog/${prevPost.slug}`}
+                    class="group p-4 rounded-lg border border-bg-border hover:border-bg-border-hover transition-colors duration-200"
+                  >
+                    <span class="text-xs text-text-muted uppercase tracking-wider">
+                      ← Anterior
+                    </span>
+                    <p class="text-text-primary font-medium mt-1 group-hover:text-accent transition-colors duration-200">
+                      {prevPost.title}
+                    </p>
+                  </a>
+                )
+              }
+              {
+                nextPost && (
+                  <a
+                    href={`/blog/${nextPost.slug}`}
+                    class="group p-4 rounded-lg border border-bg-border hover:border-bg-border-hover transition-colors duration-200 sm:text-right sm:col-start-2"
+                  >
+                    <span class="text-xs text-text-muted uppercase tracking-wider">
+                      Siguiente →
+                    </span>
+                    <p class="text-text-primary font-medium mt-1 group-hover:text-accent transition-colors duration-200">
+                      {nextPost.title}
+                    </p>
+                  </a>
+                )
+              }
+            </nav>
+          </footer>
+        </div>
+
+        <aside class="hidden lg:block sticky top-24 pt-4">
+          <TableOfContents client:load />
+        </aside>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

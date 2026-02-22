@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection(
+    "posts",
+    ({ data }) => !data.draft && !!data.serie,
+  );
+  const seriesNames = [...new Set(posts.map((post) => post.data.serie))];
+
+  return seriesNames.map((serie) => ({
+    params: { serie: serie?.toLowerCase().replace(/\s+/g, "-") },
+    props: {
+      serieName: serie,
+      posts: posts
+        .filter((p) => p.data.serie === serie)
+        .sort((a, b) => (a.data.serieOrden ?? 0) - (b.data.serieOrden ?? 0)),
+    },
+  }));
+}
+
+const { serieName, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`Serie: ${serieName}`}
+  description={`Colección de artículos: ${serieName}`}
+>
+  <div class="px-6 py-16 md:py-24 max-w-3xl mx-auto">
+    <header class="mb-20">
+      <a
+        href="/series"
+        class="inline-flex items-center gap-2 text-sm text-[#737373] hover:text-lime-400 transition-colors mb-8"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          ><line x1="19" y1="12" x2="5" y2="12"></line><polyline
+            points="12 19 5 12 12 5"></polyline></svg
+        >
+        Todas las series
+      </a>
+      <h1 class="text-3xl md:text-5xl font-bold text-[#f5f5f5] mb-4">
+        {serieName}
+      </h1>
+      <p class="text-xl text-[#a3a3a3]">
+        {posts.length}
+        {posts.length === 1 ? "parte" : "partes"}
+      </p>
+    </header>
+
+    <div class="relative border-l-2 border-[#1f1f1f] ml-4 lg:ml-6 space-y-12">
+      {
+        posts.map((post, index) => (
+          <div class="relative pl-8 md:pl-12">
+            {/* Timeline Node */}
+            <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-[#050505] border-2 border-[#333] group-hover:border-lime-400 transition-colors" />
+
+            <a href={`/blog/${post.slug}`} class="block group">
+              <span class="text-xs uppercase tracking-widest text-[#737373] group-hover:text-lime-400 transition-colors mb-2 block">
+                Parte {post.data.serieOrden || index + 1}
+              </span>
+              <h2 class="text-2xl lg:text-3xl font-semibold text-[#f5f5f5] mb-3 group-hover:text-lime-400 transition-colors">
+                {post.data.title}
+              </h2>
+              <p class="text-[#a3a3a3] text-lg leading-relaxed">
+                {post.data.description}
+              </p>
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

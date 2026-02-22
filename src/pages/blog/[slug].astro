@@ -1,0 +1,55 @@
+---
+import PostLayout from "../../layouts/PostLayout.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import Reactions from "../../components/Reactions.tsx";
+import SeriesBanner from "../../components/SeriesBanner.astro";
+import { getCollection } from "astro:content";
+import readingTime from "reading-time";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("posts"))
+    .filter((post) => !post.data.draft)
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+  return posts.map((post, index) => ({
+    params: { slug: post.slug },
+    props: {
+      post,
+      prevPost:
+        index < posts.length - 1
+          ? { slug: posts[index + 1].slug, title: posts[index + 1].data.title }
+          : null,
+      nextPost:
+        index > 0
+          ? { slug: posts[index - 1].slug, title: posts[index - 1].data.title }
+          : null,
+    },
+  }));
+}
+
+const { post, prevPost, nextPost } = Astro.props;
+const { Content } = await post.render();
+const stats = readingTime(post.body || "");
+const readTime = stats.text.replace("read", "lectura");
+---
+
+<PostLayout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  pubDate={post.data.pubDate}
+  tags={post.data.tags}
+  readingTime={readTime}
+  quote={post.data.quote}
+  prevPost={prevPost}
+  nextPost={nextPost}
+>
+  {
+    post.data.serie && (
+      <SeriesBanner serie={post.data.serie} serieOrden={post.data.serieOrden} />
+    )
+  }
+  <Content />
+  <RelatedPosts currentPost={post} />
+  <Reactions client:load />
+</PostLayout>

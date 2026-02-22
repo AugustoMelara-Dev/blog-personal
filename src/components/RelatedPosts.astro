@@ -1,0 +1,72 @@
+---
+import { getCollection } from "astro:content";
+import readingTime from "reading-time";
+
+interface Props {
+  currentPost: any;
+}
+
+const { currentPost } = Astro.props;
+
+const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+let related = sortedPosts.filter(
+  (post) =>
+    post.slug !== currentPost.slug &&
+    post.data.tags?.some((tag: string) => currentPost.data.tags?.includes(tag)),
+);
+
+related = related.slice(0, 3);
+
+if (related.length < 3) {
+  const remainingCount = 3 - related.length;
+  const otherRecent = sortedPosts
+    .filter(
+      (post) =>
+        post.slug !== currentPost.slug &&
+        !related.find((r) => r.slug === post.slug),
+    )
+    .slice(0, remainingCount);
+  related = [...related, ...otherRecent];
+}
+---
+
+{
+  related.length > 0 && (
+    <div class="not-prose mt-16 mb-8">
+      <h3 class="text-sm uppercase tracking-widest text-[#525252] mb-6">
+        También podría interesarte
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {related.map((post) => {
+          const stats = readingTime(post.body || "");
+          const readTime = stats.text.replace("read", "lectura");
+
+          return (
+            <a
+              href={`/blog/${post.slug}`}
+              class="bg-[#111111] border border-[#1f1f1f] rounded-lg p-4 flex flex-col justify-between hover:border-[#2a2a2a] transition-colors duration-200 group h-full"
+            >
+              <div>
+                <h4 class="text-[#f5f5f5] text-base font-medium mb-3 group-hover:text-lime-400 transition-colors duration-200 line-clamp-2 leading-tight">
+                  {post.data.title}
+                </h4>
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <span class="inline-block text-xs px-2 py-0.5 rounded-md bg-[#1a1a1a] text-[#a3a3a3] mb-4">
+                    #{post.data.tags[0]}
+                  </span>
+                )}
+              </div>
+              <span class="text-[#525252] text-xs font-mono mt-auto">
+                {readTime}
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  )
+}

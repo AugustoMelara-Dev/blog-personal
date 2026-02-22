@@ -1,0 +1,52 @@
+
+> blog-personal@1.0.0 build
+> astro build
+
+02:58:01 [types] Generated 613ms
+02:58:01 [build] output: "static"
+02:58:01 [build] directory: C:\Users\melar\OneDrive\Desktop\Proyectos Importantes\blog-personal\dist\
+02:58:01 [build] Collecting build info...
+02:58:01 [build] ✓ Completed in 750ms.
+02:58:01 [build] Building static entrypoints...
+02:58:04 [vite] [32m✓ built in 3.02s[39m
+02:58:04 [build] ✓ Completed in 3.07s.
+
+ building client (vite) 
+02:58:04 [vite] transforming...
+02:58:06 [vite] [32m✓[39m 390 modules transformed.
+02:58:06 [vite] rendering chunks...
+02:58:06 [vite] computing gzip size...
+02:58:06 [vite] [2mdist/[22m[36m_astro/AnimatedPost.CKcTZgd7.js     [39m[1m[2m  0.31 kB[22m[1m[22m[2m │ gzip:  0.25 kB[22m
+02:58:06 [vite] [2mdist/[22m[36m_astro/jsx-runtime.TBa3i5EZ.js      [39m[1m[2m  0.92 kB[22m[1m[22m[2m │ gzip:  0.58 kB[22m
+02:58:06 [vite] [2mdist/[22m[36m_astro/ShareButton.vu5qqAgQ.js      [39m[1m[2m  1.34 kB[22m[1m[22m[2m │ gzip:  0.70 kB[22m
+02:58:06 [vite] [2mdist/[22m[36m_astro/index.CVf8TyFT.js            [39m[1m[2m  6.72 kB[22m[1m[22m[2m │ gzip:  2.68 kB[22m
+02:58:06 [vite] [2mdist/[22m[36m_astro/ReadingProgress.pqpA8pp-.js  [39m[1m[2m  7.37 kB[22m[1m[22m[2m │ gzip:  3.12 kB[22m
+02:58:06 [vite] [2mdist/[22m[36m_astro/proxy.Ywm-GF2k.js            [39m[1m[2m111.59 kB[22m[1m[22m[2m │ gzip: 36.74 kB[22m
+02:58:06 [vite] [2mdist/[22m[36m_astro/client.BuOr9PT5.js           [39m[1m[2m135.60 kB[22m[1m[22m[2m │ gzip: 43.80 kB[22m
+02:58:06 [vite] [32m✓ built in 1.74s[39m
+
+ generating static routes 
+02:58:06 ▶ src/pages/about.astro
+02:58:06   └─ /about/index.html (+13ms)
+02:58:10 ▶ src/pages/blog/[slug].astro
+02:58:10   └─ /blog/la-envidia-no-avisa/index.html (+31ms)
+02:58:10 ▶ src/pages/blog/index.astro
+02:58:10   └─ /blog/index.html (+10ms)
+02:58:10 λ src/pages/rss.xml.ts
+02:58:10   └─ /rss.xml (+6ms)
+02:58:10 ▶ src/pages/tags/[tag].astro
+02:58:10   ├─ /tags/reflexiones/index.html (+10ms)
+02:58:10   ├─ /tags/poder/index.html (+13ms)
+02:58:10   └─ /tags/personas/index.html (+10ms)
+02:58:10 ▶ src/pages/index.astro
+02:58:10   └─ /index.html (+12ms)
+02:58:10 ✓ Completed in 4.14s.
+
+Cannot read properties of undefined (reading 'reduce')
+  Location:
+    C:\Users\melar\OneDrive\Desktop\Proyectos Importantes\blog-personal\node_modules\@astrojs\sitemap\dist\index.js:69:37
+  Stack trace:
+    at astro:build:done (file:///C:/Users/melar/OneDrive/Desktop/Proyectos%20Importantes/blog-personal/node_modules/@astrojs/sitemap/dist/index.js:69:37)
+    at async AstroBuilder.build (file:///C:/Users/melar/OneDrive/Desktop/Proyectos%20Importantes/blog-personal/node_modules/astro/dist/core/build/index.js:159:5)
+    at async build (file:///C:/Users/melar/OneDrive/Desktop/Proyectos%20Importantes/blog-personal/node_modules/astro/dist/core/build/index.js:51:3)
+    at async runCommand (file:///C:/Users/melar/OneDrive/Desktop/Proyectos%20Importantes/blog-personal/node_modules/astro/dist/cli/index.js:147:7)

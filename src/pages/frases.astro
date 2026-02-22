@@ -1,0 +1,88 @@
+---
+export const prerender = false;
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import CopyButton from "../components/CopyButton.tsx";
+import StoryGenerator from "../components/StoryGenerator.tsx";
+
+const cat = Astro.url.searchParams.get("cat");
+const todasFrases = await getCollection("frases");
+
+// Ordenar por fecha descendente
+todasFrases.sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf());
+
+const frases = cat
+  ? todasFrases.filter((f) => f.data.categoria === cat)
+  : todasFrases;
+
+const categorias = ["reflexiones", "poder", "biblia", "personas"];
+
+// Función para generar las clases inyectables del filtro
+const getFilterClass = (isActive: boolean) =>
+  isActive
+    ? "bg-lime-400/10 text-lime-400 border-lime-400/30"
+    : "bg-[#111111] text-[#737373] border-transparent hover:border-[#1f1f1f] hover:text-[#a3a3a3]";
+---
+
+<BaseLayout title="Frases" description="Pensamientos cortos. Sin filtro.">
+  <div class="px-6 py-16 md:py-24 max-w-7xl mx-auto">
+    <header class="mb-16 text-center max-w-2xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold text-[#f5f5f5] mb-4">Frases</h1>
+      <p class="text-xl text-[#a3a3a3]">Pensamientos cortos. Sin filtro.</p>
+    </header>
+
+    <!-- Filtros -->
+    <div class="flex flex-wrap justify-center gap-3 mb-16">
+      <a
+        href="/frases"
+        class={`px-4 py-2 rounded-full border text-sm transition-colors duration-200 ${getFilterClass(!cat)}`}
+      >
+        Todas
+      </a>
+      {
+        categorias.map((c) => (
+          <a
+            href={`/frases?cat=${c}`}
+            class={`px-4 py-2 rounded-full border text-sm capitalize transition-colors duration-200 ${getFilterClass(cat === c)}`}
+          >
+            {c}
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- Grid Masonry -->
+    <div class="columns-1 md:columns-2 lg:columns-3 gap-6">
+      {
+        frases.map((frase) => (
+          <div class="break-inside-avoid mb-6 bg-[#111111] border border-[#1f1f1f] rounded-lg p-6 flex flex-col justify-between hover:border-[#333] transition-colors duration-300">
+            <p class="text-lg text-[#f5f5f5] font-medium leading-relaxed mb-8">
+              "{frase.data.texto}"
+            </p>
+            <div class="flex items-center justify-between mt-auto">
+              <a
+                href={`/frases?cat=${frase.data.categoria}`}
+                class="inline-block text-xs px-2.5 py-1 rounded-md bg-bg-subtle text-text-subtle hover:bg-accent/10 hover:text-accent transition-colors duration-200"
+              >
+                #{frase.data.categoria}
+              </a>
+              <div class="flex items-center gap-4">
+                <StoryGenerator client:load texto={frase.data.texto} />
+                <CopyButton client:load text={frase.data.texto} />
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    {
+      frases.length === 0 && (
+        <div class="text-center text-[#737373] mt-12">
+          <p>No se encontraron frases en esta categoría.</p>
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>

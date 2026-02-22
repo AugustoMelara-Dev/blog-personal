@@ -1,0 +1,176 @@
+---
+import { getCollection } from "astro:content";
+import Search from "./Search.tsx";
+
+const currentPath = Astro.url.pathname;
+
+const navLinksFull = [
+  { href: "/blog", label: "Blog" },
+  { href: "/frases", label: "Frases" },
+  { href: "/biblia", label: "Biblia" },
+  { href: "/series", label: "Series" },
+  { href: "/tags/reflexiones", label: "Tags" },
+  { href: "/about", label: "Sobre mí" },
+  { href: "/archivo", label: "Archivo" },
+];
+
+const mobileNavLinks = [
+  { href: "/blog", label: "Blog" },
+  { href: "/frases", label: "Frases" },
+  { href: "/about", label: "Sobre mí" },
+];
+
+const posts = await getCollection("posts", ({ data }) => !data.draft);
+const frases = await getCollection("frases");
+
+const searchData = [
+  ...posts.map((post) => ({
+    id: `post-${post.slug}`,
+    title: post.data.title,
+    description: post.data.description,
+    tags: post.data.tags || [],
+    date: post.data.pubDate.toISOString(),
+    type: "post" as const,
+    url: `/blog/${post.slug}`,
+  })),
+  ...frases.map((frase) => ({
+    id: `frase-${frase.id}`,
+    title: `Frase sobre ${frase.data.categoria}`,
+    description: frase.data.texto,
+    tags: [frase.data.categoria],
+    date: frase.data.fecha.toISOString(),
+    type: "frase" as const,
+    url: `/frases?cat=${frase.data.categoria}`,
+  })),
+];
+---
+
+<header
+  class="border-b border-bg-border bg-bg-surface/80 backdrop-blur-md sticky top-0 z-40"
+>
+  <div class="mx-auto max-w-5xl px-6 h-16 flex items-center justify-between">
+    <!-- Logo -->
+    <a
+      href="/"
+      class="font-bold text-lg tracking-tight text-text-primary hover:text-accent transition-colors duration-200"
+    >
+      TuNombre
+    </a>
+
+    <div class="flex items-center gap-6">
+      <!-- Desktop Nav -->
+      <nav class="hidden lg:flex items-center gap-6">
+        {
+          navLinksFull.map(({ href, label }) => (
+            <a
+              href={href}
+              class:list={[
+                "text-sm transition-colors duration-200",
+                currentPath === href ||
+                (currentPath.startsWith(`${href}/`) && href !== "/")
+                  ? "text-text-primary"
+                  : "text-text-secondary hover:text-text-primary",
+              ]}
+            >
+              {label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <!-- Mobile Nav & Actions -->
+      <div class="flex items-center gap-3 md:gap-4">
+        <!-- Mobile Nav subset -->
+        <nav class="flex lg:hidden items-center gap-4 mr-2">
+          {
+            mobileNavLinks.map(({ href, label }) => (
+              <a
+                href={href}
+                class:list={[
+                  "text-sm transition-colors duration-200",
+                  currentPath === href ||
+                  (currentPath.startsWith(`${href}/`) && href !== "/")
+                    ? "text-text-primary"
+                    : "text-text-secondary hover:text-text-primary",
+                ]}
+              >
+                {label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <div
+          class="flex items-center border-l lg:border-l-0 border-bg-border pl-4 lg:pl-0 border-opacity-50"
+        >
+          <Search client:load items={searchData} />
+
+          <!-- Hamburger Menu Button -->
+          <button
+            id="mobile-menu-btn"
+            class="lg:hidden text-text-secondary p-2 -mr-2"
+            aria-label="Menu"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><line x1="4" y1="12" x2="20" y2="12"></line><line
+                x1="4"
+                y1="6"
+                x2="20"
+                y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg
+            >
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Extra Nav Dropdown -->
+  <div
+    id="mobile-menu"
+    class="hidden lg:hidden border-t border-bg-border bg-bg-surface px-6 py-4 absolute w-full shadow-xl z-30"
+  >
+    <nav class="flex flex-col gap-4">
+      {
+        navLinksFull.map(({ href, label }) => (
+          <a
+            href={href}
+            class:list={[
+              "text-base transition-colors duration-200",
+              currentPath === href ||
+              (currentPath.startsWith(`${href}/`) && href !== "/")
+                ? "text-text-primary font-medium"
+                : "text-text-secondary",
+            ]}
+          >
+            {label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Simple inline script for the mobile menu toggle
+  const btn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  let isOpen = false;
+
+  btn?.addEventListener("click", () => {
+    isOpen = !isOpen;
+    if (isOpen) {
+      menu?.classList.remove("hidden");
+    } else {
+      menu?.classList.add("hidden");
+    }
+  });
+</script>
