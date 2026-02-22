@@ -44,7 +44,7 @@ export const GET: APIRoute = async ({ props }) => {
       <text x="90" y="${text1Y}" class="title">${line1.trim()}</text>
       ${line2 ? `<text x="90" y="${text2Y}" class="title">${line2.trim()}</text>` : ''}
       <line x1="0" y1="520" x2="1200" y2="520" stroke="#1f1f1f" stroke-width="2" />
-      <text x="1030" y="580" class="brand">VitoLogic</text>
+      <text x="1030" y="580" class="brand">VitoCipher</text>
     </svg>
   `;
 
