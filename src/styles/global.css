@@ -143,6 +143,7 @@ html.light {
   border-radius: 4px;
 }
 
+
 /* Code blocks */
 .prose pre {
   position: relative;
@@ -159,3 +160,57 @@ html.light {
   color: #a3e635;
   border-bottom-color: #a3e635;
 }
+
+/* Selección de texto */
+::selection {
+  background: #a3e63530;
+  color: #f5f5f5;
+}
+
+/* Focus visible accesible */
+*:focus-visible {
+  outline: 2px solid #a3e635;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Scrollbar oculto para filtros horizontales */
+.tags-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.tags-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Shimmer skeleton */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #111111 25%,
+    #1a1a1a 50%,
+    #111111 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+/* View Transitions */
+::view-transition-old(root) {
+  animation: 200ms ease-out fade-and-slide-out;
+}
+::view-transition-new(root) {
+  animation: 300ms ease-out fade-and-slide-in;
+}
+@keyframes fade-and-slide-out {
+  to { opacity: 0; transform: translateY(-6px); }
+}
+@keyframes fade-and-slide-in {
+  from { opacity: 0; transform: translateY(6px); }
+}
+

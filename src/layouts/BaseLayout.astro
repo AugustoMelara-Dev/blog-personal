@@ -121,13 +121,19 @@ const ogImageURL = ogImage.startsWith("http")
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
 
     <title>{pageTitle}</title>
-    <ViewTransitions />
+    <ViewTransitions fallback="none" />
 
     <!-- Analytics -->
     <script
       defer
       src="https://cloud.umami.is/script.js"
       data-website-id={import.meta.env.UMAMI_WEBSITE_ID}></script>
+
+    <script>
+      document.addEventListener("astro:page-load", () => {
+        window.dispatchEvent(new CustomEvent("vitologic:page-changed"));
+      });
+    </script>
   </head>
   <body class="min-h-screen flex flex-col bg-bg">
     <Header transition:persist />
