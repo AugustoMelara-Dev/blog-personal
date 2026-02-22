@@ -1,6 +1,6 @@
 export const SITE = {
-  title: 'Blog Personal',
+  title: 'VitoLogic',
   description: 'Reflexiones sobre poder, personas y estrategia.',
-  author: 'Tu Nombre',
-  url: 'https://tu-blog.vercel.app',
+  author: 'VitoLogic',
+  url: 'https://vitologic.vercel.app',
 };

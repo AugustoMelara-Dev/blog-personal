@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel/serverless';
 
 export default defineConfig({
-  site: 'https://tu-blog.vercel.app',
+  site: 'https://vitologic.vercel.app',
   output: 'hybrid',
   adapter: vercel({
     nodeVersion: '20.x',

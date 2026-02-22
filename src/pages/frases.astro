@@ -60,14 +60,14 @@ const getFilterClass = (isActive: boolean) =>
             <p class="text-lg text-[#f5f5f5] font-medium leading-relaxed mb-8">
               "{frase.data.texto}"
             </p>
-            <div class="flex items-center justify-between mt-auto">
+            <div class="flex flex-wrap items-center justify-between mt-auto gap-4">
               <a
                 href={`/frases?cat=${frase.data.categoria}`}
                 class="inline-block text-xs px-2.5 py-1 rounded-md bg-bg-subtle text-text-subtle hover:bg-accent/10 hover:text-accent transition-colors duration-200"
               >
                 #{frase.data.categoria}
               </a>
-              <div class="flex items-center gap-4">
+              <div class="flex flex-wrap items-center gap-2 md:gap-4">
                 <StoryGenerator client:load texto={frase.data.texto} />
                 <CopyButton client:load text={frase.data.texto} />
               </div>
