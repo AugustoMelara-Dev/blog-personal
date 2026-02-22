@@ -61,24 +61,29 @@ export default function TableOfContents({ isMobile = false }) {
   if (headings.length === 0) return null;
 
   const content = (
-    <nav className="text-sm">
-      <h3 className="text-xs uppercase tracking-widest text-[#525252] mb-4 font-semibold">Contenido</h3>
+    <nav className="text-[0.8rem]">
+      <h3 className="text-xs uppercase tracking-[0.2em] text-[#525252] mb-4 pb-2 border-b border-[#1f1f1f] font-semibold">
+        CONTENIDO
+      </h3>
       <ul className="space-y-2.5">
-        {headings.map(h => (
-          <li key={h.id} className={h.level === 3 ? "pl-3" : ""}>
-            <a
-              href={`#${h.id}`}
-              onClick={(e) => handleClick(e, h.id)}
-              className={`block transition-colors duration-150 pl-3 border-l-2 ${
-                activeId === h.id 
-                  ? "border-lime-400 text-lime-400" 
-                  : "border-transparent text-[#737373] hover:text-[#f5f5f5]"
-              }`}
-            >
-              {h.text}
-            </a>
-          </li>
-        ))}
+        {headings.map(h => {
+          const isActive = activeId === h.id;
+          return (
+            <li key={h.id} className={h.level === 3 ? "pl-3" : ""}>
+              <a
+                href={`#${h.id}`}
+                onClick={(e) => handleClick(e, h.id)}
+                className={`block transition-all duration-200 ${
+                  isActive 
+                    ? "border-l-2 border-lime-400 pl-2 text-lime-400" 
+                    : "border-l-2 border-transparent pl-2 text-[#737373] hover:text-[#f5f5f5]"
+                }`}
+              >
+                {h.text}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

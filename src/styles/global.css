@@ -239,3 +239,32 @@ html.light header {
   from { opacity: 0; transform: translateY(6px); }
 }
 
+/* Mejorar legibilidad general */
+.prose {
+  font-size: 1.0625rem;
+  line-height: 1.85;
+}
+
+/* Espaciado entre secciones del post */
+.prose > * + * {
+  margin-top: 1.5em;
+}
+
+/* Primer párrafo más grande */
+.prose > p:first-of-type {
+  font-size: 1.125rem;
+  color: #c5c5c5;
+  line-height: 1.9;
+}
+
+/* Mejorar blockquotes */
+.prose blockquote p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Links en posts más visibles */
+.prose a:not(.internal-link) {
+  color: #a3e635;
+  text-underline-offset: 3px;
+}

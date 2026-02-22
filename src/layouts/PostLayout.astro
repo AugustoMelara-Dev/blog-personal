@@ -200,23 +200,30 @@ const readingMinutes = parseInt(readingTime) || 5;
             <!-- Frases Relacionadas -->
             <RelatedFrases tags={tags} />
 
-            <!-- Share section -->
+            <!-- Compartir -->
             {
               quote && (
-                <div class="mb-12 p-6 bg-[#0f0f0f] border border-[#1a1a1a] rounded-xl">
-                  <p class="text-sm text-[#525252] uppercase tracking-widest mb-4">
-                    ¿Te resonó algo?
+                <section style="padding: 2rem 0; border-top: 1px solid #1a1a1a;">
+                  <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; color: #525252; margin-bottom: 1.5rem;">
+                    Compartir
                   </p>
-                  <div class="flex flex-wrap items-center gap-4">
-                    <StoryGenerator client:load texto={quote} />
+                  
+                  <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                    <!-- ShareButton aquí (Twitter, WhatsApp, LinkedIn, Copiar) -->
                     <ShareButton
                       client:load
                       url={Astro.url.href}
                       quote={quote}
                       title={title}
                     />
+
+                    <!-- Separador vertical -->
+                    <div style="width: 1px; height: 32px; background: #1f1f1f; display: none;" class="md:block"></div>
+                    
+                    <!-- StoryGenerator aquí (solo el botón limpio) -->
+                    <StoryGenerator client:load texto={quote} />
                   </div>
-                </div>
+                </section>
               )
             }
 

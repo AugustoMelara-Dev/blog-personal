@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
+import { Download } from 'lucide-react';
 
 interface Props {
   texto: string;
@@ -42,34 +43,39 @@ export default function StoryGenerator({ texto }: Props) {
 
   return (
     <>
-      <div className="flex flex-col gap-1.5">
-        <button
-          onClick={generateImage}
-          disabled={isGenerating}
-          className="flex items-center justify-center gap-2 text-sm px-4 py-2 rounded bg-[#111111] border border-[#1f1f1f] text-[#a3a3a3] hover:border-lime-400/30 hover:text-lime-400 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isGenerating ? (
-            <>
-              <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
-              </svg>
-              <span>Generando...</span>
-            </>
-          ) : (
-            <>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              <span>📲 Guardar para estado</span>
-            </>
-          )}
-        </button>
-        <span className="text-xs text-[#525252]">
-          1080 × 1920px · Para Instagram y WhatsApp
-        </span>
-      </div>
+      <button 
+        onClick={generateImage} 
+        disabled={isGenerating}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          padding: '0.625rem 1.25rem',
+          background: 'transparent',
+          border: '1px solid #2a2a2a',
+          borderRadius: '8px',
+          color: '#737373',
+          cursor: isGenerating ? 'not-allowed' : 'pointer',
+          fontSize: '0.875rem',
+          transition: 'all 150ms',
+          opacity: isGenerating ? 0.5 : 1
+        }}
+        onMouseEnter={e => {
+          if(!isGenerating) {
+            e.currentTarget.style.color = '#a3e635';
+            e.currentTarget.style.borderColor = '#1f1f1f';
+          }
+        }}
+        onMouseLeave={e => {
+          if(!isGenerating) {
+            e.currentTarget.style.color = '#737373';
+            e.currentTarget.style.borderColor = '#2a2a2a';
+          }
+        }}
+      >
+        <Download size={14} />
+        {isGenerating ? 'Generando...' : 'Imagen para estado'}
+      </button>
 
       {/* Contenedor oculto para la captura */}
       <div 

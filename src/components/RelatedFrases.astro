@@ -41,13 +41,39 @@ if (relatedFrases.length < 3) {
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
     {
       relatedFrases.map((frase) => (
-        <div class="flex flex-col justify-between p-5 bg-[#111111] border border-[#1f1f1f] rounded-lg hover:border-[#333] transition-colors">
-          <p class="text-base text-[#f5f5f5] italic leading-relaxed mb-6">
-            "{frase.data.texto}"
-          </p>
-          <div class="flex justify-end gap-2 mt-auto">
-            <StoryGenerator client:load texto={frase.data.texto} />
+        <div class="group flex flex-col justify-between p-6 bg-[#0f0f0f] border border-[#1a1a1a] rounded-[10px] hover:border-[#2a2a2a] transition-colors relative overflow-hidden">
+          <div>
+            <span class="block text-[10px] uppercase tracking-widest text-lime-400 mb-4 font-medium">
+              {frase.data.categoria}
+            </span>
+            <p class="text-[1rem] text-[#e5e5e5] italic leading-[1.8] mb-6">
+              "{frase.data.texto}"
+            </p>
+          </div>
+          <div class="flex justify-start gap-4 mt-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <CopyButton client:load text={frase.data.texto} />
+            <a
+              href={`/frases/${frase.slug}`}
+              class="flex items-center gap-1.5 text-xs text-[#737373] hover:text-lime-400 transition-colors"
+            >
+              <span>Ver ficha</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <>
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </>
+              </svg>
+            </a>
           </div>
         </div>
       ))
