@@ -2,8 +2,8 @@ import React from 'react';
 import Giscus from '@giscus/react';
 
 export default function Reactions() {
-  const repo = import.meta.env.PUBLIC_GISCUS_REPO;
-  const isConfigured = !!repo && repo !== 'TU_USUARIO/TU_REPO';
+  const repo = import.meta.env.PUBLIC_GISCUS_REPO || '';
+  const isConfigured = !!repo;
 
   if (!isConfigured) {
     return (
@@ -27,10 +27,10 @@ export default function Reactions() {
     <div className="not-prose mt-16 mb-8 xl:col-span-1">
       <h3 className="text-sm uppercase tracking-widest text-[#525252] mb-6 font-semibold">¿Qué piensas?</h3>
       <Giscus
-        repo={import.meta.env.PUBLIC_GISCUS_REPO || "TU_USUARIO/TU_REPO"}
-        repoId={import.meta.env.PUBLIC_GISCUS_REPO_ID || "TU_REPO_ID"}
+        repo={repo as `${string}/${string}`}
+        repoId={import.meta.env.PUBLIC_GISCUS_REPO_ID || ""}
         category="Announcements"
-        categoryId={import.meta.env.PUBLIC_GISCUS_CATEGORY_ID || "TU_CATEGORY_ID"}
+        categoryId={import.meta.env.PUBLIC_GISCUS_CATEGORY_ID || ""}
         mapping="pathname"
         reactionsEnabled="1"
         emitMetadata="0"
