@@ -4,7 +4,6 @@ import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 interface Stats {
   posts: number;
   frases: number;
-  subscribers: number;
 }
 
 interface Props {
@@ -33,7 +32,6 @@ export default function SocialProof({ fallbackPosts, fallbackFrases }: Props) {
   const [stats, setStats] = useState<Stats>({
     posts: fallbackPosts,
     frases: fallbackFrases,
-    subscribers: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -44,7 +42,6 @@ export default function SocialProof({ fallbackPosts, fallbackFrases }: Props) {
         setStats({
           posts: data.posts || fallbackPosts,
           frases: data.frases || fallbackFrases,
-          subscribers: data.subscribers || 0,
         });
       })
       .catch(() => {})
@@ -95,29 +92,6 @@ export default function SocialProof({ fallbackPosts, fallbackFrases }: Props) {
           </span>
         )}
         <span className="text-[#525252] text-sm">frases</span>
-      </div>
-
-      <div className="w-px h-4 bg-[#1f1f1f]" />
-
-      <div className="flex items-center gap-2">
-        <svg width="14" height="14" viewBox="0 0 24 24"
-          fill="none" stroke="currentColor"
-          strokeWidth="2" strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{color: '#a3e635'}}>
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-          <circle cx="9" cy="7" r="4"/>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-        </svg>
-        {loading ? (
-          <div className="skeleton h-4 w-8" />
-        ) : (
-          <span className="text-[#f5f5f5] font-semibold text-sm">
-            <AnimatedNumber value={stats.subscribers} />
-          </span>
-        )}
-        <span className="text-[#525252] text-sm">lectores</span>
       </div>
     </motion.div>
   );
