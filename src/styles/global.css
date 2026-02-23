@@ -46,12 +46,12 @@ html.light .border-\[\#1f1f1f\] {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-padding-top: 80px;
-    overflow-x: hidden;
   }
 
   body {
     @apply bg-bg text-text-primary font-sans;
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
   }
 
   ::selection {

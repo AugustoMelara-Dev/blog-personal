@@ -66,7 +66,8 @@ export default function MobileMenu({ currentPath }: Props) {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.25 }}
-              className="fixed top-0 right-0 h-screen w-[280px] bg-[#111111] border-l border-[#1f1f1f] z-50 shadow-2xl overflow-y-auto"
+              className="fixed inset-y-0 right-0 w-[280px] bg-[#111111] border-l border-[#1f1f1f] z-50 shadow-2xl overflow-y-auto"
+              style={{ height: '100dvh' }}
             >
               <div className="flex justify-between items-center p-4 pl-6 border-b border-[#1f1f1f]">
                 <div className="flex items-center tracking-tight leading-none pb-[2px]">
