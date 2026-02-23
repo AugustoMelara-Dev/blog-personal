@@ -225,21 +225,40 @@ const readingMinutes = parseInt(readingTime) || 5;
               )
             }
 
-            <div class="mb-12 border-t border-[#1a1a1a] pt-12">
+            <section class="mt-16 pt-8 border-t border-[#1a1a1a]">
               <p class="text-xs uppercase tracking-[0.2em] text-[#525252] mb-6">
                 Archivo de Discusión
               </p>
               
-              <div id="cusdis_thread"
-                data-host="https://cusdis.com"
-                data-app-id="e868dceb-0321-4788-a40b-6d8b2ceb22c0"
-                data-page-id={slug}
-                data-page-url={Astro.url.href}
-                data-page-title={title}
-                data-theme="dark"
-              ></div>
-              <script is:inline async defer src="https://cusdis.com/js/cusdis.es.js"></script>
-            </div>
+              <div class="relative overflow-hidden rounded-xl border border-[#1f1f1f] bg-[#0a0a0a] p-8 md:p-12 text-center group">
+                <!-- Efecto de gradiente de fondo -->
+                <div class="absolute inset-0 bg-gradient-to-b from-[#111111] to-transparent opacity-50"></div>
+                
+                <div class="relative z-10 flex flex-col items-center justify-center space-y-4">
+                  <div class="w-12 h-12 rounded-full bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a3e635" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                  </div>
+                  
+                  <h3 class="text-xl md:text-2xl font-bold text-[#f5f5f5]">
+                    Desencriptando interacciones...
+                  </h3>
+                  
+                  <p class="text-[#a3a3a3] max-w-md mx-auto text-sm md:text-base leading-relaxed">
+                    Un sistema de foros blindado y libre de ruido está en construcción. Las ideas correctas requieren el ecosistema correcto para ser debatidas.
+                  </p>
+                  
+                  <div class="inline-flex items-center gap-2 px-3 py-1 mt-4 rounded-full bg-[#1a1a1a] border border-[#2a2a2a]">
+                    <span class="w-2 h-2 rounded-full bg-lime-400 animate-pulse"></span>
+                    <span class="text-xs font-mono text-[#737373] tracking-wider uppercase">Estado: En Desarrollo</span>
+                  </div>
+                </div>
+                
+                <!-- Decoración -->
+                <div class="absolute -top-24 -right-24 w-48 h-48 bg-lime-400/5 rounded-full blur-3xl group-hover:bg-lime-400/10 transition-colors duration-500"></div>
+              </div>
+            </section>
 
             <!-- Prev / Next -->
             <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4">
