@@ -8,15 +8,31 @@ interface Props {
 export default function MobileMenu({ currentPath }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Evitar scroll cuando el menú está abierto
+  // Evitar scroll cuando el menú está abierto de forma a prueba de balas para móviles
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.top = `-${window.scrollY}px`;
+      document.documentElement.style.overscrollBehavior = "none";
     } else {
-      document.body.style.overflow = "unset";
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      document.documentElement.style.overscrollBehavior = "";
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
     }
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      document.documentElement.style.overscrollBehavior = "";
     };
   }, [isOpen]);
 
@@ -66,7 +82,7 @@ export default function MobileMenu({ currentPath }: Props) {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.25 }}
-              className="fixed inset-y-0 right-0 w-[280px] bg-[#111111] border-l border-[#1f1f1f] z-50 shadow-2xl overflow-y-auto"
+              className="fixed inset-y-0 right-0 w-[280px] max-w-[85vw] bg-[#111111] border-l border-[#1f1f1f] z-50 shadow-2xl overflow-y-auto"
               style={{ height: '100dvh' }}
             >
               <div className="flex justify-between items-center p-4 pl-6 border-b border-[#1f1f1f]">
