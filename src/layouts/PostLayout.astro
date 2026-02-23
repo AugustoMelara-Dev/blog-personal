@@ -225,6 +225,22 @@ const readingMinutes = parseInt(readingTime) || 5;
               )
             }
 
+            <div class="mb-12 border-t border-[#1a1a1a] pt-12">
+              <p class="text-xs uppercase tracking-[0.2em] text-[#525252] mb-6">
+                Archivo de Discusión
+              </p>
+              
+              <div id="cusdis_thread"
+                data-host="https://cusdis.com"
+                data-app-id="e868dceb-0321-4788-a40b-6d8b2ceb22c0"
+                data-page-id={slug}
+                data-page-url={Astro.url.href}
+                data-page-title={title}
+                data-theme="dark"
+              ></div>
+              <script is:inline async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+            </div>
+
             <!-- Prev / Next -->
             <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {

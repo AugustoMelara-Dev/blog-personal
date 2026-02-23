@@ -1,7 +1,6 @@
 ---
 import PostLayout from "../../layouts/PostLayout.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
-import Reactions from "../../components/Reactions.tsx";
 import SeriesBanner from "../../components/SeriesBanner.astro";
 import { getCollection } from "astro:content";
 import readingTime from "reading-time";
@@ -50,5 +49,4 @@ const readTime = stats.text.replace("read", "lectura");
   {post.data.serie && <SeriesBanner post={post} />}
   <Content />
   <RelatedPosts currentPost={post} />
-  <Reactions client:load />
 </PostLayout>
