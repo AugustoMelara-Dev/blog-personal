@@ -7,7 +7,6 @@ import PWAInstallBanner from "../components/PWAInstallBanner.tsx";
 import OfflineIndicator from "../components/OfflineIndicator.tsx";
 import BackToTop from "../components/BackToTop.tsx";
 import KeyboardShortcuts from "../components/KeyboardShortcuts.tsx";
-import Cursor from "../components/Cursor.tsx";
 import { ViewTransitions } from "astro:transitions";
 import "../styles/global.css";
 
@@ -184,6 +183,5 @@ const ogImageURL = ogImage.startsWith("http")
     <OfflineIndicator client:load />
     <BackToTop client:load />
     <KeyboardShortcuts client:load />
-    <Cursor client:load />
   </body>
 </html>
