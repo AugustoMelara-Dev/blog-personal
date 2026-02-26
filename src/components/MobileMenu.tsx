@@ -108,6 +108,7 @@ export default function MobileMenu({ currentPath }: Props) {
                 <LinkItem href="/series" label="Series" />
                 <LinkItem href="/mapa" label="Mapa" />
                 <LinkItem href="/about" label="Sobre mí" />
+                <LinkItem href="/guardados" label="Guardados" />
               </nav>
             </motion.div>
           </>
