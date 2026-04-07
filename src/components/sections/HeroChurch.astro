@@ -33,8 +33,10 @@ const secondaryServices = otherServices.length > 0 ? otherServices : churchInfo.
         </p>
         
         <div class="flex flex-wrap items-center gap-4">
-          <Button href="/visitanos" class="shadow-md py-3 px-8 text-lg font-semibold">Planifica tu visita</Button>
-          <a href="/ministerios" class="inline-flex items-center justify-center font-semibold text-lg text-ink-600 hover:text-brand-800 px-6 py-3 transition-colors">Conocer Comunidad</a>
+          <Button href="/visitanos" size="lg">Planifica tu visita</Button>
+          <a href="/ministerios" class="inline-flex items-center justify-center font-semibold text-lg text-ink-600 hover:text-brand-800 px-6 py-3 transition-colors group">
+            Conocer Comunidad <span class="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 ml-1">&rarr;</span>
+          </a>
         </div>
       </div>
       
@@ -43,7 +45,10 @@ const secondaryServices = otherServices.length > 0 ? otherServices : churchInfo.
         <img 
           src="https://images.unsplash.com/photo-1544427920-c49ccdaf8c2d?q=80&w=1200&auto=format&fit=crop" 
           alt="Palabra de Dios compartida en la iglesia" 
-          class="absolute inset-0 w-full h-full object-cover" 
+          class="absolute inset-0 w-full h-full object-cover transition-transform duration-[3000ms] hover:scale-105" 
+          fetchpriority="high"
+          loading="eager"
+          decoding="async"
         />
         <!-- Subtle warm institutional overlay -->
         <div class="absolute inset-0 bg-brand-900/10 mix-blend-overlay"></div>
