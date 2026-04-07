@@ -1,0 +1,54 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Section from "../components/ui/Section.astro";
+import Button from "../components/ui/Button.astro";
+import { churchInfo, isExternalUrl, isPendingValue } from "../data/site";
+---
+
+<PageLayout title="Ubicacion" description="Direccion, referencias y mapa embebido para planificar tu visita." kicker="Como llegar">
+  <Section class="pb-20">
+    <Container>
+      <div class="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+        <div class="card">
+          <h2 class="font-serif text-3xl text-ink-900">Direccion</h2>
+          <p class="mt-4 text-ink-600">{churchInfo.address}</p>
+          {churchInfo.addressLine2 && <p class="mt-2 text-ink-600">{churchInfo.addressLine2}</p>}
+          {churchInfo.reference && <p class="mt-4 text-sm text-ink-500">Referencia: {churchInfo.reference}</p>}
+          <p class="mt-6 text-ink-600">{churchInfo.visitNote}</p>
+          {
+            isExternalUrl(churchInfo.mapUrl) && !isPendingValue(churchInfo.mapUrl) && (
+              <div class="mt-8">
+                <Button href={churchInfo.mapUrl}>
+                  Abrir mapa
+                </Button>
+              </div>
+            )
+          }
+        </div>
+
+        {
+          isPendingValue(churchInfo.mapUrl) || isPendingValue(churchInfo.address) ? (
+            <div class="card flex min-h-[420px] items-center justify-center text-center">
+              <div>
+                <h2 class="font-serif text-3xl text-ink-900">Ubicacion exacta pendiente</h2>
+                <p class="mt-4 max-w-md text-ink-600">
+                  Muy pronto veras aqui la direccion exacta, la referencia de llegada y el enlace oficial de Google Maps.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div class="overflow-hidden rounded-[2rem] border border-brand-100 shadow-soft">
+              <iframe
+                title="Mapa"
+                src={`https://www.google.com/maps?q=${encodeURIComponent(churchInfo.mapQuery)}&output=embed`}
+                class="h-[420px] w-full"
+                loading="lazy"
+              ></iframe>
+            </div>
+          )
+        }
+      </div>
+    </Container>
+  </Section>
+</PageLayout>

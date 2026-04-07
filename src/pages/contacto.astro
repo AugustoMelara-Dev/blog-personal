@@ -1,0 +1,31 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Section from "../components/ui/Section.astro";
+import ContactForm from "../components/forms/ContactForm.astro";
+import { churchInfo, contactReasons, isExternalUrl, isPendingValue } from "../data/site";
+---
+
+<PageLayout title="Contacto" description="Canales para consultas generales, acompanamiento pastoral y seguimiento." kicker="Conexion">
+  <Section class="pb-20">
+    <Container>
+      <div class="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+        <div class="card">
+          <h2 class="font-serif text-3xl text-ink-900">Informacion de contacto</h2>
+          <div class="mt-5 space-y-3 text-ink-600">
+            <p>{churchInfo.address}</p>
+            {churchInfo.addressLine2 && <p>{churchInfo.addressLine2}</p>}
+            {churchInfo.reference && <p>Referencia: {churchInfo.reference}</p>}
+            <p>{isPendingValue(churchInfo.email) ? churchInfo.email : <a href={`mailto:${churchInfo.email}`}>{churchInfo.email}</a>}</p>
+            <p>{isPendingValue(churchInfo.phone) ? churchInfo.phone : <a href={`tel:${churchInfo.phone}`}>{churchInfo.phone}</a>}</p>
+            {churchInfo.whatsappUrl && <p>{isExternalUrl(churchInfo.whatsappUrl) ? <a href={churchInfo.whatsappUrl}>WhatsApp</a> : churchInfo.whatsappUrl}</p>}
+          </div>
+          <ul class="mt-8 space-y-2 text-sm text-ink-500">
+            {contactReasons.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <ContactForm />
+      </div>
+    </Container>
+  </Section>
+</PageLayout>

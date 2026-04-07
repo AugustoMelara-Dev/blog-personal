@@ -1,0 +1,54 @@
+---
+import Container from "../ui/Container.astro";
+import { churchInfo, navigation, utilityNavigation, isExternalUrl, isPendingValue } from "../../data/site";
+import ChurchLogo from "../branding/ChurchLogo.astro";
+---
+
+<footer class="border-t border-brand-100 bg-white">
+  <Container>
+    <div class="grid gap-12 py-14 lg:grid-cols-[1.2fr_0.7fr_0.7fr]">
+      <div>
+        <div class="flex items-center gap-4">
+          <ChurchLogo class="rounded-2xl border border-brand-100 bg-paper px-4 py-3" />
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.22em] text-brand-700" translate="no">
+              {churchInfo.localIdentifier}
+            </p>
+            <h2 class="mt-2 font-serif text-2xl text-ink-900" translate="no">{churchInfo.name}</h2>
+          </div>
+        </div>
+        <p class="mt-4 max-w-xl text-ink-600">{churchInfo.tagline}</p>
+        {churchInfo.establishedNote && <p class="mt-4 text-sm text-ink-500">{churchInfo.establishedNote}</p>}
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-[0.18em] text-ink-900">Sitio</h3>
+        <ul class="mt-4 space-y-3 text-ink-600">
+          {navigation.slice(1, 6).map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-[0.18em] text-ink-900">Contacto</h3>
+        <ul class="mt-4 space-y-3 text-ink-600">
+          <li>{churchInfo.address}</li>
+          {churchInfo.addressLine2 && <li>{churchInfo.addressLine2}</li>}
+          {churchInfo.reference && <li>Referencia: {churchInfo.reference}</li>}
+          <li>
+            {isPendingValue(churchInfo.email) ? churchInfo.email : <a href={`mailto:${churchInfo.email}`}>{churchInfo.email}</a>}
+          </li>
+          <li>
+            {isPendingValue(churchInfo.phone) ? churchInfo.phone : <a href={`tel:${churchInfo.phone}`}>{churchInfo.phone}</a>}
+          </li>
+          {churchInfo.contactPerson && <li>{churchInfo.contactPerson}</li>}
+          {isExternalUrl(churchInfo.whatsappUrl) && <li><a href={churchInfo.whatsappUrl}>WhatsApp</a></li>}
+          {utilityNavigation.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-brand-100 py-5 text-sm text-ink-500">
+      © 2026 {churchInfo.legalName}. Sitio institucional listo para contenido, evangelismo y comunicacion local.
+    </div>
+  </Container>
+</footer>
