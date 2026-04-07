@@ -1,67 +1,57 @@
-# Blog Personal
+# IASD Local Site
 
-Blog personal construido con **Astro 4**, **TailwindCSS v3**, y **React islands** con framer-motion.
+Base institucional v1.0 para una iglesia adventista local construida con Astro, Tailwind, MDX, React islands y despliegue en Vercel.
 
 ## Stack
 
-- Astro 4 (static output)
-- TailwindCSS v3 + @tailwindcss/typography
-- MDX para posts
-- React + framer-motion para animaciones
-- Tipografía Geist (sans + mono)
-- date-fns para fechas en español
-- reading-time para tiempo de lectura
+- Astro con `output: "hybrid"`
+- TypeScript
+- Tailwind CSS
+- MDX + Astro Content Collections
+- React solo para islas puntuales
+- Resend para formularios
+- Fuse.js para busqueda editorial
+- Sitemap, RSS y PWA discreta
 
 ## Desarrollo
 
 ```bash
+nvm use 20
 npm install
 npm run dev
 ```
 
-El servidor abre en `http://localhost:4321`.
+`.nvmrc` ya fija `20`. En el entorno actual el proyecto tambien compilo con Node 22, pero Astro/Vercel advirtio que las funciones serverless estan orientadas a Node 20.x; para evitar diferencias locales conviene trabajar y desplegar con Node 20.
 
-## Publicar un post nuevo
+## Variables de entorno
 
-1. Crea un archivo `.mdx` en `src/content/posts/`:
+Usa `.env.example` como base:
 
-```mdx
----
-title: "Tu título"
-description: "Descripción corta del post"
-pubDate: 2026-03-01
-tags: ["ejemplo", "tutorial"]
-draft: false
-featured: false
-quote: "Frase destacada opcional"
----
+- `RESEND_API_KEY`
+- `CONTACT_TO_EMAIL`
+- `CONTACT_FROM_EMAIL`
 
-## Tu contenido aquí
+Sin estas variables, los formularios validan y redirigen, pero no enviaran correo.
 
-Escribe en Markdown/MDX como siempre.
-```
+## Publicar contenido
 
-2. Haz `git push` — Vercel lo despliega automáticamente.
+Agrega archivos MDX en estas carpetas:
 
-## Frontmatter
+- `src/content/sermons/`
+- `src/content/studies/`
+- `src/content/articles/`
+- `src/content/beliefs/`
+- `src/content/ministries/`
+- `src/content/events/`
+- `src/content/pages/`
 
-| Campo         | Tipo     | Requerido | Default |
-| ------------- | -------- | --------- | ------- |
-| `title`       | string   | ✅        | —       |
-| `description` | string   | ✅        | —       |
-| `pubDate`     | Date     | ✅        | —       |
-| `tags`        | string[] | ❌        | `[]`    |
-| `draft`       | boolean  | ❌        | `false` |
-| `featured`    | boolean  | ❌        | `false` |
-| `quote`       | string   | ❌        | —       |
+## Ajustes iniciales recomendados
 
-## Build
-
-```bash
-npm run build
-npm run preview
-```
+1. Reemplazar datos de ejemplo en `src/data/site.ts` y `src/content/settings/site.json`.
+2. Exportar y agregar el logotipo adventista oficial autorizado en `public/images/branding/`.
+3. Configurar correos reales de Resend.
+4. Actualizar la URL final del sitio en `src/config.ts` y `astro.config.mjs`.
 
 ## Deploy
 
-El proyecto es estático. Funciona directo en Vercel, Netlify, o cualquier hosting estático.
+El proyecto esta preparado para Vercel con rutas estaticas para contenido y endpoints serverless para formularios.
