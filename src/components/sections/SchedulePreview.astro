@@ -1,0 +1,29 @@
+---
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import { getEntry } from "astro:content";
+
+const settings = await getEntry("settings", "site");
+---
+
+<Section muted>
+  <Container>
+    <SectionHeading
+      kicker="Horarios"
+      title="Programacion regular de la congregacion"
+      description="Un resumen rapido para quienes buscan el horario de culto, estudio y oracion."
+    />
+    <div class="mt-10 grid gap-4 md:grid-cols-3">
+      {
+        settings?.data.serviceTimes.map((service) => (
+          <div class="rounded-[1.75rem] border border-brand-100 bg-paper p-6">
+            <h3 class="font-serif text-2xl text-ink-900">{service.name}</h3>
+            <p class="mt-3 text-brand-800">{service.schedule}</p>
+            {service.notes && <p class="mt-2 text-sm text-ink-600">{service.notes}</p>}
+          </div>
+        ))
+      }
+    </div>
+  </Container>
+</Section>

@@ -1,0 +1,27 @@
+---
+import { SITE } from "../../config";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  image: string;
+  type?: "website" | "article";
+}
+
+const { title, description, canonical, image, type = "website" } = Astro.props;
+---
+
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={image} />
+<meta property="og:image:alt" content={title} />
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={SITE.locale} />
+<meta name="twitter:image:alt" content={title} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />

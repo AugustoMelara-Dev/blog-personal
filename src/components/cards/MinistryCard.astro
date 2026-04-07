@@ -1,0 +1,21 @@
+---
+import Card from "../ui/Card.astro";
+
+interface Props {
+  name: string;
+  description: string;
+  leader?: string;
+  meetingTime?: string;
+}
+
+const { name, description, leader, meetingTime } = Astro.props;
+---
+
+<Card>
+  <h3 class="font-serif text-2xl text-ink-900">{name}</h3>
+  <p class="mt-3 text-ink-600">{description}</p>
+  <div class="mt-5 space-y-2 text-sm text-ink-500">
+    {leader && <p>Responsable: {leader}</p>}
+    {meetingTime && <p>Horario: {meetingTime}</p>}
+  </div>
+</Card>

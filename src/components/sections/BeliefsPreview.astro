@@ -1,0 +1,26 @@
+---
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import Button from "../ui/Button.astro";
+import BeliefCard from "../cards/BeliefCard.astro";
+import { getFeatured } from "../../lib/content";
+
+const beliefs = await getFeatured("beliefs");
+---
+
+<Section>
+  <Container>
+    <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <SectionHeading
+        kicker="Que creemos"
+        title="Doctrina presentada con tono claro, fiel y accesible."
+        description="La seccion doctrinal resume convicciones centrales y abre la puerta a estudios biblicos mas extensos."
+      />
+      <Button href="/creemos" variant="ghost">Ver doctrinas</Button>
+    </div>
+    <div class="mt-10 grid gap-6 lg:grid-cols-3">
+      {beliefs.map((item) => <BeliefCard title={item.data.title} description={item.data.description} />)}
+    </div>
+  </Container>
+</Section>

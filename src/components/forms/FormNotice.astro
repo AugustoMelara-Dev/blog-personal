@@ -1,0 +1,24 @@
+---
+const status = Astro.url.searchParams.get("status");
+
+const messages = {
+  success: "Tu solicitud fue enviada correctamente. Te responderemos pronto.",
+  error: "No pudimos procesar la solicitud. Revisa los campos e intenta nuevamente.",
+};
+---
+
+{
+  status && messages[status as keyof typeof messages] && (
+    <div
+      aria-live="polite"
+      class:list={[
+        "mb-6 rounded-2xl border px-4 py-3 text-sm",
+        status === "success"
+          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+          : "border-rose-200 bg-rose-50 text-rose-700",
+      ]}
+    >
+      {messages[status as keyof typeof messages]}
+    </div>
+  )
+}

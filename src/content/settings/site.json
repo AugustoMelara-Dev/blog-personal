@@ -1,0 +1,60 @@
+{
+  "churchName": "Iglesia Adventista del Septimo Dia",
+  "localIdentifier": "Central de Tocoa",
+  "legalName": "Iglesia Adventista del Septimo Dia - Central de Tocoa",
+  "tagline": "Una iglesia para servir, compartir esperanza y anunciar el pronto regreso de Jesus.",
+  "description": "Una iglesia adventista local dedicada a servir y salvar, anunciando al mundo nuestra mayor esperanza: el pronto regreso de Jesus.",
+  "mission": "Servir y salvar, anunciando al mundo nuestra mayor esperanza: el pronto regreso de Jesus.",
+  "vision": "Ser una iglesia que refleje el amor de Cristo en nuestra comunidad, ensene fielmente la Biblia, sirva con compasion y prepare personas para el reino de Dios.",
+  "heroTitle": "Una iglesia para servir, compartir esperanza y anunciar el pronto regreso de Jesus.",
+  "heroScripture": "Romanos 15:13",
+  "establishedNote": "Nombre local provisional sujeto a validacion final con pastor o junta.",
+  "email": "[PENDIENTE: correo oficial]",
+  "phone": "[PENDIENTE: numero oficial opcional]",
+  "whatsapp": "[PENDIENTE: numero oficial]",
+  "address": "[PENDIENTE: direccion exacta]",
+  "addressLine2": "Tocoa, Colon, Honduras",
+  "reference": "[PENDIENTE: referencia exacta]",
+  "mapQuery": "[PENDIENTE: enlace o referencia exacta para mapa]",
+  "mapUrl": "[PENDIENTE: enlace de Google Maps]",
+  "city": "Tocoa",
+  "region": "Colon",
+  "countryCode": "HN",
+  "canonicalUrl": "https://reemplazar-dominio-real.org",
+  "contactPerson": "[PENDIENTE: nombre del pastor o contacto pastoral]",
+  "logo": {
+    "primaryPath": "/images/branding/logo-adventista-oficial.png",
+    "markPath": "/images/branding/logo-adventista-marca.png",
+    "alt": "Logotipo oficial de la Iglesia Adventista del Septimo Dia",
+    "width": 240,
+    "height": 72,
+    "safeBackground": "light"
+  },
+  "social": {
+    "facebook": "[PENDIENTE]",
+    "instagram": "[PENDIENTE]",
+    "youtube": "[PENDIENTE]"
+  },
+  "serviceTimes": [
+    {
+      "name": "Domingo",
+      "schedule": "7:00 p. m. - 8:00 p. m.",
+      "notes": "Reunion semanal"
+    },
+    {
+      "name": "Miercoles",
+      "schedule": "7:00 p. m. - 8:00 p. m.",
+      "notes": "Reunion semanal"
+    },
+    {
+      "name": "Viernes",
+      "schedule": "7:00 p. m. - 8:00 p. m.",
+      "notes": "Reunion semanal"
+    },
+    {
+      "name": "Sabado",
+      "schedule": "8:45 a. m. - 11:30 a. m. - 11:45 a. m. aprox.",
+      "notes": "Servicio de cantos y programacion general"
+    }
+  ]
+}

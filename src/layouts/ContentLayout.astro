@@ -1,0 +1,41 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
+import Badge from "../components/ui/Badge.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  dateLabel?: string;
+  typeLabel: string;
+  breadcrumbs: { href: string; label: string }[];
+  publishedDate?: Date;
+  modifiedDate?: Date;
+  author?: string;
+}
+
+const { title, description, dateLabel, typeLabel, breadcrumbs, publishedDate, modifiedDate, author } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} type="article" publishedDate={publishedDate} modifiedDate={modifiedDate} author={author}>
+  <section class="py-16">
+    <Container>
+      <div class="mx-auto max-w-3xl">
+        <Breadcrumbs items={breadcrumbs} />
+        <Badge>{typeLabel}</Badge>
+        <h1 class="mt-5 font-serif text-4xl text-ink-900 sm:text-5xl">{title}</h1>
+        <p class="mt-5 text-lg leading-8 text-ink-600">{description}</p>
+        {dateLabel && <p class="mt-5 text-sm uppercase tracking-[0.2em] text-ink-500">{dateLabel}</p>}
+      </div>
+    </Container>
+  </section>
+
+  <section class="pb-20">
+    <Container>
+      <article class="prose prose-lg mx-auto max-w-3xl">
+        <slot />
+      </article>
+    </Container>
+  </section>
+</BaseLayout>

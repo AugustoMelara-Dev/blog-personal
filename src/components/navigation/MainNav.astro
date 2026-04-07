@@ -1,0 +1,25 @@
+---
+import { navigation } from "../../data/site";
+const pathname = Astro.url.pathname;
+---
+
+<nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-ink-700">
+  {
+    navigation.map((item) => {
+      const active =
+        pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+
+      return (
+        <a
+          href={item.href}
+          class:list={[
+            "transition-colors hover:text-brand-800",
+            active && "text-brand-800",
+          ]}
+        >
+          {item.label}
+        </a>
+      );
+    })
+  }
+</nav>

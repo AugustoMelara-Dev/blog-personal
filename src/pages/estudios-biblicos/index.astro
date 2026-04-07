@@ -1,0 +1,23 @@
+---
+import ArchiveLayout from "../../layouts/ArchiveLayout.astro";
+import StudyCard from "../../components/cards/StudyCard.astro";
+import { getOrderedContent } from "../../lib/content";
+
+const { studies } = await getOrderedContent();
+---
+
+<ArchiveLayout title="Estudios biblicos" description="Recursos introductorios y doctrinales para quienes desean profundizar." kicker="Discipulado">
+  <div class="grid gap-6 lg:grid-cols-2">
+    {
+      studies.map((item) => (
+        <StudyCard
+          href={`/estudios-biblicos/${item.slug}/`}
+          title={item.data.title}
+          description={item.data.description}
+          topic={item.data.topic}
+          tags={item.data.tags}
+        />
+      ))
+    }
+  </div>
+</ArchiveLayout>

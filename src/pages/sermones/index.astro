@@ -1,0 +1,24 @@
+---
+import ArchiveLayout from "../../layouts/ArchiveLayout.astro";
+import SermonCard from "../../components/cards/SermonCard.astro";
+import { getOrderedContent } from "../../lib/content";
+
+const { sermons } = await getOrderedContent();
+---
+
+<ArchiveLayout title="Sermones" description="Archivo de mensajes, series y recursos pastorales." kicker="Predicacion">
+  <div class="grid gap-6 lg:grid-cols-2">
+    {
+      sermons.map((item) => (
+        <SermonCard
+          href={`/sermones/${item.slug}/`}
+          title={item.data.title}
+          description={item.data.description}
+          date={item.data.pubDate.toLocaleDateString("es-HN", { day: "numeric", month: "long", year: "numeric" })}
+          passage={item.data.passage}
+          tags={item.data.tags}
+        />
+      ))
+    }
+  </div>
+</ArchiveLayout>

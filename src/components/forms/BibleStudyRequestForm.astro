@@ -1,0 +1,34 @@
+---
+import Button from "../ui/Button.astro";
+import FormNotice from "./FormNotice.astro";
+---
+
+<form action="/api/bible-study" method="POST" class="surface-panel p-6 sm:p-8">
+  <FormNotice />
+  <div class="grid gap-5 md:grid-cols-2">
+    <label class="grid gap-2 text-sm font-medium text-ink-700">
+      Nombre
+      <input name="name" autocomplete="name" required class="rounded-2xl border border-brand-100 px-4 py-3" />
+    </label>
+    <label class="grid gap-2 text-sm font-medium text-ink-700">
+      Correo electronico
+      <input type="email" name="email" autocomplete="email" inputmode="email" spellcheck="false" required class="rounded-2xl border border-brand-100 px-4 py-3" />
+    </label>
+    <label class="grid gap-2 text-sm font-medium text-ink-700">
+      Telefono
+      <input type="tel" name="phone" autocomplete="tel" inputmode="tel" class="rounded-2xl border border-brand-100 px-4 py-3" />
+    </label>
+    <label class="grid gap-2 text-sm font-medium text-ink-700">
+      Tema de interes
+      <input name="topic" autocomplete="off" placeholder="Ejemplo: profecia biblica…" required class="rounded-2xl border border-brand-100 px-4 py-3" />
+    </label>
+    <label class="grid gap-2 text-sm font-medium text-ink-700 md:col-span-2">
+      Comentarios
+      <textarea name="message" rows="5" autocomplete="off" placeholder="Cuentanos un poco sobre tu interes…" class="rounded-2xl border border-brand-100 px-4 py-3"></textarea>
+    </label>
+    <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" />
+  </div>
+  <div class="mt-6">
+    <Button type="submit">Solicitar estudio</Button>
+  </div>
+</form>

@@ -1,0 +1,22 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Section from "../components/ui/Section.astro";
+import PrayerRequestForm from "../components/forms/PrayerRequestForm.astro";
+---
+
+<PageLayout title="Pide oracion" description="Comparte tu necesidad con el equipo pastoral y de intercesion." kicker="Cuidado espiritual">
+  <Section class="pb-20">
+    <Container>
+      <div class="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+        <div class="card">
+          <h2 class="font-serif text-3xl text-ink-900">Estamos para acompanarte</h2>
+          <p class="mt-4 text-ink-600">
+            Puedes compartir una peticion personal, familiar o de salud. Si marcas la opcion de privacidad, el seguimiento se maneja con mayor reserva.
+          </p>
+        </div>
+        <PrayerRequestForm />
+      </div>
+    </Container>
+  </Section>
+</PageLayout>

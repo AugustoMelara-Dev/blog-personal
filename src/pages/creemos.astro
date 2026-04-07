@@ -1,0 +1,13 @@
+---
+import ArchiveLayout from "../layouts/ArchiveLayout.astro";
+import BeliefCard from "../components/cards/BeliefCard.astro";
+import { getOrderedContent } from "../lib/content";
+
+const { beliefs } = await getOrderedContent();
+---
+
+<ArchiveLayout title="Que creemos" description="Resumen doctrinal introductorio con enfoque claro y pastoral." kicker="Doctrina">
+  <div class="grid gap-6 lg:grid-cols-3">
+    {beliefs.map((item) => <BeliefCard title={item.data.title} description={item.body || item.data.description} />)}
+  </div>
+</ArchiveLayout>

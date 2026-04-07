@@ -1,39 +1,26 @@
-import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
-import { SITE } from '../config';
-import type { APIContext } from 'astro';
-import sanitizeHtml from 'sanitize-html';
-import MarkdownIt from 'markdown-it';
+import rss from "@astrojs/rss";
+import { SITE } from "../config";
+import { getOrderedContent } from "../lib/content";
 
-const parser = new MarkdownIt();
-
-export async function GET(context: APIContext) {
-  const posts = (await getCollection('posts'))
-    .filter((post) => !post.data.draft)
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+export async function GET(context) {
+  const { sermons, articles } = await getOrderedContent();
+  const items = [...sermons, ...articles]
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .map((item) => {
+      const basePath = item.collection === "sermons" ? "sermones" : "articulos";
+      return {
+        title: item.data.title,
+        description: item.data.description,
+        pubDate: item.data.pubDate,
+        link: `/${basePath}/${item.slug}/`,
+      };
+    });
 
   return rss({
-    title: 'VitoCipher — Ideas que no se callan',
+    title: SITE.title,
     description: SITE.description,
     site: context.site!,
-    customData: `
-      <language>es-ES</language>
-      <?xml-stylesheet href="/rss-styles.xsl" type="text/xsl"?>
-      <copyright>© 2026 VitoCipher. Todos los derechos reservados.</copyright>
-      <managingEditor>augusto@VitoCipher.vercel.app (Augusto Melara)</managingEditor>
-      <webMaster>augusto@VitoCipher.vercel.app (Augusto Melara)</webMaster>
-      <ttl>60</ttl>
-    `,
-    items: posts.map((post) => ({
-      title: post.data.title,
-      pubDate: post.data.pubDate,
-      description: post.data.description,
-      link: `/blog/${post.slug}/`,
-      categories: post.data.tags || [],
-      author: 'Augusto Melara',
-      content: sanitizeHtml(parser.render(post.body || ''), {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
-      }),
-    })),
+    items,
+    customData: `<language>es-hn</language>`,
   });
 }

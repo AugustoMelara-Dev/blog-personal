@@ -1,0 +1,32 @@
+---
+import { churchInfo, navigation, utilityNavigation } from "../../data/site";
+import MainNav from "./MainNav.astro";
+import MobileNav from "./MobileNav";
+import Button from "../ui/Button.astro";
+import ChurchLogo from "../branding/ChurchLogo.astro";
+---
+
+<header class="sticky top-0 z-40 border-b border-brand-100 bg-paper/95 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+    <a href="/" class="flex min-w-0 items-center gap-3">
+      <ChurchLogo variant="mark" class="rounded-full border border-brand-100 bg-white p-2 shadow-soft" />
+      <div class="min-w-0">
+        <p class="truncate text-xs font-semibold uppercase tracking-[0.22em] text-brand-700" translate="no">
+          {churchInfo.localIdentifier}
+        </p>
+        <p class="line-clamp-2 font-serif text-base text-ink-900 sm:text-lg" translate="no">
+          {churchInfo.name}
+        </p>
+      </div>
+    </a>
+
+    <MainNav />
+
+    <div class="hidden items-center gap-3 lg:flex">
+      <a href="/buscar" class="text-sm font-medium text-ink-600 hover:text-brand-800">Buscar</a>
+      <Button href="/visitanos" variant="secondary">Planifica tu visita</Button>
+    </div>
+
+    <MobileNav client:load items={[...navigation, ...utilityNavigation]} pathname={Astro.url.pathname} />
+  </div>
+</header>

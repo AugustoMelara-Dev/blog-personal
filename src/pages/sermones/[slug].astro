@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import ContentLayout from "../../layouts/ContentLayout.astro";
+
+export async function getStaticPaths() {
+  const items = await getCollection("sermons", ({ data }) => !data.draft);
+  return items.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+---
+
+<ContentLayout
+  title={item.data.title}
+  description={item.data.description}
+  typeLabel="Sermon"
+  author={item.data.author}
+  publishedDate={item.data.pubDate}
+  modifiedDate={item.data.updatedDate}
+  dateLabel={item.data.pubDate.toLocaleDateString("es-HN", { day: "numeric", month: "long", year: "numeric" })}
+  breadcrumbs={[{ href: "/sermones", label: "Sermones" }, { href: `/sermones/${item.slug}/`, label: item.data.title }]}
+>
+  <Content />
+</ContentLayout>

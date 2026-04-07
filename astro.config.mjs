@@ -5,9 +5,10 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel/serverless';
 import AstroPWA from '@vite-pwa/astro';
+import siteSettings from './src/content/settings/site.json' with { type: 'json' };
 
 export default defineConfig({
-  site: 'https://vitocipher.vercel.app',
+  site: siteSettings.canonicalUrl,
   output: 'hybrid',
   adapter: vercel({
     nodeVersion: '20.x',
@@ -18,21 +19,18 @@ export default defineConfig({
     tailwind(),
     sitemap({
       filter: (page) => !page.includes('/api/'),
-      customPages: [
-        'https://vitocipher.vercel.app/empieza',
-      ],
       serialize(item) {
-        if (item.url === 'https://vitocipher.vercel.app/') {
-          return { ...item, priority: 1.0, changefreq: 'daily' };
-        }
-        if (item.url.includes('/blog/')) {
-          return { ...item, priority: 0.9, changefreq: 'monthly' };
+        if (item.url === `${siteSettings.canonicalUrl}/`) {
+          return { ...item, priority: 1.0, changefreq: 'weekly' };
         }
         if (
-          ['/blog', '/frases', '/biblia', '/series', '/empieza'].some((p) =>
-            item.url.endsWith(p)
+          ['/sermones/', '/estudios-biblicos/', '/articulos/', '/eventos/'].some((path) =>
+            item.url.includes(path),
           )
         ) {
+          return { ...item, priority: 0.9, changefreq: 'monthly' };
+        }
+        if (['/creemos', '/ministerios', '/horarios', '/ubicacion'].some((p) => item.url.endsWith(p))) {
           return { ...item, priority: 0.8, changefreq: 'weekly' };
         }
         return { ...item, priority: 0.5, changefreq: 'monthly' };
@@ -42,15 +40,15 @@ export default defineConfig({
       mode: 'production',
       base: '/',
       scope: '/',
-      includeAssets: ['favicon.svg', 'og-default.png'],
+      includeAssets: ['favicon.png', 'og-default.png'],
       registerType: 'autoUpdate',
       manifest: {
-        name: 'VitoCipher',
-        short_name: 'VitoCipher',
-        description: 'Ideas que no se callan.',
-        theme_color: '#0a0a0a',
-        background_color: '#0a0a0a',
-        display: 'standalone',
+        name: 'Iglesia Adventista del Septimo Dia',
+        short_name: siteSettings.localIdentifier,
+        description: 'Sitio oficial de iglesia con contenido institucional, doctrinal y editorial.',
+        theme_color: '#f6f1e7',
+        background_color: '#f6f1e7',
+        display: 'minimal-ui',
         orientation: 'portrait',
         scope: '/',
         start_url: '/',
@@ -78,17 +76,6 @@ export default defineConfig({
         globPatterns: ['**/*.{css,js,html,svg,png,ico,txt}'],
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365,
-              },
-            },
-          },
-          {
             urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
             handler: 'CacheFirst',
             options: {
@@ -96,17 +83,6 @@ export default defineConfig({
               expiration: {
                 maxEntries: 50,
                 maxAgeSeconds: 60 * 60 * 24 * 30,
-              },
-            },
-          },
-          {
-            urlPattern: /^https:\/\/vitocipher\.vercel\.app\/blog\/.*/i,
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'posts-cache',
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 7,
               },
             },
           },

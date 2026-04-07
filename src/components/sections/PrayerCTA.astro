@@ -1,0 +1,22 @@
+---
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+import Button from "../ui/Button.astro";
+---
+
+<Section>
+  <Container>
+    <div class="rounded-[2rem] bg-brand-700 px-8 py-10 text-white shadow-soft">
+      <p class="section-kicker !text-brand-100">Atencion pastoral</p>
+      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div class="max-w-2xl">
+          <h2 class="font-serif text-4xl">Comparte tu necesidad. Queremos orar contigo.</h2>
+          <p class="mt-4 text-brand-50">
+            Las peticiones de oracion llegan mediante un endpoint protegido con validacion basica y se responden con acompanamiento humano.
+          </p>
+        </div>
+        <Button href="/oracion" variant="secondary">Enviar peticion</Button>
+      </div>
+    </div>
+  </Container>
+</Section>

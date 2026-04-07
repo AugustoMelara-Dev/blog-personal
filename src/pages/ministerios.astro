@@ -1,0 +1,13 @@
+---
+import ArchiveLayout from "../layouts/ArchiveLayout.astro";
+import MinistryCard from "../components/cards/MinistryCard.astro";
+import { getOrderedContent } from "../lib/content";
+
+const { ministries } = await getOrderedContent();
+---
+
+<ArchiveLayout title="Ministerios" description="Conoce areas de servicio, responsables y espacios de participacion." kicker="Vida de iglesia">
+  <div class="grid gap-6 lg:grid-cols-3">
+    {ministries.map((item) => <MinistryCard {...item.data} />)}
+  </div>
+</ArchiveLayout>

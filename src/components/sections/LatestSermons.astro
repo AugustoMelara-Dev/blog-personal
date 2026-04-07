@@ -1,0 +1,37 @@
+---
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import SermonCard from "../cards/SermonCard.astro";
+import Button from "../ui/Button.astro";
+import { getOrderedContent } from "../../lib/content";
+
+const { sermons } = await getOrderedContent();
+---
+
+<Section muted>
+  <Container>
+    <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <SectionHeading
+        kicker="Sermones"
+        title="Mensajes recientes para seguir escuchando y compartiendo."
+        description="Publica bosquejos, resenas, audios o videos sin depender de una app compleja."
+      />
+      <Button href="/sermones" variant="ghost">Archivo de sermones</Button>
+    </div>
+    <div class="mt-10 grid gap-6 lg:grid-cols-2">
+      {
+        sermons.slice(0, 2).map((item) => (
+          <SermonCard
+            href={`/sermones/${item.slug}/`}
+            title={item.data.title}
+            description={item.data.description}
+            date={item.data.pubDate.toLocaleDateString("es-HN", { day: "numeric", month: "long", year: "numeric" })}
+            passage={item.data.passage}
+            tags={item.data.tags}
+          />
+        ))
+      }
+    </div>
+  </Container>
+</Section>

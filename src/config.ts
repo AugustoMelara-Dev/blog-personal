@@ -1,6 +1,12 @@
+import siteSettings from "./content/settings/site.json";
+
 export const SITE = {
-  title: 'VitoCipher',
-  description: 'Reflexiones sobre poder, personas y estrategia.',
-  author: 'VitoCipher',
-  url: 'https://VitoCipher.vercel.app',
+  name: siteSettings.churchName,
+  shortName: siteSettings.localIdentifier,
+  title: `${siteSettings.churchName} | ${siteSettings.localIdentifier}`,
+  description: siteSettings.description,
+  author: siteSettings.churchName,
+  url: siteSettings.canonicalUrl,
+  locale: "es_HN",
+  themeColor: "#f6f1e7",
 };

@@ -1,0 +1,28 @@
+---
+import { getCollection } from "astro:content";
+import ContentLayout from "../../layouts/ContentLayout.astro";
+
+export async function getStaticPaths() {
+  const items = await getCollection("events", ({ data }) => !data.draft);
+  return items.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+const dateLabel = item.data.endDate
+  ? `${item.data.startDate.toLocaleDateString("es-HN")} - ${item.data.endDate.toLocaleDateString("es-HN")}`
+  : item.data.startDate.toLocaleDateString("es-HN", { day: "numeric", month: "long", year: "numeric" });
+---
+
+<ContentLayout
+  title={item.data.title}
+  description={item.data.description}
+  typeLabel="Evento"
+  author="IASD Local"
+  publishedDate={item.data.startDate}
+  modifiedDate={item.data.endDate}
+  dateLabel={dateLabel}
+  breadcrumbs={[{ href: "/eventos", label: "Eventos" }, { href: `/eventos/${item.slug}/`, label: item.data.title }]}
+>
+  <Content />
+</ContentLayout>

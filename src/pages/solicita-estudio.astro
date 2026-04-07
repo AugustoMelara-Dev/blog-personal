@@ -1,0 +1,22 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Section from "../components/ui/Section.astro";
+import BibleStudyRequestForm from "../components/forms/BibleStudyRequestForm.astro";
+---
+
+<PageLayout title="Solicita un estudio biblico" description="Pide acompanamiento y seguimiento para estudiar la Biblia." kicker="Interes espiritual">
+  <Section class="pb-20">
+    <Container>
+      <div class="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+        <div class="card">
+          <h2 class="font-serif text-3xl text-ink-900">Conversemos sobre la Biblia</h2>
+          <p class="mt-4 text-ink-600">
+            Puedes indicar el tema que te interesa y la iglesia dara seguimiento por correo o telefono, segun tu preferencia.
+          </p>
+        </div>
+        <BibleStudyRequestForm />
+      </div>
+    </Container>
+  </Section>
+</PageLayout>

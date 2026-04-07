@@ -1,0 +1,26 @@
+---
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+import { homeHighlights } from "../../data/site";
+---
+
+<Section>
+  <Container>
+    <SectionHeading
+      kicker="Bienvenida"
+      title="Un sitio pensado para comunicar con claridad lo esencial de la vida de iglesia."
+      description="Aqui la informacion importante esta organizada para miembros, visitas y personas interesadas en conocer mas de la fe adventista."
+    />
+    <div class="mt-10 grid gap-6 lg:grid-cols-3">
+      {
+        homeHighlights.map((item) => (
+          <div class="card">
+            <h3 class="font-serif text-2xl text-ink-900">{item.title}</h3>
+            <p class="mt-3 text-ink-600">{item.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Container>
+</Section>

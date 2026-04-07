@@ -1,0 +1,40 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+import { churchInfo } from "../../data/site";
+---
+
+<section class="overflow-hidden border-b border-brand-100 bg-white">
+  <Container>
+    <div class="grid gap-12 py-20 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+      <div>
+        <p class="section-kicker">{churchInfo.localIdentifier}</p>
+        <h1 class="text-pretty font-serif text-5xl leading-tight text-ink-900 sm:text-6xl">
+          {churchInfo.heroTitle}
+        </h1>
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-ink-600">{churchInfo.tagline}</p>
+        {churchInfo.establishedNote && (
+          <p class="mt-4 max-w-2xl text-sm uppercase tracking-[0.2em] text-ink-500">{churchInfo.establishedNote}</p>
+        )}
+        <div class="mt-8 flex flex-wrap gap-3">
+          <Button href="/visitanos">Planifica tu visita</Button>
+          <Button href="/solicita-estudio" variant="secondary">Solicita un estudio biblico</Button>
+          <Button href="/oracion" variant="ghost">Pide oracion</Button>
+        </div>
+      </div>
+
+      <div class="surface-panel relative overflow-hidden p-8">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(36,80,122,0.10),_transparent_55%)]"></div>
+        <div class="relative">
+          <p class="text-xs font-semibold uppercase tracking-[0.22em] text-brand-700">Versiculo guia</p>
+          <blockquote class="mt-6 text-pretty font-serif text-3xl leading-tight text-ink-900">
+            {churchInfo.heroScripture}
+          </blockquote>
+          <div class="mt-10 grid gap-4 border-t border-brand-100 pt-6 text-sm text-ink-600">
+            {churchInfo.serviceTimes.slice(0, 3).map((service) => <p>{service.schedule} · {service.name}</p>)}
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

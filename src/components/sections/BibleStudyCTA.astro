@@ -1,0 +1,20 @@
+---
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+import Button from "../ui/Button.astro";
+---
+
+<Section muted>
+  <Container>
+    <div class="grid gap-6 rounded-[2rem] border border-brand-100 bg-white p-8 shadow-soft lg:grid-cols-[1fr_auto] lg:items-center">
+      <div>
+        <p class="section-kicker">Estudios biblicos</p>
+        <h2 class="font-serif text-4xl text-ink-900">Solicita un acompanamiento biblico personalizado.</h2>
+        <p class="mt-4 text-ink-600">
+          El sitio deja lista la ruta para atender visitantes, interesados y amigos de iglesia con seguimiento simple y ordenado.
+        </p>
+      </div>
+      <Button href="/solicita-estudio">Solicitar estudio</Button>
+    </div>
+  </Container>
+</Section>

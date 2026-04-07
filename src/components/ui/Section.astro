@@ -1,0 +1,12 @@
+---
+interface Props {
+  class?: string;
+  muted?: boolean;
+}
+
+const { class: className = "", muted = false } = Astro.props;
+---
+
+<section class:list={["py-16 sm:py-20", muted && "bg-surface-muted", className]}>
+  <slot />
+</section>

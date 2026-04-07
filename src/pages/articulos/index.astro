@@ -1,0 +1,23 @@
+---
+import ArchiveLayout from "../../layouts/ArchiveLayout.astro";
+import ArticleCard from "../../components/cards/ArticleCard.astro";
+import { getOrderedContent } from "../../lib/content";
+
+const { articles } = await getOrderedContent();
+---
+
+<ArchiveLayout title="Articulos" description="Reflexiones, noticias y recursos editoriales para la comunidad." kicker="Editorial">
+  <div class="grid gap-6 lg:grid-cols-2">
+    {
+      articles.map((item) => (
+        <ArticleCard
+          href={`/articulos/${item.slug}/`}
+          title={item.data.title}
+          description={item.data.description}
+          category={item.data.category}
+          date={item.data.pubDate.toLocaleDateString("es-HN", { day: "numeric", month: "long", year: "numeric" })}
+        />
+      ))
+    }
+  </div>
+</ArchiveLayout>

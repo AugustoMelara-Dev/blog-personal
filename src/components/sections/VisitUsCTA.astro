@@ -1,0 +1,26 @@
+---
+import Container from "../ui/Container.astro";
+import Section from "../ui/Section.astro";
+import Button from "../ui/Button.astro";
+import { visitExpectations } from "../../data/site";
+---
+
+<Section muted>
+  <Container>
+    <div class="surface-panel grid gap-10 overflow-hidden p-8 lg:grid-cols-[1fr_0.9fr] lg:p-12">
+      <div>
+        <p class="section-kicker">Nuevas visitas</p>
+        <h2 class="font-serif text-4xl text-ink-900">Queremos que tu primera visita se sienta clara y tranquila.</h2>
+        <p class="mt-4 text-lg text-ink-600">
+          La pagina Visitanos explica el ambiente del programa, horarios y referencias utiles para llegar con confianza.
+        </p>
+        <div class="mt-8">
+          <Button href="/visitanos">Conocer que esperar</Button>
+        </div>
+      </div>
+      <ul class="space-y-4 text-ink-600">
+        {visitExpectations.map((item) => <li class="rounded-2xl bg-surface-muted px-5 py-4">{item}</li>)}
+      </ul>
+    </div>
+  </Container>
+</Section>

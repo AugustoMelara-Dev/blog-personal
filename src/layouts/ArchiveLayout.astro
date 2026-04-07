@@ -1,0 +1,23 @@
+---
+import PageLayout from "./PageLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Pagination from "../components/ui/Pagination.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  kicker?: string;
+  breadcrumbs?: { href: string; label: string }[];
+}
+
+const { title, description, kicker, breadcrumbs = [] } = Astro.props;
+---
+
+<PageLayout title={title} description={description} kicker={kicker} breadcrumbs={breadcrumbs}>
+  <section class="pb-20">
+    <Container>
+      <slot />
+      <Pagination />
+    </Container>
+  </section>
+</PageLayout>

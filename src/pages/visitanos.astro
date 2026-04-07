@@ -1,0 +1,30 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Section from "../components/ui/Section.astro";
+import Button from "../components/ui/Button.astro";
+import { getEntry } from "astro:content";
+
+const page = await getEntry("pages", "visitanos");
+const { Content } = await page!.render();
+---
+
+<PageLayout title={page!.data.title} description={page!.data.description} kicker={page!.data.heroKicker}>
+  <Section class="pb-20">
+    <Container>
+      <div class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <article class="prose prose-lg max-w-none">
+          <Content />
+        </article>
+        <div class="card">
+          <h2 class="font-serif text-3xl text-ink-900">Accesos rapidos</h2>
+          <div class="mt-6 flex flex-col gap-3">
+            <Button href="/horarios">Ver horarios</Button>
+            <Button href="/ubicacion" variant="secondary">Ver ubicacion</Button>
+            <Button href="/contacto" variant="ghost">Hablar con nosotros</Button>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</PageLayout>

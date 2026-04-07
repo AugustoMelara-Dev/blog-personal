@@ -1,0 +1,26 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Section from "../components/ui/Section.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  kicker?: string;
+  breadcrumbs?: { href: string; label: string }[];
+}
+
+const { title, description, kicker, breadcrumbs = [] } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <Section class="pb-10">
+    <Container>
+      {breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} />}
+      <SectionHeading kicker={kicker} title={title} description={description} />
+    </Container>
+  </Section>
+  <slot />
+</BaseLayout>

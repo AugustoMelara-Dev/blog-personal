@@ -1,0 +1,27 @@
+---
+import { SITE } from "../../config";
+import { churchInfo, isExternalUrl, isPendingValue } from "../../data/site";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Church",
+  "@id": `${churchInfo.canonicalUrl}#church`,
+  name: churchInfo.legalName,
+  alternateName: churchInfo.localIdentifier,
+  description: churchInfo.description,
+  url: churchInfo.canonicalUrl,
+  telephone: churchInfo.phone,
+  email: isPendingValue(churchInfo.email) ? undefined : churchInfo.email,
+  image: `${churchInfo.canonicalUrl}${churchInfo.logo.primaryPath}`,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: churchInfo.address,
+    addressLocality: churchInfo.city,
+    addressRegion: churchInfo.region,
+    addressCountry: churchInfo.countryCode,
+  },
+  sameAs: Object.values(churchInfo.social ?? {}).filter((value) => isExternalUrl(value)),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
