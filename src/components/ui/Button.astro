@@ -2,29 +2,36 @@
 interface Props {
   href?: string;
   variant?: "primary" | "secondary" | "ghost";
+  size?: "sm" | "md" | "lg";
   type?: "button" | "submit";
   class?: string;
 }
 
-const { href, variant = "primary", type = "button", class: className = "" } = Astro.props;
+const { href, variant = "primary", size = "md", type = "button", class: className = "" } = Astro.props;
 
 const styles = {
   primary:
-    "bg-brand-700 text-white shadow-soft hover:bg-brand-800 focus-visible:bg-brand-800",
+    "bg-brand-700 text-white shadow-soft hover:shadow-[0_8px_20px_rgba(36,80,122,0.2)] hover:bg-brand-800 hover:-translate-y-0.5 focus-visible:bg-brand-800 transition-all duration-300",
   secondary:
-    "bg-white text-ink-900 ring-1 ring-brand-200 hover:bg-brand-50 focus-visible:bg-brand-50",
+    "bg-white text-ink-900 ring-1 ring-brand-200 hover:bg-brand-50 hover:shadow-sm focus-visible:bg-brand-50 hover:-translate-y-0.5 transition-all duration-300",
   ghost:
-    "bg-transparent text-brand-800 ring-1 ring-brand-200 hover:bg-brand-50 focus-visible:bg-brand-50",
+    "bg-transparent text-brand-800 ring-1 ring-brand-200 hover:bg-brand-50 hover:text-brand-900 focus-visible:bg-brand-50 hover:-translate-y-0.5 transition-all duration-300",
+};
+
+const sizes = {
+  sm: "px-4 py-2 text-sm",
+  md: "px-6 py-2.5 text-base",
+  lg: "px-8 py-3.5 text-lg font-semibold",
 };
 ---
 
 {
   href ? (
-    <a href={href} class={`btn ${styles[variant]} ${className}`}>
+    <a href={href} class={`btn ${styles[variant]} ${sizes[size]} ${className}`}>
       <slot />
     </a>
   ) : (
-    <button type={type} class={`btn ${styles[variant]} ${className}`}>
+    <button type={type} class={`btn ${styles[variant]} ${sizes[size]} ${className}`}>
       <slot />
     </button>
   )

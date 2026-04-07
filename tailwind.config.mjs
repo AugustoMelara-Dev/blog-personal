@@ -28,8 +28,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Geist Variable', 'system-ui', 'sans-serif'],
-        serif: ['Georgia', 'Times New Roman', 'serif'],
+        sans: ['"Noto Sans"', 'system-ui', 'sans-serif'],
+        serif: ['"Noto Serif"', 'Georgia', 'serif'],
       },
       boxShadow: {
         soft: '0 18px 45px rgba(30, 41, 59, 0.08)',

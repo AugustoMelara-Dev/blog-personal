@@ -4,51 +4,67 @@ import { churchInfo, navigation, utilityNavigation, isExternalUrl, isPendingValu
 import ChurchLogo from "../branding/ChurchLogo.astro";
 ---
 
-<footer class="border-t border-brand-100 bg-white">
-  <Container>
-    <div class="grid gap-12 py-14 lg:grid-cols-[1.2fr_0.7fr_0.7fr]">
+<footer class="border-t border-brand-100 bg-white relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-50/50 via-transparent to-transparent opacity-50"></div>
+  <Container class="relative z-10">
+    <div class="grid gap-12 py-16 lg:py-24 lg:grid-cols-[1.2fr_0.7fr_0.7fr]">
       <div>
-        <div class="flex items-center gap-4">
-          <ChurchLogo class="rounded-2xl border border-brand-100 bg-paper px-4 py-3" />
+        <div class="flex items-center gap-4 group cursor-pointer">
+          <ChurchLogo class="rounded-2xl border border-brand-100 bg-paper px-4 py-3 shadow-sm transition-transform duration-300 group-hover:scale-105" />
           <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.22em] text-brand-700" translate="no">
+            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-700/80 mb-1 transition-colors group-hover:text-brand-800" translate="no">
               {churchInfo.localIdentifier}
             </p>
-            <h2 class="mt-2 font-serif text-2xl text-ink-900" translate="no">{churchInfo.name}</h2>
+            <h2 class="font-serif text-2xl font-bold text-ink-900 leading-none" translate="no">{churchInfo.name}</h2>
           </div>
         </div>
-        <p class="mt-4 max-w-xl text-ink-600">{churchInfo.tagline}</p>
-        {churchInfo.establishedNote && <p class="mt-4 text-sm text-ink-500">{churchInfo.establishedNote}</p>}
+        <p class="mt-6 max-w-sm text-ink-600 leading-relaxed text-pretty">{churchInfo.tagline}</p>
+        {churchInfo.establishedNote && <p class="mt-4 text-[11px] font-medium tracking-wide uppercase text-ink-400">{churchInfo.establishedNote}</p>}
       </div>
 
       <div>
-        <h3 class="text-sm font-semibold uppercase tracking-[0.18em] text-ink-900">Sitio</h3>
-        <ul class="mt-4 space-y-3 text-ink-600">
-          {navigation.slice(1, 6).map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <h3 class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink-400 mb-6">Navegación Principal</h3>
+        <ul class="space-y-4 text-sm font-medium text-ink-600">
+          {navigation.slice(1, 6).map((item) => (
+             <li>
+               <a href={item.href} class="inline-block transition-all duration-300 hover:text-brand-700 hover:translate-x-1">{item.label}</a>
+             </li>
+          ))}
         </ul>
       </div>
 
       <div>
-        <h3 class="text-sm font-semibold uppercase tracking-[0.18em] text-ink-900">Contacto</h3>
-        <ul class="mt-4 space-y-3 text-ink-600">
-          <li>{churchInfo.address}</li>
-          {churchInfo.addressLine2 && <li>{churchInfo.addressLine2}</li>}
-          {churchInfo.reference && <li>Referencia: {churchInfo.reference}</li>}
-          <li>
-            {isPendingValue(churchInfo.email) ? churchInfo.email : <a href={`mailto:${churchInfo.email}`}>{churchInfo.email}</a>}
+        <h3 class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink-400 mb-6">Contacto y Medios</h3>
+        <ul class="space-y-4 text-sm font-medium text-ink-600">
+          <li class="flex items-start gap-2">
+             <span class="mt-0.5 text-brand-400">📍</span>
+             <span class="leading-relaxed">{churchInfo.address}{churchInfo.addressLine2 && <br/>}{churchInfo.addressLine2}</span>
           </li>
-          <li>
-            {isPendingValue(churchInfo.phone) ? churchInfo.phone : <a href={`tel:${churchInfo.phone}`}>{churchInfo.phone}</a>}
+          {churchInfo.reference && <li class="text-xs text-ink-500 italic pl-6">Ref: {churchInfo.reference}</li>}
+          <li class="pl-6 pt-2">
+            {isPendingValue(churchInfo.email) ? churchInfo.email : <a href={`mailto:${churchInfo.email}`} class="transition-colors hover:text-brand-700">{churchInfo.email}</a>}
           </li>
-          {churchInfo.contactPerson && <li>{churchInfo.contactPerson}</li>}
-          {isExternalUrl(churchInfo.whatsappUrl) && <li><a href={churchInfo.whatsappUrl}>WhatsApp</a></li>}
-          {utilityNavigation.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+          <li class="pl-6">
+            {isPendingValue(churchInfo.phone) ? churchInfo.phone : <a href={`tel:${churchInfo.phone}`} class="transition-colors hover:text-brand-700">{churchInfo.phone}</a>}
+          </li>
+          {isExternalUrl(churchInfo.whatsappUrl) && (
+            <li class="pl-6 pt-2">
+               <a href={churchInfo.whatsappUrl} class="inline-flex items-center gap-1.5 text-green-600 hover:text-green-700 transition-all hover:translate-x-1 font-bold">
+                  WhatsApp Directo <span aria-hidden="true">&rarr;</span>
+               </a>
+            </li>
+          )}
         </ul>
       </div>
     </div>
 
-    <div class="border-t border-brand-100 py-5 text-sm text-ink-500">
-      © 2026 {churchInfo.legalName}. Sitio institucional listo para contenido, evangelismo y comunicacion local.
+    <div class="border-t border-brand-100 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-xs font-semibold text-ink-500">
+        © 2026 {churchInfo.legalName}. <span class="font-normal opacity-80">Sitio institucional para evangelismo y comunidad.</span>
+      </p>
+      <div class="flex gap-4 text-xs font-semibold text-ink-400">
+         {utilityNavigation.map((item) => <a href={item.href} class="hover:text-brand-600 transition-colors uppercase tracking-wider">{item.label}</a>)}
+      </div>
     </div>
   </Container>
 </footer>

@@ -10,7 +10,13 @@ const { kicker, title, description, centered = false } = Astro.props;
 ---
 
 <div class:list={["max-w-3xl", centered && "mx-auto text-center"]}>
-  {kicker && <p class="section-kicker">{kicker}</p>}
-  <h2 class="font-serif text-3xl text-ink-900 sm:text-4xl">{title}</h2>
-  {description && <p class="mt-4 text-base leading-8 text-ink-600">{description}</p>}
+  {kicker && (
+    <div class:list={["inline-flex items-center gap-3 mb-6", centered ? "justify-center" : ""]}>
+       <span class="w-8 h-[1px] bg-brand-700"></span>
+       <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-800">{kicker}</span>
+       {centered && <span class="w-8 h-[1px] bg-brand-700"></span>}
+    </div>
+  )}
+  <h2 class="font-serif text-3xl font-bold text-ink-900 sm:text-4xl md:text-5xl leading-[1.15] text-balance">{title}</h2>
+  {description && <p class="mt-6 text-lg leading-relaxed text-ink-600 text-pretty">{description}</p>}
 </div>
